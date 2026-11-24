@@ -566,7 +566,9 @@ function openEditor(product = null) {
     : "إضافة منتج جديد";
 
   $("name").value = product?.name || "";
-  $("category").value = categoryName(product?.category);
+$("category").value = window.getCategoryId
+  ? window.getCategoryId(product?.category)
+  : categoryName(product?.category);
   $("description").value = product?.description || "";
   $("price").value = product?.price ?? "";
   $("currency").value = product?.currency || "USD";
@@ -729,7 +731,7 @@ async function removeProduct(product) {
 
 <script type="module" src="./upload.js"></script>
 
-<script type="module" src="./categories.js?v=14"></script>
+<script type="module" src="./categories.js?v=20"></script>
 
 </body>
 </html>
