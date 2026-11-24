@@ -906,22 +906,35 @@ if ("serviceWorker" in navigator) {
 </script>
 
 
+
 <script type="module" src="./catalog.js"></script>
 
-<script type="module" src="./product.js?v=21"></script>
+<script type="module" src="./product.js?v=25"></script>
+
+<script>
+
+document.getElementById("categoryList")
+  .addEventListener("click", function(event) {
+
+    const button = event.target.closest(".category");
+
+    if (!button) return;
+
+    document.getElementById("search").value = "";
+
+    renderProducts();
+
+    document.getElementById("catalog").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  });
+
+</script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
 
 
