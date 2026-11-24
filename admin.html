@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101010">
+<title>MDALLAL SPORTS | لوحة التحكم</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important;
+}
+body {
+  margin: 0;
+  background: #101010;
+  color: #fff;
+  font-family: Arial, Tahoma, sans-serif;
+}
+header {
+  padding: 22px;
+  text-align: center;
+  border-bottom: 2px solid #C9A227;
+}
+header h1 {
+  color: #F2D675;
+  font-size: 24px;
+}
+.logo {
+  width: 220px;
+  max-width: 90%;
+}
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 16px;
+}
+.panel {
+  background: #202020;
+  border: 1px solid #383838;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+input, textarea, select {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0 15px;
+  background: #151515;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 9px;
+  font-size: 16px;
+}
+label {
+  font-size: 14px;
+  color: #DDD;
+}
+button {
+  border: 0;
+  padding: 13px 18px;
+  border-radius: 9px;
+  background: #C9A227;
+  color: #101010;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 4px 0;
+}
+button:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+.full {
+  width: 100%;
+}
+.secondary {
+  background: #383838;
+  color: white;
+}
+.danger {
+  background: #A52222;
+  color: white;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.stat {
+  background: #202020;
+  border: 1px solid #444;
+  border-radius: 12px;
+  text-align: center;
+  padding: 20px 8px;
+}
+.stat strong {
+  display: block;
+  font-size: 28px;
+  color: #F2D675;
+  margin-bottom: 8px;
+}
+.stat span {
+  font-size: 13px;
+}
+.product {
+  padding: 15px;
+  background: #202020;
+  border: 1px solid #444;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.product img {
+  width: 85px;
+  height: 85px;
+  object-fit: contain;
+  background: white;
+  border-radius: 8px;
+}
+.product h3 {
+  margin: 10px 0;
+}
+.product p {
+  font-size: 14px;
+  color: #CCC;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.gold {
+  color: #F2D675;
+}
+.message {
+  padding: 12px;
+  color: #F2D675;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+a {
+  color: #F2D675;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+.check input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="./logo.png" class="logo"
+    alt="MDALLAL SPORTS"
+    onerror="this.hidden=true">
+  <h1>MDALLAL SPORTS</h1>
+  <p>لوحة تحكم إدارة المستودع</p>
+  <a href="./index.html">العودة إلى المتجر</a>
+</header>
+
+<main class="container">
+
+<section id="loginPanel" class="panel">
+
+  <h2>تسجيل دخول المدير</h2>
+
+  <form id="loginForm">
+
+    <label>البريد الإلكتروني</label>
+    <input id="email" type="email"
+      autocomplete="username" required>
+
+    <label>كلمة المرور</label>
+    <input id="password" type="password"
+      autocomplete="current-password" required>
+
+    <button class="full" type="submit">
+      تسجيل الدخول
+    </button>
+
+  </form>
+
+  <p id="loginMessage" class="message"></p>
+
+</section>
+
+<section id="dashboard" hidden>
+
+  <button id="logout" class="secondary full">
+    تسجيل الخروج
+  </button>
+
+  <h2>نظرة عامة</h2>
+
+  <div class="stats">
+
+    <div class="stat">
+      <strong id="total">0</strong>
+      <span>إجمالي المنتجات</span>
+    </div>
+
+    <div class="stat">
+      <strong id="visible">0</strong>
+      <span>المنتجات المعروضة</span>
+    </div>
+
+    <div class="stat">
+      <strong id="hiddenCount">0</strong>
+      <span>المنتجات المخفية</span>
+    </div>
+
+    <div class="stat">
+      <strong id="outOfStock">0</strong>
+      <span>المنتجات النافدة</span>
+    </div>
+
+  </div>
+
+  <button id="addProduct" class="full">
+    + إضافة منتج جديد
+  </button>
+
+  <p id="status" class="message"
+    aria-live="polite"></p>
+
+  <section id="editor" class="panel" hidden>
+
+    <h2 id="editorTitle">إضافة منتج</h2>
+
+    <form id="productForm">
+
+      <label>اسم المنتج</label>
+      <input id="name" required>
+
+      <label>التصنيف</label>
+      <input id="category"
+        list="categoryOptions" required>
+
+      <datalist id="categoryOptions">
+        <option value="معدات بيسبول">
+        <option value="معدات ملاكمة">
+        <option value="معدات كرة قدم">
+        <option value="ملابس رياضية">
+        <option value="أدوات كمال أجسام">
+        <option value="إكسسوارات رياضية">
+        <option value="أدوات سباحة">
+        <option value="معدات لياقة بدنية">
+        <option value="مستلزمات تدريب">
+        <option value="حقائب رياضية">
+        <option value="أحذية رياضية">
+        <option value="أدوات رياضات متنوعة">
+      </datalist>
+
+      <label>وصف المنتج</label>
+      <textarea id="description" rows="4"></textarea>
+
+      <label>السعر</label>
+      <input id="price" type="number"
+        min="0" step="0.01" required>
+
+      <label>العملة</label>
+      <select id="currency">
+        <option value="USD">دولار USD</option>
+        <option value="JOD">دينار أردني JOD</option>
+        <option value="SYP">ليرة سورية SYP</option>
+        <option value="SAR">ريال سعودي SAR</option>
+        <option value="AED">درهم إماراتي AED</option>
+      </select>
+
+      <label>الكمية المتوفرة</label>
+      <input id="stock" type="number"
+        min="0" step="1" required>
+
+      <label>رابط صورة المنتج</label>
+      <input id="image" type="url"
+        placeholder="https://res.cloudinary.com/...">
+
+      <label class="check">
+        <input id="active" type="checkbox" checked>
+        عرض المنتج في المتجر
+      </label>
+
+      <button id="saveButton"
+        type="submit" class="full">
+        حفظ المنتج
+      </button>
+
+      <button id="cancelEdit" type="button"
+        class="secondary full">
+        إلغاء
+      </button>
+
+      <p id="editorMessage" class="message"></p>
+
+    </form>
+
+  </section>
+
+  <h2>إدارة المنتجات</h2>
+
+  <input id="search" type="search"
+    placeholder="ابحث عن منتج...">
+
+  <div id="productList"></div>
+
+</section>
+
+</main>
+
+<script type="module">
+
+import { db, auth } from "./firebase-config.js";
+
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+import {
+  collection,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const ADMIN_UID = "vAwEHEC8iHNvHnLsDSWUORZM4kv2";
+
+const $ = id => document.getElementById(id);
+
+let products = [];
+let editingId = null;
+let unsubscribe = null;
+
+const categoryNames = {
+  baseball: "معدات بيسبول",
+  boxing: "معدات ملاكمة",
+  football: "معدات كرة قدم"
+};
+
+function isAdmin() {
+  return auth.currentUser?.uid === ADMIN_UID;
+}
+
+function categoryName(value) {
+  return categoryNames[value] || value || "";
+}
+
+function status(message) {
+  $("status").textContent = message;
+}
+
+$("loginForm").addEventListener("submit", async e => {
+
+  e.preventDefault();
+
+  $("loginMessage").textContent = "جاري تسجيل الدخول...";
+
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      $("email").value.trim(),
+      $("password").value
+    );
+
+    $("password").value = "";
+
+  } catch (error) {
+
+    $("loginMessage").textContent =
+      "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.";
+
+  }
+
+});
+
+onAuthStateChanged(auth, async user => {
+
+  if (unsubscribe) {
+    unsubscribe();
+    unsubscribe = null;
+  }
+
+  if (user && user.uid !== ADMIN_UID) {
+
+    $("loginMessage").textContent =
+      "هذا الحساب غير مصرح له بالإدارة.";
+
+    await signOut(auth);
+    return;
+
+  }
+
+  $("loginPanel").hidden = Boolean(user);
+  $("dashboard").hidden = !user;
+
+  if (!user) {
+    products = [];
+    editingId = null;
+    $("editor").hidden = true;
+    $("productList").replaceChildren();
+    return;
+  }
+
+  $("loginMessage").textContent = "";
+
+  unsubscribe = onSnapshot(
+    collection(db, "products"),
+
+    snapshot => {
+
+      products = snapshot.docs.map(item => ({
+        ...item.data(),
+        id: item.id
+      }));
+
+      renderProducts();
+
+    },
+
+    error => {
+      status("تعذر تحميل المنتجات: " + error.code);
+    }
+  );
+
+});
+
+$("logout").onclick = async () => {
+  await signOut(auth);
+};
+
+function makeButton(text, className, action) {
+
+  const button = document.createElement("button");
+
+  button.textContent = text;
+  button.className = className;
+  button.onclick = action;
+
+  return button;
+
+}
+
+function renderProducts() {
+
+  $("total").textContent = products.length;
+
+  $("visible").textContent =
+    products.filter(p => p.active === true).length;
+
+  $("hiddenCount").textContent =
+    products.filter(p => p.active !== true).length;
+
+  $("outOfStock").textContent =
+    products.filter(p => !(Number(p.stock) > 0)).length;
+
+  const search = $("search").value.trim().toLowerCase();
+
+  const filtered = products.filter(p =>
+    [p.name, categoryName(p.category), p.description]
+      .join(" ").toLowerCase().includes(search)
+  );
+
+  $("productList").replaceChildren();
+
+  if (!filtered.length) {
+    $("productList").textContent = "لا توجد منتجات مطابقة.";
+    return;
+  }
+
+  filtered.forEach(p => {
+
+    const card = document.createElement("article");
+    card.className = "product";
+
+    const imageUrl = p.image || p.image_url || "";
+
+    if (imageUrl.startsWith("https://")) {
+
+      const image = document.createElement("img");
+      image.src = imageUrl;
+      image.alt = p.name || "";
+      image.loading = "lazy";
+      image.onerror = () => image.hidden = true;
+      card.append(image);
+
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = p.name;
+
+    const price = document.createElement("strong");
+    price.className = "gold";
+    price.textContent =
+      (p.price ?? "") + " " + (p.currency || "USD");
+
+    const details = document.createElement("p");
+    details.textContent =
+      categoryName(p.category) +
+      " | الكمية: " + (p.stock ?? 0);
+
+    const visibility = document.createElement("p");
+    visibility.textContent = p.active
+      ? "🟢 معروض في المتجر"
+      : "⚪ مخفي من المتجر";
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    actions.append(
+
+      makeButton("تعديل", "", () => openEditor(p)),
+
+      makeButton(
+        p.active ? "إخفاء" : "إظهار",
+        "secondary",
+        () => toggleProduct(p)
+      ),
+
+      makeButton(
+        "حذف",
+        "danger",
+        () => removeProduct(p)
+      )
+
+    );
+
+    card.append(
+      title, price, details, visibility, actions
+    );
+
+    $("productList").append(card);
+
+  });
+
+}
+
+function openEditor(product = null) {
+
+  if (!isAdmin()) return;
+
+  editingId = product?.id || null;
+
+  $("productForm").reset();
+
+  $("editorTitle").textContent = product
+    ? "تعديل المنتج"
+    : "إضافة منتج جديد";
+
+  $("name").value = product?.name || "";
+  $("category").value = categoryName(product?.category);
+  $("description").value = product?.description || "";
+  $("price").value = product?.price ?? "";
+  $("currency").value = product?.currency || "USD";
+  $("stock").value = product?.stock ?? 0;
+  $("image").value = product?.image || product?.image_url || "";
+  $("active").checked = product ? product.active === true : true;
+
+  $("editorMessage").textContent = "";
+  $("editor").hidden = false;
+
+  $("editor").scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
+
+$("addProduct").onclick = () => openEditor();
+
+$("cancelEdit").onclick = () => {
+  $("editor").hidden = true;
+  editingId = null;
+};
+
+$("search").addEventListener("input", renderProducts);
+
+$("productForm").addEventListener("submit", async e => {
+
+  e.preventDefault();
+
+  if (!isAdmin()) return;
+
+  const image = $("image").value.trim();
+
+  if (image && !image.startsWith("https://")) {
+    $("editorMessage").textContent =
+      "يجب أن يبدأ رابط الصورة بـ HTTPS.";
+    return;
+  }
+
+  const data = {
+
+    name: $("name").value.trim(),
+    category: $("category").value.trim(),
+    description: $("description").value.trim(),
+    price: Number($("price").value),
+    currency: $("currency").value,
+    stock: Number($("stock").value),
+    image: image,
+    image_url: image,
+    active: $("active").checked,
+    updated_at: serverTimestamp()
+
+  };
+
+  if (!data.name || !data.category ||
+      !Number.isFinite(data.price) ||
+      data.price < 0 ||
+      !Number.isInteger(data.stock) ||
+      data.stock < 0) {
+
+    $("editorMessage").textContent =
+      "تحقق من بيانات المنتج.";
+
+    return;
+  }
+
+  $("saveButton").disabled = true;
+  $("editorMessage").textContent = "جاري الحفظ...";
+
+  try {
+
+    if (editingId) {
+
+      await updateDoc(
+        doc(db, "products", editingId),
+        data
+      );
+
+    } else {
+
+      await addDoc(collection(db, "products"), {
+        ...data,
+        created_at: serverTimestamp()
+      });
+
+    }
+
+    status("تم حفظ المنتج بنجاح.");
+    $("editor").hidden = true;
+    editingId = null;
+
+  } catch (error) {
+
+    $("editorMessage").textContent =
+      "تعذر الحفظ: " + error.code;
+
+  } finally {
+
+    $("saveButton").disabled = false;
+
+  }
+
+});
+
+async function toggleProduct(product) {
+
+  if (!isAdmin()) return;
+
+  try {
+
+    await updateDoc(
+      doc(db, "products", product.id),
+      {
+        active: !product.active,
+        updated_at: serverTimestamp()
+      }
+    );
+
+    status("تم تحديث حالة عرض المنتج.");
+
+  } catch (error) {
+
+    status("تعذر تحديث المنتج: " + error.code);
+
+  }
+
+}
+
+async function removeProduct(product) {
+
+  if (!isAdmin()) return;
+
+  if (!confirm("هل تريد حذف " + product.name + " نهائياً؟")) {
+    return;
+  }
+
+  try {
+
+    await deleteDoc(
+      doc(db, "products", product.id)
+    );
+
+    if (editingId === product.id) {
+      $("editor").hidden = true;
+      editingId = null;
+    }
+
+    status("تم حذف المنتج بنجاح.");
+
+  } catch (error) {
+
+    status("تعذر حذف المنتج: " + error.code);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
