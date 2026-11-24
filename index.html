@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101010">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="MDALLAL SPORTS">
+
+<title>MDALLAL SPORTS | مدلال سبورت</title>
+
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+
+<style>
+
+:root {
+  --gold: #C9A227;
+  --gold-light: #F2D675;
+  --black: #101010;
+  --white: #FFFFFF;
+  --gray: #F4F4F4;
+  --muted: #777777;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--gray);
+  color: var(--black);
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+header {
+  background: var(--white);
+  text-align: center;
+  padding: 18px;
+  border-bottom: 3px solid var(--gold);
+}
+
+.logo {
+  width: 280px;
+  max-width: 90%;
+  height: 110px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: 2px;
+}
+
+.brand-name span {
+  color: #A68016;
+}
+
+header p {
+  color: #666;
+  font-size: 13px;
+  margin: 8px 0;
+}
+
+.hero {
+  max-width: 1200px;
+  margin: 16px auto;
+  padding: 35px 24px;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    #080808,
+    #242424
+  );
+  border: 1px solid var(--gold);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero h1 {
+  font-size: 28px;
+  line-height: 1.5;
+  margin: 18px 0 10px;
+}
+
+.hero p {
+  font-size: 15px;
+  color: #DADADA;
+  line-height: 1.9;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(
+    135deg,
+    #A68016,
+    #F2D675
+  );
+  color: #101010;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 30px;
+}
+
+.hero-button {
+  display: inline-block;
+  text-decoration: none;
+  background: var(--gold);
+  color: var(--black);
+  font-weight: bold;
+  padding: 13px 25px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 16px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #DDD;
+  border-radius: 13px;
+  margin: 20px 0;
+  padding: 0 15px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 16px 10px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+}
+
+.search-box:focus-within {
+  border-color: var(--gold);
+  outline: 2px solid #C9A22744;
+}
+
+.section-title {
+  font-size: 21px;
+  border-right: 4px solid var(--gold);
+  padding-right: 12px;
+  margin: 25px 0 16px;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(105px, 1fr)
+  );
+  gap: 10px;
+}
+
+.category {
+  background: white;
+  border: 1px solid #E5E5E5;
+  padding: 18px 5px;
+  border-radius: 13px;
+  text-align: center;
+  cursor: pointer;
+  color: #222;
+  font-family: inherit;
+  transition: 0.2s;
+}
+
+.category-icon {
+  display: block;
+  font-size: 29px;
+  margin-bottom: 10px;
+}
+
+.category-name {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.category.active {
+  background: var(--black);
+  color: var(--gold-light);
+  border-color: var(--gold);
+}
+
+.category:hover {
+  border-color: var(--gold);
+}
+
+.products-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.products-count {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(
+    2, minmax(0, 1fr)
+  );
+  gap: 13px;
+  padding-bottom: 30px;
+}
+
+.product {
+  background: white;
+  border: 1px solid #E8E8E8;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #FAFAFA;
+}
+
+.product-info {
+  padding: 13px;
+}
+
+.product-info h3 {
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+
+.product-category {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.product-description {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.price {
+  font-weight: bold;
+  color: #967416;
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.stock {
+  display: inline-block;
+  background: #E8F5E9;
+  color: #217A38;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+.stock.unavailable {
+  background: #FBE9E9;
+  color: #A52222;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  background: white;
+  padding: 45px 20px;
+  border-radius: 16px;
+  text-align: center;
+  color: #777;
+  border: 1px solid #E5E5E5;
+  line-height: 1.8;
+}
+
+.empty-icon {
+  font-size: 45px;
+}
+
+.about {
+  background: white;
+  padding: 24px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  line-height: 1.9;
+  border-right: 4px solid var(--gold);
+}
+
+.about h3 {
+  margin-top: 0;
+}
+
+footer {
+  background: var(--black);
+  text-align: center;
+  color: #CCC;
+  padding: 30px 15px 110px;
+  font-size: 12px;
+}
+
+footer strong {
+  color: var(--gold-light);
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  background: white;
+  border-top: 2px solid var(--gold);
+  display: flex;
+  justify-content: space-around;
+  padding: 11px 4px;
+  padding-bottom: max(
+    12px,
+    env(safe-area-inset-bottom)
+  );
+  z-index: 100;
+  box-shadow: 0 -3px 15px #0000000D;
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  text-align: center;
+  font-size: 11px;
+  color: #222;
+  font-weight: bold;
+}
+
+.nav-icon {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+@media (min-width: 650px) {
+
+  .products {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+}
+
+@media (min-width: 1000px) {
+
+  .products {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .category {
+    transition: none;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header id="home">
+
+  <img
+    src="./logo.png"
+    alt="MDALLAL SPORTS"
+    class="logo"
+    onerror="
+      this.hidden=true;
+      document.getElementById(
+        'brandFallback'
+      ).hidden=false;
+    "
+  >
+
+  <div
+    id="brandFallback"
+    class="brand-name"
+    hidden
+  >
+    <span>MDALLAL</span> SPORTS
+  </div>
+
+  <p>
+    تجارة الأدوات والمعدات الرياضية بالجملة
+  </p>
+
+</header>
+
+<div class="container">
+
+<section class="hero">
+
+  <span class="badge">
+    خاص بالتجار وأصحاب المحلات
+  </span>
+
+  <h1>
+    عالم متكامل من المعدات الرياضية
+  </h1>
+
+  <p>
+    اكتشف أحدث البضائع والملابس
+    والمعدات الرياضية.
+    جميع احتياجات متجرك الرياضي
+    في مكان واحد.
+  </p>
+
+  <a href="#catalog" class="hero-button">
+    تصفح البضائع
+  </a>
+
+</section>
+
+<div class="search-box">
+
+  <span aria-hidden="true">🔍</span>
+
+  <input
+    id="search"
+    type="search"
+    aria-label="البحث عن منتج"
+    placeholder="ابحث عن أي منتج رياضي..."
+  >
+
+</div>
+
+<section id="categories">
+
+  <h2 class="section-title">
+    تصنيفات البضائع
+  </h2>
+
+  <div
+    class="categories"
+    id="categoryList"
+  ></div>
+
+</section>
+
+<section id="catalog">
+
+  <div class="products-header">
+
+    <h2
+      class="section-title"
+      id="productTitle"
+    >
+      أحدث البضائع
+    </h2>
+
+    <span
+      class="products-count"
+      id="productsCount"
+    >
+      0 منتج
+    </span>
+
+  </div>
+
+  <div
+    class="products"
+    id="products"
+    aria-live="polite"
+  ></div>
+
+</section>
+
+<section class="about" id="about">
+
+  <h3>عن MDALLAL SPORTS</h3>
+
+  <p>
+    مستودع متخصص في تجارة الأدوات
+    والمعدات والملابس الرياضية بالجملة.
+    نوفر مجموعة متنوعة من المنتجات
+    لتلبية احتياجات التجار وأصحاب
+    المحلات الرياضية.
+  </p>
+
+</section>
+
+</div>
+
+<footer>
+
+  <strong>MDALLAL SPORTS</strong>
+
+  <p>تجارة المعدات الرياضية بالجملة</p>
+
+  <p>
+    جميع الحقوق محفوظة
+    © <span id="year">2026</span>
+  </p>
+
+</footer>
+
+<nav class="bottom-nav">
+
+  <a href="#home">
+    <span class="nav-icon">⌂</span>
+    الرئيسية
+  </a>
+
+  <a href="#categories">
+    <span class="nav-icon">▦</span>
+    الأقسام
+  </a>
+
+  <a href="#catalog">
+    <span class="nav-icon">📦</span>
+    البضائع
+  </a>
+
+  <a href="#about">
+    <span class="nav-icon">ⓘ</span>
+    عن المستودع
+  </a>
+
+</nav>
+
+<script>
+
+const defaultCategories = [
+
+  {name: "معدات ملاكمة", icon: "🥊"},
+  {name: "معدات كرة قدم", icon: "⚽"},
+  {name: "ملابس رياضية", icon: "👕"},
+  {name: "أدوات كمال أجسام", icon: "🏋️"},
+  {name: "إكسسوارات رياضية", icon: "🎽"},
+  {name: "أدوات سباحة", icon: "🏊"},
+  {name: "معدات لياقة بدنية", icon: "💪"},
+  {name: "مستلزمات تدريب", icon: "🏃"},
+  {name: "حقائب رياضية", icon: "🎒"},
+  {name: "أحذية رياضية", icon: "👟"},
+  {name: "أدوات رياضات متنوعة", icon: "🏆"}
+
+];
+
+let categories = [...defaultCategories];
+
+let products = [];
+
+let selectedCategory = "الكل";
+
+const categoryList =
+  document.getElementById("categoryList");
+
+const productsContainer =
+  document.getElementById("products");
+
+const searchInput =
+  document.getElementById("search");
+
+function renderCategories() {
+
+  categoryList.replaceChildren();
+
+  const allCategories = [
+
+    {name: "الكل", icon: "▦"},
+    {name: "وصل حديثاً", icon: "🆕"},
+    ...categories
+
+  ];
+
+  allCategories.forEach(category => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "category";
+
+    if (
+      selectedCategory === category.name
+    ) {
+      button.classList.add("active");
+    }
+
+    button.setAttribute(
+      "aria-pressed",
+      String(
+        selectedCategory === category.name
+      )
+    );
+
+    const icon =
+      document.createElement("span");
+
+    icon.className = "category-icon";
+    icon.textContent = category.icon;
+    icon.setAttribute("aria-hidden", "true");
+
+    const name =
+      document.createElement("span");
+
+    name.className = "category-name";
+    name.textContent = category.name;
+
+    button.append(icon, name);
+
+    button.addEventListener("click", () => {
+
+      selectedCategory = category.name;
+
+      renderCategories();
+      renderProducts();
+
+    });
+
+    categoryList.appendChild(button);
+
+  });
+
+}
+
+function renderProducts() {
+
+  const search =
+    searchInput.value.trim().toLowerCase();
+
+  const filtered = products.filter(product => {
+
+    const matchesCategory =
+
+      selectedCategory === "الكل" ||
+
+      (
+        selectedCategory === "وصل حديثاً" &&
+        Date.now() -
+        new Date(product.created_at).getTime()
+        <= 30 * 24 * 60 * 60 * 1000
+      ) ||
+
+      product.category === selectedCategory;
+
+    const text = [
+      product.name,
+      product.category,
+      product.description
+    ].join(" ").toLowerCase();
+
+    return matchesCategory &&
+      text.includes(search);
+
+  });
+
+  filtered.sort((a, b) =>
+    new Date(b.created_at || 0) -
+    new Date(a.created_at || 0)
+  );
+
+  document.getElementById(
+    "productsCount"
+  ).textContent = filtered.length + " منتج";
+
+  document.getElementById(
+    "productTitle"
+  ).textContent =
+
+    selectedCategory === "الكل"
+    ? "أحدث البضائع"
+    : selectedCategory;
+
+  productsContainer.replaceChildren();
+
+  if (filtered.length === 0) {
+
+    const empty =
+      document.createElement("div");
+
+    empty.className = "empty";
+
+    const icon =
+      document.createElement("div");
+
+    icon.className = "empty-icon";
+    icon.textContent = "📦";
+
+    const title =
+      document.createElement("h3");
+
+    title.textContent = search
+      ? "لا توجد نتائج مطابقة"
+      : "لا توجد بضائع معروضة حالياً";
+
+    const message =
+      document.createElement("p");
+
+    message.textContent = search
+      ? "جرّب البحث بكلمة أخرى."
+      : "تابعونا لمشاهدة أحدث البضائع.";
+
+    empty.append(icon, title, message);
+
+    productsContainer.appendChild(empty);
+
+    return;
+
+  }
+
+  filtered.forEach(product => {
+
+    const card =
+      document.createElement("article");
+
+    card.className = "product";
+
+    if (product.image_url) {
+
+      try {
+
+        const url = new URL(
+          product.image_url,
+          window.location.href
+        );
+
+        if (url.protocol === "https:") {
+
+          const image =
+            document.createElement("img");
+
+          image.className = "product-image";
+          image.src = url.href;
+          image.alt = product.name;
+          image.loading = "lazy";
+
+          image.onerror = () => {
+            image.hidden = true;
+          };
+
+          card.appendChild(image);
+
+        }
+
+      } catch (error) {
+
+        console.warn("Invalid image URL");
+
+      }
+
+    }
+
+    const info =
+      document.createElement("div");
+
+    info.className = "product-info";
+
+    const category =
+      document.createElement("p");
+
+    category.className = "product-category";
+    category.textContent = product.category;
+
+    const name =
+      document.createElement("h3");
+
+    name.textContent = product.name;
+
+    const description =
+      document.createElement("p");
+
+    description.className =
+      "product-description";
+
+    description.textContent =
+      product.description || "";
+
+    const price =
+      document.createElement("div");
+
+    price.className = "price";
+
+    price.textContent =
+
+      product.price !== null &&
+      product.price !== undefined
+
+      ? product.price + " " +
+        (product.currency || "")
+
+      : "السعر عند الاستفسار";
+
+    const stock =
+      document.createElement("span");
+
+    stock.className = product.available
+      ? "stock"
+      : "stock unavailable";
+
+    stock.textContent = product.available
+      ? "متوفر"
+      : "غير متوفر";
+
+    info.append(
+      category,
+      name,
+      description,
+      price,
+      stock
+    );
+
+    card.appendChild(info);
+
+    productsContainer.appendChild(card);
+
+  });
+
+}
+
+searchInput.addEventListener(
+  "input",
+  renderProducts
+);
+
+window.setCatalogData = function(data) {
+
+  products = Array.isArray(data.products)
+    ? data.products
+    : [];
+
+  categories = Array.isArray(data.categories)
+    ? data.categories
+    : [...defaultCategories];
+
+  if (
+    !["الكل", "وصل حديثاً"].includes(
+      selectedCategory
+    ) &&
+    !categories.some(
+      category =>
+        category.name === selectedCategory
+    )
+  ) {
+    selectedCategory = "الكل";
+  }
+
+  renderCategories();
+  renderProducts();
+
+};
+
+document.getElementById(
+  "year"
+).textContent = new Date().getFullYear();
+
+renderCategories();
+renderProducts();
+
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker.register(
+      "./sw.js"
+    ).catch(() => {
+
+      console.log(
+        "Service Worker not configured yet"
+      );
+
+    });
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
