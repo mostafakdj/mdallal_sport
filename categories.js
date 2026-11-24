@@ -33,8 +33,83 @@ function isAdmin() {
 const style = document.createElement("style");
 
 style.textContent = `
-.category-card {
+#manageCategories {
+  display: block;
+  width: 100%;
+  background: #C9A227;
+  color: #111;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+#manageCategories[hidden],
+#categoryPanel[hidden],
+#categoryForm[hidden] {
+  display: none !important;
+}
+
+#categoryPanel {
   background: #151515;
+  border: 1px solid #C9A227;
+  border-radius: 15px;
+  padding: 18px;
+  margin: 15px 0;
+  color: #FFFFFF;
+  direction: rtl;
+}
+
+#categoryPanel h2,
+#categoryPanel h3 {
+  color: #F2D675;
+}
+
+#categoryPanel label {
+  display: block;
+  margin: 12px 0 6px;
+}
+
+#categoryPanel input:not([type="checkbox"]) {
+  width: 100%;
+  box-sizing: border-box;
+  background: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+#categoryPanel button {
+  background: #C9A227;
+  color: #111;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  margin: 5px 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#categoryPanel button.full {
+  width: 100%;
+}
+
+#categoryPanel button.secondary {
+  background: #333;
+  color: white;
+}
+
+#categoryPanel button.danger {
+  background: #A52222;
+  color: white;
+}
+
+.category-card {
+  background: #202020;
   border: 1px solid #444;
   border-radius: 12px;
   padding: 15px;
@@ -59,14 +134,6 @@ style.textContent = `
   font-size: 14px;
 }
 
-#categoryPanel {
-  margin-top: 20px;
-}
-
-#categoryList {
-  margin-top: 15px;
-}
-
 .category-actions {
   display: flex;
   gap: 8px;
@@ -77,36 +144,50 @@ style.textContent = `
   color: #F2D675;
   line-height: 1.7;
 }
+
+#categoryList {
+  margin-top: 15px;
+}
+
+#categoryForm {
+  margin-top: 15px;
+}
 `;
 
 document.head.appendChild(style);
 
-const manageButton = document.createElement("button");
+const manageButton =
+  document.createElement("button");
 
 manageButton.id = "manageCategories";
-manageButton.className = "full";
 manageButton.type = "button";
-manageButton.textContent = "📁 إدارة الأقسام";
+manageButton.hidden = true;
 
-$("addProduct").before(manageButton);
+manageButton.textContent =
+  "📁 إدارة الأقسام";
 
 const panel = document.createElement("section");
 
 panel.id = "categoryPanel";
-panel.className = "panel";
 panel.hidden = true;
 
 panel.innerHTML = `
-  <h2>إدارة الأقسام</h2>
+  <h2>📁 إدارة الأقسام</h2>
 
   <button id="newCategory"
-    type="button" class="full">
-    + إضافة قسم جديد
+    type="button"
+    class="full">
+
+    ＋ إضافة قسم جديد
+
   </button>
 
   <button id="closeCategories"
-    type="button" class="secondary full">
+    type="button"
+    class="secondary full">
+
     إغلاق إدارة الأقسام
+
   </button>
 
   <form id="categoryForm" hidden>
@@ -137,24 +218,30 @@ panel.innerHTML = `
       value="1"
       required>
 
-    <label class="check">
+    <label>
 
       <input id="categoryActive"
-        type="checkbox" checked>
+        type="checkbox"
+        checked>
 
       إظهار القسم في المتجر
 
     </label>
 
     <button id="saveCategory"
-      type="submit" class="full">
+      type="submit"
+      class="full">
+
       حفظ القسم
+
     </button>
 
     <button id="cancelCategory"
       type="button"
       class="secondary full">
+
       إلغاء
+
     </button>
 
   </form>
@@ -165,7 +252,19 @@ panel.innerHTML = `
   <div id="categoryList"></div>
 `;
 
-manageButton.after(panel);
+const addProductButton = $("addProduct");
+
+if (addProductButton) {
+
+  addProductButton.before(manageButton);
+
+  manageButton.after(panel);
+
+} else {
+
+  document.body.append(manageButton, panel);
+
+}
 
 function message(value) {
 
@@ -175,12 +274,12 @@ function message(value) {
 
 function button(text, className, action) {
 
-  const element = document.createElement("button");
+  const element =
+    document.createElement("button");
 
   element.type = "button";
   element.textContent = text;
   element.className = className;
-
   element.onclick = action;
 
   return element;
@@ -196,7 +295,9 @@ function openCategoryEditor(category = null) {
   $("categoryForm").reset();
 
   $("categoryFormTitle").textContent =
-    category ? "تعديل القسم" : "إضافة قسم جديد";
+    category
+      ? "تعديل القسم"
+      : "إضافة قسم جديد";
 
   $("categoryTitle").value =
     category?.name || "";
@@ -206,19 +307,25 @@ function openCategoryEditor(category = null) {
 
   $("categoryOrder").value =
     category?.order ??
-    Math.max(0, ...categories.map(
-      c => Number(c.order) || 0
-    )) + 1;
+    Math.max(
+      0,
+      ...categories.map(
+        c => Number(c.order) || 0
+      )
+    ) + 1;
 
   $("categoryActive").checked =
-    category ? category.active === true : true;
+    category
+      ? category.active === true
+      : true;
 
   $("categoryForm").hidden = false;
 
   message("");
 
   $("categoryForm").scrollIntoView({
-    behavior: "smooth"
+    behavior: "smooth",
+    block: "start"
   });
 
 }
@@ -242,7 +349,8 @@ manageButton.onclick = () => {
   if (!panel.hidden) {
 
     panel.scrollIntoView({
-      behavior: "smooth"
+      behavior: "smooth",
+      block: "start"
     });
 
   }
@@ -267,7 +375,11 @@ $("newCategory").onclick = () => {
 
 $("cancelCategory").onclick = () => {
 
-  if (!busy) closeCategoryEditor();
+  if (!busy) {
+
+    closeCategoryEditor();
+
+  }
 
 };
 
@@ -279,7 +391,8 @@ function renderCategories() {
 
   if (!categories.length) {
 
-    list.textContent = "لا توجد أقسام حالياً.";
+    list.textContent =
+      "لا توجد أقسام حالياً.";
 
     return;
 
@@ -287,69 +400,91 @@ function renderCategories() {
 
   categories.forEach(category => {
 
-    const card = document.createElement("article");
+    const card =
+      document.createElement("article");
 
     card.className = "category-card";
 
-    if (category.image?.startsWith("https://")) {
+    if (
+      typeof category.image === "string" &&
+      category.image.startsWith("https://")
+    ) {
 
-      const img = document.createElement("img");
+      const img =
+        document.createElement("img");
 
       img.src = category.image;
-
       img.alt = category.name || "";
-
       img.loading = "lazy";
 
-      img.onerror = () => img.hidden = true;
+      img.onerror = () => {
+
+        img.hidden = true;
+
+      };
 
       card.append(img);
 
     }
 
-    const title = document.createElement("h3");
+    const title =
+      document.createElement("h3");
 
     title.textContent =
-      "📁 " + (category.name || "قسم بدون اسم");
+      "📁 " +
+      (category.name || "قسم بدون اسم");
 
-    const order = document.createElement("p");
+    const order =
+      document.createElement("p");
 
     order.textContent =
-      "الترتيب: " + (category.order ?? 0);
+      "الترتيب: " +
+      (category.order ?? 0);
 
-    const status = document.createElement("p");
+    const status =
+      document.createElement("p");
 
-    status.textContent = category.active
-      ? "🟢 القسم ظاهر"
-      : "⚪ القسم مخفي";
+    status.textContent =
+      category.active
+        ? "🟢 القسم ظاهر"
+        : "⚪ القسم مخفي";
 
-    const actions = document.createElement("div");
+    const actions =
+      document.createElement("div");
 
-    actions.className = "category-actions";
+    actions.className =
+      "category-actions";
 
     actions.append(
 
       button(
-        "تعديل",
+        "✏️ تعديل",
         "",
         () => openCategoryEditor(category)
       ),
 
       button(
-        category.active ? "إخفاء" : "إظهار",
+        category.active
+          ? "إخفاء"
+          : "إظهار",
         "secondary",
         () => toggleCategory(category)
       ),
 
       button(
-        "حذف",
+        "🗑 حذف",
         "danger",
         () => removeCategory(category)
       )
 
     );
 
-    card.append(title, order, status, actions);
+    card.append(
+      title,
+      order,
+      status,
+      actions
+    );
 
     list.append(card);
 
@@ -365,50 +500,68 @@ $("categoryForm").addEventListener(
 
     if (!isAdmin() || busy) return;
 
-    const name = $("categoryTitle").value.trim();
+    const name =
+      $("categoryTitle").value.trim();
 
-    const image = $("categoryImage").value.trim();
+    const image =
+      $("categoryImage").value.trim();
 
-    const order = Number(
-      $("categoryOrder").value
-    );
+    const order =
+      Number($("categoryOrder").value);
 
     if (!name) {
 
-      message("يرجى كتابة اسم القسم.");
+      message(
+        "يرجى كتابة اسم القسم."
+      );
 
       return;
 
     }
 
-    if (image && !image.startsWith("https://")) {
+    if (
+      image &&
+      !image.startsWith("https://")
+    ) {
 
-      message("يجب أن يبدأ رابط الصورة بـ HTTPS.");
-
-      return;
-
-    }
-
-    if (!Number.isInteger(order) || order < 0) {
-
-      message("يرجى إدخال ترتيب صحيح.");
+      message(
+        "يجب أن يبدأ رابط الصورة بـ HTTPS."
+      );
 
       return;
 
     }
 
-    const duplicate = categories.some(category =>
+    if (
+      !Number.isInteger(order) ||
+      order < 0
+    ) {
 
-      category.name?.trim().toLowerCase() ===
-        name.toLowerCase() &&
+      message(
+        "يرجى إدخال ترتيب صحيح."
+      );
 
-      category.id !== editingCategory
+      return;
 
-    );
+    }
+
+    const duplicate =
+      categories.some(category =>
+
+        String(category.name || "")
+          .trim()
+          .toLowerCase() ===
+          name.toLowerCase() &&
+
+        category.id !== editingCategory
+
+      );
 
     if (duplicate) {
 
-      message("يوجد قسم بهذا الاسم مسبقاً.");
+      message(
+        "يوجد قسم بهذا الاسم مسبقاً."
+      );
 
       return;
 
@@ -416,15 +569,17 @@ $("categoryForm").addEventListener(
 
     const data = {
 
-      name,
+      name: name,
 
-      image,
+      image: image,
 
-      order,
+      order: order,
 
-      active: $("categoryActive").checked,
+      active:
+        $("categoryActive").checked,
 
-      updated_at: serverTimestamp()
+      updated_at:
+        serverTimestamp()
 
     };
 
@@ -440,7 +595,11 @@ $("categoryForm").addEventListener(
 
         await updateDoc(
 
-          doc(db, "categories", editingCategory),
+          doc(
+            db,
+            "categories",
+            editingCategory
+          ),
 
           data
 
@@ -456,7 +615,8 @@ $("categoryForm").addEventListener(
 
             ...data,
 
-            created_at: serverTimestamp()
+            created_at:
+              serverTimestamp()
 
           }
 
@@ -466,11 +626,18 @@ $("categoryForm").addEventListener(
 
       closeCategoryEditor();
 
-      message("تم حفظ القسم بنجاح.");
+      message(
+        "تم حفظ القسم بنجاح. ✅"
+      );
 
     } catch (error) {
 
-      message("تعذر الحفظ: " + error.code);
+      console.error(error);
+
+      message(
+        "تعذر الحفظ: " +
+        (error.code || error.message)
+      );
 
     } finally {
 
@@ -493,23 +660,35 @@ async function toggleCategory(category) {
 
     await updateDoc(
 
-      doc(db, "categories", category.id),
+      doc(
+        db,
+        "categories",
+        category.id
+      ),
 
       {
 
         active: !category.active,
 
-        updated_at: serverTimestamp()
+        updated_at:
+          serverTimestamp()
 
       }
 
     );
 
-    message("تم تحديث حالة القسم.");
+    message(
+      "تم تحديث حالة القسم. ✅"
+    );
 
   } catch (error) {
 
-    message("تعذر التحديث: " + error.code);
+    console.error(error);
+
+    message(
+      "تعذر التحديث: " +
+      (error.code || error.message)
+    );
 
   } finally {
 
@@ -525,7 +704,9 @@ async function removeCategory(category) {
 
   busy = true;
 
-  message("جاري التحقق من منتجات القسم...");
+  message(
+    "جاري التحقق من منتجات القسم..."
+  );
 
   try {
 
@@ -537,11 +718,20 @@ async function removeCategory(category) {
 
     const legacyNames = {
 
-      baseball: "معدات بيسبول",
+      baseball: [
+        "معدات بيسبول",
+        "معدات البيسبول"
+      ],
 
-      boxing: "معدات ملاكمة",
+      boxing: [
+        "معدات ملاكمة",
+        "معدات الملاكمة"
+      ],
 
-      football: "معدات كرة قدم"
+      football: [
+        "معدات كرة قدم",
+        "معدات كرة القدم"
+      ]
 
     };
 
@@ -551,19 +741,27 @@ async function removeCategory(category) {
 
       category.name,
 
-      legacyNames[category.id]
+      ...(legacyNames[category.id] || [])
 
     ].filter(Boolean);
 
-    const related = snapshot.docs.filter(item => {
+    const related =
+      snapshot.docs.filter(item => {
 
-      const product = item.data();
+        const product = item.data();
 
-      return names.includes(product.category) ||
+        return (
 
-        product.category_id === category.id;
+          names.includes(
+            product.category
+          ) ||
 
-    });
+          product.category_id ===
+            category.id
+
+        );
+
+      });
 
     if (related.length > 0) {
 
@@ -601,21 +799,34 @@ async function removeCategory(category) {
 
     await deleteDoc(
 
-      doc(db, "categories", category.id)
+      doc(
+        db,
+        "categories",
+        category.id
+      )
 
     );
 
-    if (editingCategory === category.id) {
+    if (
+      editingCategory === category.id
+    ) {
 
       closeCategoryEditor();
 
     }
 
-    message("تم حذف القسم بنجاح.");
+    message(
+      "تم حذف القسم بنجاح. ✅"
+    );
 
   } catch (error) {
 
-    message("تعذر حذف القسم: " + error.code);
+    console.error(error);
+
+    message(
+      "تعذر حذف القسم: " +
+      (error.code || error.message)
+    );
 
   } finally {
 
@@ -643,7 +854,10 @@ onAuthStateChanged(auth, user => {
 
   renderCategories();
 
-  if (!user || user.uid !== ADMIN_UID) {
+  if (
+    !user ||
+    user.uid !== ADMIN_UID
+  ) {
 
     manageButton.hidden = true;
 
@@ -659,13 +873,14 @@ onAuthStateChanged(auth, user => {
 
     snapshot => {
 
-      categories = snapshot.docs.map(item => ({
+      categories =
+        snapshot.docs.map(item => ({
 
-        ...item.data(),
+          ...item.data(),
 
-        id: item.id
+          id: item.id
 
-      }));
+        }));
 
       categories.sort((a, b) =>
 
@@ -681,9 +896,13 @@ onAuthStateChanged(auth, user => {
 
     error => {
 
+      console.error(error);
+
       message(
 
-        "تعذر تحميل الأقسام: " + error.code
+        "تعذر تحميل الأقسام: " +
+
+        (error.code || error.message)
 
       );
 
@@ -692,3 +911,7 @@ onAuthStateChanged(auth, user => {
   );
 
 });
+
+console.log(
+  "MDALLAL SPORTS Categories Loaded"
+);
