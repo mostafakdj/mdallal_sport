@@ -358,7 +358,9 @@ function isAdmin() {
 }
 
 function categoryName(value) {
-  return categoryNames[value] || value || "";
+  return window.getCategoryName
+    ? window.getCategoryName(value)
+    : categoryNames[value] || value || "";
 }
 
 function status(message) {
