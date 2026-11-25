@@ -536,12 +536,14 @@ footer strong {
 
 <body>
 
+
 <header id="home">
 
   <img
-    src="./logo.png"
+    src="./header-banner.png?v=102"
     alt="MDALLAL SPORTS"
-    class="logo"
+    class="header-banner"
+    fetchpriority="high"
     onerror="
       this.hidden=true;
       document.getElementById(
@@ -549,6 +551,17 @@ footer strong {
       ).hidden=false;
     "
   >
+
+  <div
+    id="brandFallback"
+    class="brand-name"
+    hidden
+  >
+    <span>MDALLAL</span> SPORTS
+  </div>
+
+</header>
+
 
   <div
     id="brandFallback"
