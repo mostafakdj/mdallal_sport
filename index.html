@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101010">
+<meta name="theme-color" content="#B7192B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="MDALLAL SPORTS">
@@ -11,28 +12,42 @@
 <title>MDALLAL SPORTS | مدلال سبورت</title>
 
 <link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icon-192.png?v=102">
-<link rel="icon" type="image/png" href="./icon-192.png?v=102">
+<link rel="apple-touch-icon" href="./icon-192.png?v=104">
+<link rel="icon" type="image/png" href="./icon-192.png?v=104">
 
-/* MDALLAL SPORTS - NEW VISUAL IDENTITY */
+<style>
 
 :root {
-  --gold: #B7192B;
-  --gold-light: #FFFFFF;
+  --red: #B7192B;
+  --dark-red: #901323;
+  --silver: #96989B;
   --black: #101010;
   --white: #FFFFFF;
   --gray: #F4F4F4;
   --muted: #777777;
+  --gold: #B7192B;
+  --gold-light: #FFFFFF;
 }
 
-html, body {
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
   margin: 0;
   padding: 0;
   width: 100%;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
   overflow-x: hidden;
+  background: var(--gray);
+  color: var(--black);
+  font-family: Arial, Tahoma, sans-serif;
 }
 
 /* FULL WIDTH HEADER */
@@ -45,8 +60,9 @@ header#home {
   padding: 0;
   background: #F4F4F4;
   border: none;
-  border-bottom: 3px solid #B7192B;
+  border-bottom: 3px solid var(--red);
   border-radius: 0;
+  overflow: hidden;
 }
 
 .header-banner {
@@ -60,213 +76,21 @@ header#home {
   border-radius: 0;
 }
 
-header#home .brand-name {
-  padding: 30px 10px;
-}
-
-.brand-name span {
-  color: #B7192B;
-}
-
-/* REMOVE OLD HERO */
-
-.hero {
-  display: none;
-}
-
-/* SEARCH */
-
-.search-box {
-  border: 1px solid #CCCCCC;
-  border-radius: 12px;
-  margin: 16px 0;
-}
-
-.search-box:focus-within {
-  border-color: #B7192B;
-  outline: 2px solid #B7192B22;
-}
-
-/* CATEGORIES */
-
-.section-title {
-  border-right-color: #B7192B;
-  color: #101010;
-}
-
-.category {
-  background: #FFFFFF;
-  border: 1px solid #DDDDDD;
-  border-bottom: 3px solid #B7192B;
-  border-radius: 12px;
-}
-
-.category.active {
-  background: #B7192B;
-  color: #FFFFFF;
-  border-color: #901323;
-}
-
-.category:hover {
-  border-color: #B7192B;
-}
-
-/* PRODUCTS */
-
-.product {
-  background: #FFFFFF;
-  border: 1px solid #E0E0E0;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px #00000008;
-}
-
-.price {
-  color: #B7192B;
-}
-
-.about {
-  border-right-color: #B7192B;
-}
-
-/* NAVIGATION */
-
-.bottom-nav {
-  background: #101010;
-  border-top: 3px solid #B7192B;
-}
-
-.bottom-nav a {
-  color: #FFFFFF;
-}
-
-.bottom-nav a:hover {
-  color: #EF5365;
-}
-
-footer {
-  background: #101010;
-  border-top: 3px solid #B7192B;
-}
-
-footer strong {
-  color: #FFFFFF;
-}
-
-@media (min-width: 768px) {
-  .header-banner {
-    width: 100%;
-    height: auto;
-  }
-}
-
-<style>
-
-:root {
-  --gold: #C9A227;
-  --gold-light: #F2D675;
-  --black: #101010;
-  --white: #FFFFFF;
-  --gray: #F4F4F4;
-  --muted: #777777;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background: var(--gray);
-  color: var(--black);
-  font-family: Arial, Tahoma, sans-serif;
-}
-
-header {
-  background: var(--white);
-  text-align: center;
-  padding: 18px;
-  border-bottom: 3px solid var(--gold);
-}
-
-.logo {
-  width: 280px;
-  max-width: 90%;
-  height: 110px;
-  object-fit: contain;
+[hidden] {
+  display: none !important;
 }
 
 .brand-name {
   font-size: 28px;
   font-weight: 900;
+  text-align: center;
+  padding: 35px 10px;
   color: var(--black);
   letter-spacing: 2px;
 }
 
 .brand-name span {
-  color: #A68016;
-}
-
-header p {
-  color: #666;
-  font-size: 13px;
-  margin: 8px 0;
-}
-
-.hero {
-  max-width: 1200px;
-  margin: 16px auto;
-  padding: 35px 24px;
-  border-radius: 20px;
-  background: linear-gradient(
-    135deg,
-    #080808,
-    #242424
-  );
-  border: 1px solid var(--gold);
-  color: white;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero h1 {
-  font-size: 28px;
-  line-height: 1.5;
-  margin: 18px 0 10px;
-}
-
-.hero p {
-  font-size: 15px;
-  color: #DADADA;
-  line-height: 1.9;
-}
-
-.badge {
-  display: inline-block;
-  background: linear-gradient(
-    135deg,
-    #A68016,
-    #F2D675
-  );
-  color: #101010;
-  padding: 8px 18px;
-  font-size: 13px;
-  font-weight: bold;
-  border-radius: 30px;
-}
-
-.hero-button {
-  display: inline-block;
-  text-decoration: none;
-  background: var(--gold);
-  color: var(--black);
-  font-weight: bold;
-  padding: 13px 25px;
-  border-radius: 10px;
-  margin-top: 10px;
+  color: var(--red);
 }
 
 .container {
@@ -275,14 +99,17 @@ header p {
   padding: 0 16px;
 }
 
+/* SEARCH */
+
 .search-box {
   display: flex;
   align-items: center;
   background: white;
-  border: 1px solid #DDD;
-  border-radius: 13px;
-  margin: 20px 0;
+  border: 1px solid #DDDDDD;
+  border-radius: 12px;
+  margin: 18px 0;
   padding: 0 15px;
+  box-shadow: 0 2px 8px #00000008;
 }
 
 .search-box input {
@@ -295,16 +122,19 @@ header p {
 }
 
 .search-box:focus-within {
-  border-color: var(--gold);
-  outline: 2px solid #C9A22744;
+  border-color: var(--red);
+  outline: 2px solid #B7192B22;
 }
 
 .section-title {
   font-size: 21px;
-  border-right: 4px solid var(--gold);
+  border-right: 4px solid var(--red);
   padding-right: 12px;
   margin: 25px 0 16px;
+  color: var(--black);
 }
+
+/* CATEGORIES */
 
 .categories {
   display: grid;
@@ -317,14 +147,16 @@ header p {
 
 .category {
   background: white;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #E0E0E0;
+  border-bottom: 3px solid var(--red);
   padding: 18px 5px;
-  border-radius: 13px;
+  border-radius: 12px;
   text-align: center;
   cursor: pointer;
-  color: #222;
+  color: #222222;
   font-family: inherit;
   transition: 0.2s;
+  box-shadow: 0 2px 6px #00000008;
 }
 
 .category-icon {
@@ -339,14 +171,16 @@ header p {
 }
 
 .category.active {
-  background: var(--black);
-  color: var(--gold-light);
-  border-color: var(--gold);
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--dark-red);
 }
 
 .category:hover {
-  border-color: var(--gold);
+  border-color: var(--red);
 }
+
+/* PRODUCTS */
 
 .products-header {
   display: flex;
@@ -370,9 +204,10 @@ header p {
 
 .product {
   background: white;
-  border: 1px solid #E8E8E8;
-  border-radius: 15px;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 3px 10px #00000008;
 }
 
 .product-image {
@@ -398,14 +233,14 @@ header p {
 
 .product-description {
   font-size: 12px;
-  color: #666;
+  color: #666666;
   line-height: 1.7;
   white-space: pre-wrap;
 }
 
 .price {
   font-weight: bold;
-  color: #967416;
+  color: var(--red);
   font-size: 18px;
   margin: 10px 0;
 }
@@ -430,7 +265,7 @@ header p {
   padding: 45px 20px;
   border-radius: 16px;
   text-align: center;
-  color: #777;
+  color: #777777;
   border: 1px solid #E5E5E5;
   line-height: 1.8;
 }
@@ -439,40 +274,47 @@ header p {
   font-size: 45px;
 }
 
+/* ABOUT */
+
 .about {
   background: white;
   padding: 24px;
   border-radius: 15px;
   margin-bottom: 25px;
   line-height: 1.9;
-  border-right: 4px solid var(--gold);
+  border-right: 4px solid var(--red);
 }
 
 .about h3 {
   margin-top: 0;
 }
 
+/* FOOTER */
+
 footer {
   background: var(--black);
+  border-top: 3px solid var(--red);
   text-align: center;
-  color: #CCC;
+  color: #CCCCCC;
   padding: 30px 15px 110px;
   font-size: 12px;
 }
 
 footer strong {
-  color: var(--gold-light);
+  color: var(--white);
   font-size: 20px;
   letter-spacing: 2px;
 }
+
+/* BOTTOM NAVIGATION */
 
 .bottom-nav {
   position: fixed;
   bottom: 0;
   right: 0;
   width: 100%;
-  background: white;
-  border-top: 2px solid var(--gold);
+  background: #101010;
+  border-top: 3px solid var(--red);
   display: flex;
   justify-content: space-around;
   padding: 11px 4px;
@@ -481,15 +323,19 @@ footer strong {
     env(safe-area-inset-bottom)
   );
   z-index: 100;
-  box-shadow: 0 -3px 15px #0000000D;
+  box-shadow: 0 -3px 15px #00000018;
 }
 
 .bottom-nav a {
   text-decoration: none;
   text-align: center;
   font-size: 11px;
-  color: #222;
+  color: #FFFFFF;
   font-weight: bold;
+}
+
+.bottom-nav a:hover {
+  color: #EF5365;
 }
 
 .nav-icon {
@@ -498,15 +344,13 @@ footer strong {
   margin-bottom: 4px;
 }
 
+/* RESPONSIVE DESIGN */
+
 @media (min-width: 650px) {
 
   .products {
     grid-template-columns:
       repeat(3, minmax(0, 1fr));
-  }
-
-  .hero h1 {
-    font-size: 36px;
   }
 
 }
@@ -537,11 +381,10 @@ footer strong {
 
 <body>
 
-
 <header id="home">
 
   <img
-    src="./header-banner.png?v=102"
+    src="./header-banner.png?v=104"
     alt="MDALLAL SPORTS"
     class="header-banner"
     fetchpriority="high"
@@ -563,45 +406,7 @@ footer strong {
 
 </header>
 
-
-  <div
-    id="brandFallback"
-    class="brand-name"
-    hidden
-  >
-    <span>MDALLAL</span> SPORTS
-  </div>
-
-  <p>
-    تجارة الأدوات والمعدات الرياضية بالجملة
-  </p>
-
-</header>
-
 <div class="container">
-
-<section class="hero">
-
-  <span class="badge">
-    خاص بالتجار وأصحاب المحلات
-  </span>
-
-  <h1>
-    عالم متكامل من المعدات الرياضية
-  </h1>
-
-  <p>
-    اكتشف أحدث البضائع والملابس
-    والمعدات الرياضية.
-    جميع احتياجات متجرك الرياضي
-    في مكان واحد.
-  </p>
-
-  <a href="#catalog" class="hero-button">
-    تصفح البضائع
-  </a>
-
-</section>
 
 <div class="search-box">
 
@@ -708,11 +513,10 @@ footer strong {
     عن المستودع
   </a>
 
-<a href="./admin.html">
-  <span class="nav-icon">⚙️</span>
-  الإدارة
-</a>
-
+  <a href="./admin.html">
+    <span class="nav-icon">⚙️</span>
+    الإدارة
+  </a>
 
 </nav>
 
@@ -767,6 +571,7 @@ function renderCategories() {
       document.createElement("button");
 
     button.className = "category";
+    button.type = "button";
 
     if (
       selectedCategory === category.name
@@ -800,8 +605,16 @@ function renderCategories() {
 
       selectedCategory = category.name;
 
+      searchInput.value = "";
+
       renderCategories();
       renderProducts();
+
+      document.getElementById("catalog")
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
 
     });
 
@@ -1064,37 +877,13 @@ if ("serviceWorker" in navigator) {
 
 </script>
 
-
-
 <script type="module" src="./catalog.js"></script>
 
 <script type="module" src="./product.js?v=25"></script>
 
-<script>
-
-document.getElementById("categoryList")
-  .addEventListener("click", function(event) {
-
-    const button = event.target.closest(".category");
-
-    if (!button) return;
-
-    document.getElementById("search").value = "";
-
-    renderProducts();
-
-    document.getElementById("catalog").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-
-  });
-
-</script>
 <script src="./install.js?v=1"></script>
+
 </body>
 </html>
-
-
 
 
