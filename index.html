@@ -599,7 +599,37 @@ function renderCategories() {
     name.className = "category-name";
     name.textContent = category.name;
 
-    button.append(icon, name);
+    
+const categoryImage = category.image_url || category.image;
+
+if (categoryImage) {
+
+  const image = document.createElement("img");
+
+  image.src = categoryImage;
+  image.alt = category.name;
+  image.loading = "lazy";
+
+  image.style.width = "100%";
+  image.style.height = "90px";
+  image.style.objectFit = "contain";
+  image.style.background = "#FFFFFF";
+  image.style.borderRadius = "8px";
+  image.style.marginBottom = "8px";
+  image.style.display = "block";
+
+  image.onerror = () => {
+    image.replaceWith(icon);
+  };
+
+  button.append(image, name);
+
+} else {
+
+  button.append(icon, name);
+
+}
+
 
     button.addEventListener("click", () => {
 
