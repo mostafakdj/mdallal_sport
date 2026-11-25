@@ -135,9 +135,3 @@ onSnapshot(productsQuery, snapshot => {
   console.error("Products error:", error);
 
   const element = document.getElementById("products");
-
-  if (element) {
-    element.textContent = "تعذر تحميل المنتجات.";
-  }
-
-});
