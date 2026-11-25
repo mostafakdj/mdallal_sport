@@ -13,6 +13,151 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
 
+/* MDALLAL SPORTS - NEW VISUAL IDENTITY */
+
+:root {
+  --gold: #B7192B;
+  --gold-light: #FFFFFF;
+  --black: #101010;
+  --white: #FFFFFF;
+  --gray: #F4F4F4;
+  --muted: #777777;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* FULL WIDTH HEADER */
+
+header#home {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: #F4F4F4;
+  border: none;
+  border-bottom: 3px solid #B7192B;
+  border-radius: 0;
+}
+
+.header-banner {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+header#home .brand-name {
+  padding: 30px 10px;
+}
+
+.brand-name span {
+  color: #B7192B;
+}
+
+/* REMOVE OLD HERO */
+
+.hero {
+  display: none;
+}
+
+/* SEARCH */
+
+.search-box {
+  border: 1px solid #CCCCCC;
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.search-box:focus-within {
+  border-color: #B7192B;
+  outline: 2px solid #B7192B22;
+}
+
+/* CATEGORIES */
+
+.section-title {
+  border-right-color: #B7192B;
+  color: #101010;
+}
+
+.category {
+  background: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  border-bottom: 3px solid #B7192B;
+  border-radius: 12px;
+}
+
+.category.active {
+  background: #B7192B;
+  color: #FFFFFF;
+  border-color: #901323;
+}
+
+.category:hover {
+  border-color: #B7192B;
+}
+
+/* PRODUCTS */
+
+.product {
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px #00000008;
+}
+
+.price {
+  color: #B7192B;
+}
+
+.about {
+  border-right-color: #B7192B;
+}
+
+/* NAVIGATION */
+
+.bottom-nav {
+  background: #101010;
+  border-top: 3px solid #B7192B;
+}
+
+.bottom-nav a {
+  color: #FFFFFF;
+}
+
+.bottom-nav a:hover {
+  color: #EF5365;
+}
+
+footer {
+  background: #101010;
+  border-top: 3px solid #B7192B;
+}
+
+footer strong {
+  color: #FFFFFF;
+}
+
+@media (min-width: 768px) {
+  .header-banner {
+    width: 100%;
+    height: auto;
+  }
+}
+
 <style>
 
 :root {
