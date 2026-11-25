@@ -1,4 +1,3 @@
-
 import { db } from "./firebase-config.js";
 
 import {
@@ -8,45 +7,114 @@ import {
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-const categories = [
-  {name: "معدات ملاكمة", icon: "🥊"},
-  {name: "معدات كرة قدم", icon: "⚽"},
-  {name: "ملابس رياضية", icon: "👕"},
-  {name: "أدوات كمال أجسام", icon: "🏋️"},
-  {name: "إكسسوارات رياضية", icon: "🎽"},
-  {name: "أدوات سباحة", icon: "🏊"},
-  {name: "معدات لياقة بدنية", icon: "💪"},
-  {name: "مستلزمات تدريب", icon: "🏃"},
-  {name: "حقائب رياضية", icon: "🎒"},
-  {name: "أحذية رياضية", icon: "👟"},
-  {name: "أدوات رياضات متنوعة", icon: "🏆"},
-  {name: "معدات بيسبول", icon: "⚾"}
-];
+let products = [];
+let categories = [];
 
-const categoryNames = {
-  baseball: "معدات بيسبول",
-  boxing: "معدات ملاكمة",
-  football: "معدات كرة قدم"
+let productsReady = false;
+let categoriesReady = false;
+
+const icons = {
+  trophies: "🏆",
+  swimming: "🏊",
+  gym: "🏋️",
+  electric: "⚡",
+  shoes: "👟",
+  clothes: "👕",
+  football: "⚽",
+  basketball: "🏀",
+  handball: "🤾",
+  volleyball: "🏐",
+  bags: "🎒",
+  martial: "🥋",
+  games: "🎯",
+  supports: "🩹",
+  baseball: "⚾",
+  boxing: "🥊"
 };
+
+function findCategory(value) {
+  return categories.find(c =>
+    c.id === value ||
+    c.name === value ||
+    (c.old_names || []).includes(value)
+  );
+}
+
+function publishCatalog() {
+
+  if (!productsReady || !categoriesReady) return;
+
+  const mappedProducts = products.map(product => {
+
+    const category = findCategory(product.category);
+
+    return {
+      ...product,
+      category_id: category?.id || product.category,
+      category: category?.name || product.category
+    };
+
+  });
+
+  if (typeof window.setCatalogData === "function") {
+    window.setCatalogData({
+      products: mappedProducts,
+      categories: categories
+    });
+  }
+}
+
+const categoriesQuery = query(
+  collection(db, "categories"),
+  where("active", "==", true)
+);
+
+onSnapshot(categoriesQuery, snapshot => {
+
+  categories = snapshot.docs.map(item => {
+
+    const data = item.data();
+
+    return {
+      id: item.id,
+      name: data.name || "",
+      image: data.image || data.image_url || "",
+      image_url: data.image || data.image_url || "",
+      icon: data.icon || icons[item.id] || "🏆",
+      parent_id: data.parent_id || "",
+      old_names: Array.isArray(data.old_names)
+        ? data.old_names : [],
+      order: Number(data.order) || 0
+    };
+
+  }).sort((a, b) =>
+    a.order - b.order ||
+    a.name.localeCompare(b.name, "ar")
+  );
+
+  categoriesReady = true;
+  publishCatalog();
+
+}, error => {
+  console.error("Categories error:", error);
+});
 
 const productsQuery = query(
   collection(db, "products"),
   where("active", "==", true)
 );
 
-onSnapshot(productsQuery, (snapshot) => {
+onSnapshot(productsQuery, snapshot => {
 
-  const products = snapshot.docs.map(doc => {
+  products = snapshot.docs.map(item => {
 
-    const data = doc.data();
+    const data = item.data();
 
     return {
-      id: doc.id,
+      id: item.id,
       name: data.name || "",
       description: data.description || "",
-      category: categoryNames[data.category]
-        || data.category
-        || "أدوات رياضات متنوعة",
+      category: data.category || "",
       price: data.price ?? null,
       currency: data.currency || "USD",
       image_url: data.image || data.image_url || "",
@@ -58,27 +126,17 @@ onSnapshot(productsQuery, (snapshot) => {
 
   });
 
-  const allCategories = [...categories];
+  productsReady = true;
+  publishCatalog();
 
-  products.forEach(product => {
-    if (!allCategories.some(c => c.name === product.category)) {
-      allCategories.push({
-        name: product.category,
-        icon: "🏆"
-      });
-    }
-  });
+}, error => {
 
-  window.setCatalogData({
-    products,
-    categories: allCategories
-  });
+  console.error("Products error:", error);
 
-}, (error) => {
+  const element = document.getElementById("products");
 
-  console.error("Firebase error:", error);
-
-  document.getElementById("products").textContent =
-    "تعذر تحميل المنتجات، يرجى المحاولة لاحقاً.";
+  if (element) {
+    element.textContent = "تعذر تحميل المنتجات.";
+  }
 
 });
