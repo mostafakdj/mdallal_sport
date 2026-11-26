@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#081321">
@@ -85,16 +84,8 @@ header#home {
   color: white;
   background:
     url("./stadium-bg.jpg") center/cover,
-    radial-gradient(
-      ellipse at 10% 0%,
-      #53799e,
-      transparent 35%
-    ),
-    radial-gradient(
-      ellipse at 90% 0%,
-      #53799e,
-      transparent 35%
-    ),
+    radial-gradient(ellipse at 10% 0%,#53799e,transparent 35%),
+    radial-gradient(ellipse at 90% 0%,#53799e,transparent 35%),
     #081321;
   padding: 14px 8px 28px;
   padding-top: max(14px,env(safe-area-inset-top));
@@ -115,18 +106,22 @@ header#home {
 
 .icon-button {
   position: relative;
+  z-index: 5;
   display: grid;
   place-items: center;
-  width: 31px;
-  height: 34px;
+  width: 32px;
+  height: 36px;
   padding: 4px;
   color: white;
   background: transparent;
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .icon-button svg {
-  width: 23px;
-  height: 23px;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
 }
 
 .brand {
@@ -186,21 +181,18 @@ header#home {
   place-items: center;
 }
 
-/* RED FRAME */
+/* RED DECORATION */
 
 .red-decoration {
   height: 18px;
   margin-top: -8px;
   position: relative;
   background: linear-gradient(
-    180deg,
-    #ff6978,
-    #b90e24 25%,
-    #660815 60%,
-    #e72940
+    180deg,#ff6978,#b90e24 25%,#660815 60%,#e72940
   );
   border-top: 2px solid #ff8995;
   box-shadow: 0 4px 10px #b7192b35;
+  pointer-events: none;
 }
 
 .red-decoration::before,
@@ -211,9 +203,7 @@ header#home {
   width: 30%;
   height: 100%;
   background: repeating-linear-gradient(
-    45deg,
-    transparent 0 12px,
-    #ffffff22 12px 20px
+    45deg,transparent 0 12px,#ffffff22 12px 20px
   );
 }
 
@@ -228,16 +218,14 @@ header#home {
 .section-banner {
   position: relative;
   z-index: 2;
-  width: 175px;
-  margin: -18px auto 15px;
-  padding: 10px;
+  width: 155px;
+  margin: -18px auto 10px;
+  padding: 8px;
   border-radius: 25px;
   border: 2px solid #ff7b88;
-  background: linear-gradient(
-    145deg,#ee2940,#8d0b1a
-  );
+  background: linear-gradient(145deg,#ee2940,#8d0b1a);
   color: white;
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -247,9 +235,9 @@ header#home {
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1100px;
   margin: auto;
-  padding: 0 7px;
+  padding: 0 8px;
 }
 
 /* SEARCH */
@@ -261,13 +249,13 @@ header#home {
   background: white;
   border: 1px solid #dce0e6;
   border-radius: 25px;
-  margin: 12px 0;
+  margin: 8px 0;
   padding: 0 12px;
 }
 
 .search-box input {
   width: 100%;
-  padding: 12px 5px;
+  padding: 10px 5px;
   border: 0;
   outline: none;
   background: transparent;
@@ -281,22 +269,23 @@ header#home {
   margin: 22px 0 15px;
 }
 
-/* CATEGORIES */
+/* TWO CATEGORIES PER ROW */
 
 .categories {
   display: grid;
-  grid-template-columns: repeat(4,minmax(0,1fr));
-  gap: 6px;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 9px;
 }
 
 .category {
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-width: 0;
   padding: 0;
   background: var(--navy);
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 5px #0002;
 }
@@ -307,20 +296,19 @@ header#home {
 
 .category-picture {
   width: 100%;
-  aspect-ratio: 16/11;
-  background: linear-gradient(
-    135deg,#354c64,#0c1725
-  );
+  height: clamp(76px,22vw,110px);
+  background: linear-gradient(135deg,#354c64,#0c1725);
   display: grid;
   place-items: center;
-  font-size: clamp(25px,5vw,65px);
+  font-size: 38px;
   overflow: hidden;
 }
 
 .category-picture img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: white;
   display: block;
 }
 
@@ -328,14 +316,12 @@ header#home {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 5px;
   width: 100%;
-  flex: 1;
   min-height: 34px;
-  padding: 5px 4px;
-  background: linear-gradient(
-    145deg,#203349,#081321
-  );
+  padding: 6px 9px;
+  flex: 1;
+  background: linear-gradient(145deg,#203349,#081321);
   border-top: 1px solid #77899f;
   overflow: hidden;
 }
@@ -345,17 +331,15 @@ header#home {
   position: absolute;
   left: -8px;
   top: 0;
-  width: 23px;
+  width: 30px;
   height: 100%;
   transform: skewX(-35deg);
-  background: linear-gradient(
-    135deg,#ef3048,#790b19
-  );
+  background: linear-gradient(135deg,#ef3048,#790b19);
 }
 
 .category-name {
   flex: 1;
-  font-size: clamp(9px,2.3vw,23px);
+  font-size: clamp(12px,3.3vw,19px);
   font-weight: 900;
   line-height: 1.3;
   text-align: center;
@@ -369,23 +353,15 @@ header#home {
 }
 
 .category-arrow svg {
-  width: 13px;
-  height: 13px;
+  width: 17px;
+  height: 17px;
   stroke-width: 2.5;
-}
-
-.category.wide {
-  grid-column: span 2;
-}
-
-.category.wide .category-picture {
-  aspect-ratio: 32/11;
 }
 
 .category-filters {
   display: flex;
   gap: 8px;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .filter-button {
@@ -393,7 +369,7 @@ header#home {
   color: var(--navy);
   border: 1px solid #d8dce3;
   border-radius: 8px;
-  padding: 8px 15px;
+  padding: 7px 15px;
   font-size: 12px;
   font-weight: bold;
 }
@@ -517,7 +493,7 @@ header#home {
 
 .empty {
   grid-column: 1/-1;
-  padding: 40px 15px;
+  padding: 25px 15px;
   background: white;
   color: #777;
   border-radius: 12px;
@@ -525,8 +501,18 @@ header#home {
   line-height: 1.8;
 }
 
-.empty-icon {
-  font-size: 40px;
+.loading-spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid #ddd;
+  border-top-color: var(--red);
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {transform: rotate(360deg);}
 }
 
 /* CART */
@@ -685,7 +671,7 @@ header#home {
   color: white;
   padding: 12px 20px;
   border-radius: 10px;
-  z-index: 10001;
+  z-index: 20000;
   text-align: center;
   font-size: 13px;
   max-width: 90%;
@@ -728,9 +714,7 @@ footer strong {
   background: white;
   border-top: 1px solid #dce0e6;
   padding: 10px 0;
-  padding-bottom: max(
-    12px,env(safe-area-inset-bottom)
-  );
+  padding-bottom: max(12px,env(safe-area-inset-bottom));
   box-shadow: 0 -4px 15px #0001;
 }
 
@@ -762,7 +746,7 @@ footer strong {
   position: fixed;
   inset: 0;
   background: #0009;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .side-menu {
@@ -773,6 +757,7 @@ footer strong {
   width: min(82%,330px);
   background: white;
   overflow-y: auto;
+  box-shadow: -5px 0 30px #0003;
 }
 
 .menu-header {
@@ -782,6 +767,7 @@ footer strong {
   background: var(--navy);
   color: white;
   padding: 25px 15px;
+  padding-top: max(25px,env(safe-area-inset-top));
   border-bottom: 3px solid var(--red);
 }
 
@@ -810,15 +796,20 @@ footer strong {
   }
 
   .categories {
-    gap: 12px;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 14px;
   }
 
   .category {
     border-radius: 14px;
   }
 
+  .category-picture {
+    height: 180px;
+  }
+
   .category-footer {
-    min-height: 45px;
+    min-height: 42px;
   }
 
   .category-arrow svg {
@@ -859,6 +850,10 @@ footer strong {
     scroll-behavior: auto;
   }
 
+  .loading-spinner {
+    animation: none;
+  }
+
 }
 
 </style>
@@ -869,7 +864,8 @@ footer strong {
 <!-- ICONS -->
 
 <svg xmlns="http://www.w3.org/2000/svg"
-style="display:none">
+style="position:absolute;width:0;height:0;overflow:hidden"
+aria-hidden="true">
 
 <symbol id="i-menu" viewBox="0 0 24 24">
 <path d="M3 5h18M3 12h18M3 19h18"/>
@@ -933,17 +929,22 @@ style="display:none">
 
 <div class="header-row">
 
-<button class="icon-button"
+<button type="button"
+id="menuButton"
+class="icon-button"
 aria-label="القائمة"
+aria-controls="menuOverlay"
+aria-expanded="false"
 onclick="openMenu()">
-<svg><use href="#i-menu"/></svg>
+<svg viewBox="0 0 24 24">
+<path d="M3 5h18M3 12h18M3 19h18"/>
+</svg>
 </button>
 
 <div class="brand">
 
 <svg class="brand-runner" viewBox="0 0 70 80">
-<circle cx="47" cy="10" r="7"
-fill="white" stroke="none"/>
+<circle cx="47" cy="10" r="7" fill="white" stroke="none"/>
 <path d="M40 20L24 16L9 31
 M40 20L49 31L64 18
 M40 20L28 43L48 51L34 73
@@ -1034,10 +1035,7 @@ hidden>
 </div>
 
 <section id="categories">
-
-<div class="categories"
-id="categoryList"></div>
-
+<div class="categories" id="categoryList"></div>
 </section>
 
 <section id="catalog">
@@ -1054,9 +1052,7 @@ id="categoryList"></div>
 
 </div>
 
-<div class="products"
-id="products"
-aria-live="polite"></div>
+<div class="products" id="products" aria-live="polite"></div>
 
 </section>
 
@@ -1065,11 +1061,10 @@ aria-live="polite"></div>
 <h3>عن MDALLAL SPORTS</h3>
 
 <p>
-مستودع متخصص في تجارة الأدوات
-والمعدات والملابس الرياضية بالجملة.
-نوفر مجموعة متنوعة من المنتجات
-لتلبية احتياجات التجار وأصحاب
-المحلات الرياضية.
+مستودع متخصص في تجارة الأدوات والمعدات
+والملابس الرياضية بالجملة.
+نوفر مجموعة متنوعة من المنتجات لتلبية
+احتياجات التجار وأصحاب المحلات الرياضية.
 </p>
 
 </section>
@@ -1084,12 +1079,9 @@ aria-live="polite"></div>
 
 <div id="cartItems"></div>
 
-<div id="cartSummary"
-class="cart-summary" hidden>
-
+<div id="cartSummary" class="cart-summary" hidden>
 <div id="cartProductTotal"></div>
 <div id="cartQuantityTotal"></div>
-
 </div>
 
 </section>
@@ -1100,8 +1092,7 @@ class="cart-summary" hidden>
 
 <h2 class="section-title">المفضلة</h2>
 
-<div class="products"
-id="favoriteItems"></div>
+<div class="products" id="favoriteItems"></div>
 
 </section>
 
@@ -1109,9 +1100,7 @@ id="favoriteItems"></div>
 
 <section id="accountPage" hidden>
 
-<h2 class="section-title">
-الحساب الشخصي
-</h2>
+<h2 class="section-title">الحساب الشخصي</h2>
 
 <div class="empty">
 سيتم تفعيل حسابات التجار لاحقاً.
@@ -1182,7 +1171,7 @@ id="menuOverlay"
 onclick="if(event.target===this)closeMenu()"
 hidden>
 
-<aside class="side-menu">
+<aside class="side-menu" aria-label="القائمة الجانبية">
 
 <div class="menu-header">
 
@@ -1231,11 +1220,17 @@ onclick="navigate('home');document.getElementById('about').scrollIntoView()">
 عن المستودع
 </button>
 
-<a class="menu-link admin-link"
-href="./admin.html">
+<a class="menu-link admin-link" href="./admin.html">
 <svg><use href="#i-settings"/></svg>
 Admin — لوحة الإدارة
 </a>
+
+<button class="menu-link admin-link"
+id="setupCategoriesButton"
+hidden>
+<svg><use href="#i-grid"/></svg>
+إضافة الأقسام الـ19 الناقصة
+</button>
 
 </aside>
 </div>
@@ -1289,28 +1284,152 @@ onclick="closeQuantity()">
 </div>
 </div>
 
-<div class="toast" id="toast"
-role="status" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 
 const $ = id => document.getElementById(id);
 
-const defaultCategories = [];
+/* REQUIRED CATEGORIES */
 
-  {name:"معدات ملاكمة",icon:"🥊"},
-  {name:"معدات كرة قدم",icon:"⚽"},
-  {name:"ملابس رياضية",icon:"👕"},
-  {name:"أدوات كمال أجسام",icon:"🏋️"},
-  {name:"إكسسوارات رياضية",icon:"🎽"},
-  {name:"أدوات سباحة",icon:"🏊"},
-  {name:"معدات لياقة بدنية",icon:"💪"},
-  {name:"مستلزمات تدريب",icon:"🏃"},
-  {name:"حقائب رياضية",icon:"🎒"},
-  {name:"أحذية رياضية",icon:"👟"},
-  {name:"أدوات رياضات متنوعة",icon:"🏆"}
+const requiredCategories = [
+
+  {
+    id:"fitness",
+    name:"اللياقة البدنية",
+    icon:"💪",
+    aliases:["معدات لياقة بدنية","معدات اللياقة والجيمات"]
+  },
+
+  {
+    id:"bags",
+    name:"الحقائب",
+    icon:"🎒",
+    aliases:["حقائب رياضية","الشناتي"]
+  },
+
+  {
+    id:"sea",
+    name:"البحر",
+    icon:"🤿",
+    aliases:["أدوات سباحة","أدوات السباحة","السباحة"]
+  },
+
+  {
+    id:"basketball",
+    name:"كرة السلة",
+    icon:"🏀",
+    aliases:["أدوات السلة","معدات كرة السلة"]
+  },
+
+  {
+    id:"supports",
+    name:"المشدات",
+    icon:"🩹",
+    aliases:["المشدات الرياضية"]
+  },
+
+  {
+    id:"weights",
+    name:"الحديد",
+    icon:"🏋️",
+    aliases:["أدوات كمال أجسام","معدات الحديد"]
+  },
+
+  {
+    id:"handball",
+    name:"كرة اليد",
+    icon:"🤾",
+    aliases:["معدات كرة اليد"]
+  },
+
+  {
+    id:"martial",
+    name:"الألعاب القتالية",
+    icon:"🥊",
+    aliases:["الفنون القتالية","معدات ملاكمة"]
+  },
+
+  {
+    id:"football",
+    name:"كرة القدم",
+    icon:"⚽",
+    aliases:["معدات كرة قدم","معدات كرة القدم"]
+  },
+
+  {
+    id:"volleyball",
+    name:"كرة الطائرة",
+    icon:"🏐",
+    aliases:["معدات كرة الطائرة"]
+  },
+
+  {
+    id:"trophies",
+    name:"الكؤوس والميداليات",
+    icon:"🏆",
+    aliases:[]
+  },
+
+  {
+    id:"treadmills",
+    name:"أجهزة الركض",
+    icon:"🏃",
+    aliases:["أجهزة الجري"]
+  },
+
+  {
+    id:"sports-tables",
+    name:"الطاولات الرياضية",
+    icon:"🏓",
+    aliases:[]
+  },
+
+  {
+    id:"sports-machines",
+    name:"الأجهزة الرياضية",
+    icon:"🚴",
+    aliases:[]
+  },
+
+  {
+    id:"clothes",
+    name:"الملابس",
+    icon:"👕",
+    aliases:["ملابس رياضية","الملابس الرياضية"]
+  },
+
+  {
+    id:"shoes",
+    name:"الأحذية",
+    icon:"👟",
+    aliases:["أحذية رياضية","الأحذية الرياضية"]
+  },
+
+  {
+    id:"rackets",
+    name:"المضارب",
+    icon:"🎾",
+    aliases:[]
+  },
+
+  {
+    id:"games",
+    name:"الألعاب",
+    icon:"♟️",
+    aliases:[]
+  },
+
+  {
+    id:"other",
+    name:"أخرى",
+    icon:"📦",
+    aliases:["اخرى"]
+  }
 
 ];
+
+/* APPLICATION STATE */
 
 let categories = [];
 let products = [];
@@ -1362,11 +1481,15 @@ let favorites = readLocal("mdallal-favorites",[]);
 
 if(!cart || typeof cart !== "object" ||
 Array.isArray(cart)) {
+
   cart = {};
+
 }
 
 if(!Array.isArray(favorites)) {
+
   favorites = [];
+
 }
 
 function icon(name) {
@@ -1392,9 +1515,7 @@ function safeImage(value) {
 
   try {
 
-    const url = new URL(
-      value,window.location.href
-    );
+    const url = new URL(value,window.location.href);
 
     return url.protocol === "https:"
       ? url.href : "";
@@ -1418,21 +1539,28 @@ function showToast(message) {
 
     $("toast").hidden = true;
 
-  },2500);
+  },3000);
 
 }
 
-/* NAVIGATION */
+/* MENU AND NAVIGATION */
 
 function openMenu() {
 
   $("menuOverlay").hidden = false;
+  $("menuButton").setAttribute("aria-expanded","true");
+  document.body.style.overflow = "hidden";
 
 }
 
 function closeMenu() {
 
   $("menuOverlay").hidden = true;
+  $("menuButton").setAttribute("aria-expanded","false");
+
+  if($("quantityOverlay").hidden) {
+    document.body.style.overflow = "";
+  }
 
 }
 
@@ -1451,11 +1579,8 @@ function navigate(page) {
   $("footer").hidden = !showHome;
 
   $("cartPage").hidden = page !== "cart";
-  $("favoritesPage").hidden =
-    page !== "favorites";
-
-  $("accountPage").hidden =
-    page !== "account";
+  $("favoritesPage").hidden = page !== "favorites";
+  $("accountPage").hidden = page !== "account";
 
   document.querySelectorAll(".nav-item")
     .forEach(button => {
@@ -1496,6 +1621,24 @@ function categoryKey(category) {
 
 }
 
+function categoryDefinition(category) {
+
+  return requiredCategories.find(item =>
+
+    item.name === category.name ||
+    item.aliases.includes(category.name)
+
+  );
+
+}
+
+function displayCategoryName(category) {
+
+  return categoryDefinition(category)?.name ||
+    category.name;
+
+}
+
 function selectCategory(value) {
 
   selectedCategory = value;
@@ -1506,16 +1649,41 @@ function selectCategory(value) {
 
 }
 
+function emptyMessage(container,message,loading=false) {
+
+  const empty = document.createElement("div");
+  empty.className = "empty";
+
+  if(loading) {
+
+    const spinner = document.createElement("div");
+    spinner.className = "loading-spinner";
+    empty.appendChild(spinner);
+
+  }
+
+  const text = document.createElement("div");
+  text.textContent = message;
+
+  empty.appendChild(text);
+  container.appendChild(empty);
+
+}
+
 function renderCategories() {
 
   categoryList.replaceChildren();
 
-  if (!catalogReady) {
+  if(!catalogReady) {
+
     emptyMessage(
       categoryList,
-      "جاري تحميل الأقسام..."
+      "جاري تحميل الأقسام...",
+      true
     );
+
     return;
+
   }
 
   const children = categories.filter(
@@ -1541,6 +1709,17 @@ function renderCategories() {
     "الكل","وصل حديثاً"
   ].includes(selectedCategory);
 
+  if(!visibleCategories.length) {
+
+    emptyMessage(
+      categoryList,
+      "لا توجد أقسام معروضة حالياً"
+    );
+
+    return;
+
+  }
+
   visibleCategories.forEach(category => {
 
     const key = categoryKey(category);
@@ -1559,19 +1738,12 @@ function renderCategories() {
       String(selectedCategory === key)
     );
 
-    if(
-      category.name === "أخرى" ||
-      category.name === "المضارب والألعاب"
-    ) {
-
-      button.classList.add("wide");
-
-    }
-
     const picture = document.createElement("div");
     picture.className = "category-picture";
 
-    const symbol = category.icon || "🏆";
+    const symbol = category.icon ||
+      categoryDefinition(category)?.icon ||
+      "🏆";
 
     const imageURL = safeImage(
       category.image_url || category.image
@@ -1582,8 +1754,9 @@ function renderCategories() {
       const image = document.createElement("img");
 
       image.src = imageURL;
-      image.alt = category.name;
-      image.loading = "lazy";
+      image.alt = displayCategoryName(category);
+      image.loading = "eager";
+      image.decoding = "async";
 
       image.onerror = () => {
 
@@ -1604,7 +1777,7 @@ function renderCategories() {
 
     const name = document.createElement("span");
     name.className = "category-name";
-    name.textContent = category.name;
+    name.textContent = displayCategoryName(category);
 
     const arrow = document.createElement("span");
     arrow.className = "category-arrow";
@@ -1636,18 +1809,7 @@ function renderCategories() {
 
 }
 
-/* PRODUCTS */
-
-function emptyMessage(container,message) {
-
-  const empty = document.createElement("div");
-
-  empty.className = "empty";
-  empty.textContent = message;
-
-  container.appendChild(empty);
-
-}
+/* PRODUCT CARDS */
 
 function makeProduct(product) {
 
@@ -1656,7 +1818,9 @@ function makeProduct(product) {
   card.className = "product";
   card.dataset.productId = product.id;
 
-  const imageURL = safeImage(product.image_url);
+  const imageURL = safeImage(
+    product.image_url || product.image
+  );
 
   if(imageURL) {
 
@@ -1735,9 +1899,7 @@ function makeProduct(product) {
 
   favorite.className = "favorite-button";
 
-  favorite.setAttribute(
-    "aria-label","المفضلة"
-  );
+  favorite.setAttribute("aria-label","المفضلة");
 
   favorite.classList.toggle(
     "selected",favorites.includes(product.id)
@@ -1835,7 +1997,9 @@ function renderProducts() {
 
     selectedCategory === "الكل"
       ? "أحدث البضائع"
-      : selected?.name || selectedCategory;
+      : selected
+        ? displayCategoryName(selected)
+        : selectedCategory;
 
   productsContainer.replaceChildren();
 
@@ -1878,19 +2042,15 @@ function openQuantity(id) {
   if(!product?.available) {
 
     showToast("هذا المنتج غير متوفر");
-
     return;
 
   }
 
   pendingProduct = id;
 
-  $("quantityName").textContent =
-    product.name;
+  $("quantityName").textContent = product.name;
 
-  const imageURL = safeImage(
-    product.image_url
-  );
+  const imageURL = safeImage(product.image_url);
 
   $("quantityImage").hidden = !imageURL;
 
@@ -1902,8 +2062,9 @@ function openQuantity(id) {
   }
 
   $("quantityInput").value = 1;
-
   $("quantityOverlay").hidden = false;
+
+  document.body.style.overflow = "hidden";
 
 }
 
@@ -1911,6 +2072,10 @@ function closeQuantity() {
 
   $("quantityOverlay").hidden = true;
   pendingProduct = null;
+
+  if($("menuOverlay").hidden) {
+    document.body.style.overflow = "";
+  }
 
 }
 
@@ -1922,9 +2087,7 @@ function stepQuantity(change) {
     1,Math.floor(Number(input.value)) || 1
   );
 
-  input.value = Math.max(
-    1,current + change
-  );
+  input.value = Math.max(1,current + change);
 
 }
 
@@ -1934,27 +2097,19 @@ function confirmAddToCart() {
     p => p.id === pendingProduct
   );
 
-  const quantity = Number(
-    $("quantityInput").value
-  );
+  const quantity = Number($("quantityInput").value);
 
   if(!product?.available) {
 
     showToast("المنتج غير متوفر حالياً");
-
     closeQuantity();
-
     return;
 
   }
 
-  if(
-    !Number.isSafeInteger(quantity) ||
-    quantity < 1
-  ) {
+  if(!Number.isSafeInteger(quantity) || quantity < 1) {
 
     showToast("أدخل كمية صحيحة");
-
     return;
 
   }
@@ -1971,7 +2126,6 @@ function confirmAddToCart() {
   if(!Number.isSafeInteger(total)) {
 
     showToast("الكمية كبيرة جداً");
-
     return;
 
   }
@@ -1987,7 +2141,6 @@ function confirmAddToCart() {
   };
 
   saveCart();
-
   closeQuantity();
 
   showToast(
@@ -2009,13 +2162,9 @@ function normalizeCart() {
         ? item
         : Number(item?.quantity);
 
-    if(
-      !Number.isSafeInteger(quantity) ||
-      quantity < 1
-    ) {
+    if(!Number.isSafeInteger(quantity) || quantity < 1) {
 
       delete cart[id];
-
       return;
 
     }
@@ -2053,9 +2202,7 @@ function saveCart() {
   writeLocal("mdallal-cart",cart);
 
   const total = Object.values(cart).reduce(
-
     (sum,item) => sum + item.quantity,0
-
   );
 
   $("cartCount").textContent = total;
@@ -2070,15 +2217,10 @@ function setCartQuantity(id,value) {
 
   const quantity = Number(value);
 
-  if(
-    !Number.isSafeInteger(quantity) ||
-    quantity < 1
-  ) {
+  if(!Number.isSafeInteger(quantity) || quantity < 1) {
 
     renderCart();
-
     showToast("أدخل كمية صحيحة");
-
     return;
 
   }
@@ -2093,9 +2235,7 @@ function setCartQuantity(id,value) {
   ) {
 
     showToast("المنتج غير متوفر حالياً");
-
     renderCart();
-
     return;
 
   }
@@ -2128,10 +2268,7 @@ function renderCart() {
 
   if(!entries.length) {
 
-    emptyMessage(
-      container,"سلة الطلبات فارغة"
-    );
-
+    emptyMessage(container,"سلة الطلبات فارغة");
     return;
 
   }
@@ -2191,9 +2328,7 @@ function renderCart() {
 
     minus.onclick = () => {
 
-      setCartQuantity(
-        item.id,item.quantity - 1
-      );
+      setCartQuantity(item.id,item.quantity - 1);
 
     };
 
@@ -2205,9 +2340,7 @@ function renderCart() {
     input.step = 1;
     input.value = item.quantity;
 
-    input.setAttribute(
-      "aria-label","كمية المنتج"
-    );
+    input.setAttribute("aria-label","كمية المنتج");
 
     input.onchange = () => {
 
@@ -2222,28 +2355,20 @@ function renderCart() {
 
     plus.onclick = () => {
 
-      setCartQuantity(
-        item.id,item.quantity + 1
-      );
+      setCartQuantity(item.id,item.quantity + 1);
 
     };
 
     controls.append(minus,input,plus);
 
-    details.append(
-      name,quantityText,controls
-    );
+    details.append(name,quantityText,controls);
 
     if(catalogReady && !product?.available) {
 
-      const unavailable =
-        document.createElement("p");
+      const unavailable = document.createElement("p");
 
-      unavailable.className =
-        "stock unavailable";
-
-      unavailable.textContent =
-        "غير متوفر حالياً";
+      unavailable.className = "stock unavailable";
+      unavailable.textContent = "غير متوفر حالياً";
 
       details.appendChild(unavailable);
 
@@ -2298,15 +2423,16 @@ function renderFavorites() {
   container.replaceChildren();
 
   const filtered = products.filter(
-
     p => favorites.includes(p.id)
-
   );
 
   if(!filtered.length) {
 
     emptyMessage(
-      container,"لا توجد منتجات في المفضلة"
+      container,
+      catalogReady
+        ? "لا توجد منتجات في المفضلة"
+        : "جاري تحميل المفضلة..."
     );
 
     return;
@@ -2334,7 +2460,7 @@ window.setCatalogData = function(data) {
   const incomingCategories =
     Array.isArray(data.categories)
       ? data.categories
-      : [...defaultCategories];
+      : [];
 
   categories = incomingCategories.filter(c =>
 
@@ -2351,9 +2477,7 @@ window.setCatalogData = function(data) {
 
   if(
 
-    !["الكل","وصل حديثاً"].includes(
-      selectedCategory
-    ) &&
+    !["الكل","وصل حديثاً"].includes(selectedCategory) &&
 
     !categories.some(c =>
       categoryKey(c) === selectedCategory
@@ -2368,14 +2492,32 @@ window.setCatalogData = function(data) {
   renderCategories();
   renderProducts();
   renderFavorites();
-
   saveCart();
 
 };
 
-searchInput.addEventListener(
-  "input",renderProducts
-);
+searchInput.addEventListener("input",() => {
+
+  if(searchInput.value.trim()) {
+    selectedCategory = "الكل";
+  }
+
+  renderCategories();
+  renderProducts();
+
+});
+
+searchInput.addEventListener("keydown",event => {
+
+  if(event.key === "Enter") {
+
+    $("catalog").scrollIntoView({
+      behavior:"smooth"
+    });
+
+  }
+
+});
 
 document.addEventListener("keydown",event => {
 
@@ -2388,8 +2530,7 @@ document.addEventListener("keydown",event => {
 
 });
 
-$("year").textContent =
-  new Date().getFullYear();
+$("year").textContent = new Date().getFullYear();
 
 renderCategories();
 renderProducts();
@@ -2412,7 +2553,6 @@ if("serviceWorker" in navigator) {
       if(!hadController) {
 
         hadController = true;
-
         return;
 
       }
@@ -2445,30 +2585,22 @@ if("serviceWorker" in navigator) {
       if(registration.waiting) {
 
         registration.waiting.postMessage({
-
           type:"SKIP_WAITING"
-
         });
 
       }
 
     } catch(error) {
 
-      console.warn(
-        "Update check failed",error
-      );
+      console.warn("Update check failed",error);
 
     }
 
   }
 
-  window.addEventListener(
-    "load",checkAppUpdate
-  );
+  window.addEventListener("load",checkAppUpdate);
 
-  window.addEventListener(
-    "online",checkAppUpdate
-  );
+  window.addEventListener("online",checkAppUpdate);
 
   let hiddenAt = 0;
 
@@ -2503,6 +2635,168 @@ if("serviceWorker" in navigator) {
   );
 
 }
+
+</script>
+
+<!-- ADD MISSING CATEGORIES TO FIREBASE -->
+
+<script type="module">
+
+import {db,auth} from "./firebase-config.js";
+
+import {
+  collection,
+  doc,
+  getDocs,
+  writeBatch,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const ADMIN_UID = "vAwEHEC8iHNvHnLsDSWUORZM4kv2";
+
+const setupButton =
+  document.getElementById("setupCategoriesButton");
+
+onAuthStateChanged(auth,user => {
+
+  setupButton.hidden = user?.uid !== ADMIN_UID;
+
+});
+
+setupButton.addEventListener("click",async () => {
+
+  if(auth.currentUser?.uid !== ADMIN_UID) {
+
+    showToast("يجب تسجيل الدخول كمسؤول");
+    return;
+
+  }
+
+  if(!confirm(
+    "هل تريد إضافة الأقسام الناقصة دون حذف الأقسام أو الصور أو المنتجات الحالية؟"
+  )) {
+
+    return;
+
+  }
+
+  setupButton.disabled = true;
+
+  try {
+
+    const snapshot = await getDocs(
+      collection(db,"categories")
+    );
+
+    const existing = snapshot.docs.map(item => ({
+
+      ...item.data(),
+      id:item.id
+
+    }));
+
+    const batch = writeBatch(db);
+
+    let added = 0;
+
+    let nextOrder = Math.max(
+      0,
+      ...existing.map(item => Number(item.order) || 0)
+    ) + 10;
+
+    for(const item of requiredCategories) {
+
+      const names = [
+        item.name,
+        ...item.aliases
+      ];
+
+      const found = existing.find(category =>
+
+        category.id === item.id ||
+
+        (
+          !category.parent_id &&
+
+          (
+            names.includes(category.name) ||
+
+            (
+              Array.isArray(category.old_names) &&
+              category.old_names.some(
+                name => names.includes(name)
+              )
+            )
+          )
+        )
+
+      );
+
+      if(found) {
+
+        continue;
+
+      }
+
+      const reference = doc(
+        collection(db,"categories")
+      );
+
+      batch.set(reference,{
+
+        name:item.name,
+        icon:item.icon,
+        image:"",
+        image_url:"",
+        parent_id:"",
+        active:true,
+        order:nextOrder,
+        old_names:[],
+        created_at:serverTimestamp(),
+        updated_at:serverTimestamp()
+
+      });
+
+      nextOrder += 10;
+      added++;
+
+    }
+
+    if(added > 0) {
+
+      await batch.commit();
+
+      showToast(
+        "تمت إضافة " + added + " أقسام بنجاح"
+      );
+
+    } else {
+
+      showToast("جميع الأقسام المطلوبة موجودة مسبقاً");
+
+    }
+
+    closeMenu();
+
+  } catch(error) {
+
+    console.error(error);
+
+    showToast(
+      "تعذر إضافة الأقسام، تحقق من تسجيل الدخول والصلاحيات"
+    );
+
+  } finally {
+
+    setupButton.disabled = false;
+
+  }
+
+});
 
 </script>
 
