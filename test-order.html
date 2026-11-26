@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MDALLAL SPORTS | اختبار واتساب</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #081321;
+  color: white;
+  font-family: Arial, Tahoma, sans-serif;
+}
+.container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+}
+.panel {
+  background: white;
+  color: #081321;
+  padding: 24px;
+  border-radius: 16px;
+}
+h1 {
+  text-align: center;
+  font-size: 25px;
+}
+h2 {
+  font-size: 20px;
+}
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 9px;
+  background: #d7192d;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: .5;
+}
+.whatsapp {
+  background: #168a48;
+}
+.secondary {
+  background: #081321;
+}
+#message {
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+[hidden] {
+  display: none !important;
+}
+a {
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+<h1>MDALLAL SPORTS</h1>
+
+<div class="panel">
+
+  <section id="loginPanel">
+
+    <h2>تسجيل دخول المدير</h2>
+
+    <form id="loginForm">
+
+      <label>البريد الإلكتروني</label>
+
+      <input id="email"
+        type="email"
+        autocomplete="username"
+        required>
+
+      <label>كلمة المرور</label>
+
+      <input id="password"
+        type="password"
+        autocomplete="current-password"
+        required>
+
+      <button id="loginButton" type="submit">
+        تسجيل الدخول
+      </button>
+
+    </form>
+
+  </section>
+
+  <section id="testPanel" hidden>
+
+    <h2>اختبار إرسال واتساب</h2>
+
+    <p>تم تسجيل الدخول بحساب المدير.</p>
+
+    <button id="sendButton" class="whatsapp">
+      إرسال رسالة واتساب تجريبية
+    </button>
+
+    <button id="logoutButton" class="secondary">
+      تسجيل الخروج
+    </button>
+
+  </section>
+
+  <p id="message" role="status"></p>
+
+</div>
+
+<p style="text-align:center">
+  <a href="./index.html">العودة إلى المتجر</a>
+</p>
+
+</main>
+
+<script type="module">
+
+import { auth } from "./firebase-config.js";
+
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const ADMIN_UID =
+  "vAwEHEC8iHNvHnLsDSWUORZM4kv2";
+
+const ORDER_API =
+  "https://mdallal-sport-order.mustafanujoom-453.workers.dev/";
+
+const $ = id => document.getElementById(id);
+
+function message(text, success = false) {
+
+  $("message").textContent = text;
+
+  $("message").style.color =
+    success ? "#168a48" : "#d7192d";
+
+}
+
+$("loginForm").addEventListener("submit", async event => {
+
+  event.preventDefault();
+
+  $("loginButton").disabled = true;
+
+  message("جاري تسجيل الدخول...");
+
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      $("email").value.trim(),
+      $("password").value
+    );
+
+    $("password").value = "";
+
+  } catch (error) {
+
+    message("تعذر تسجيل الدخول. تحقق من البيانات.");
+
+  } finally {
+
+    $("loginButton").disabled = false;
+
+  }
+
+});
+
+onAuthStateChanged(auth, async user => {
+
+  const allowed = user?.uid === ADMIN_UID;
+
+  $("loginPanel").hidden = allowed;
+  $("testPanel").hidden = !allowed;
+
+  if (user && !allowed) {
+
+    await signOut(auth);
+
+    message("هذا الحساب غير مصرح له.");
+
+    return;
+
+  }
+
+  if (allowed) {
+
+    message("تم تسجيل الدخول بنجاح.", true);
+
+  }
+
+});
+
+$("logoutButton").onclick = async () => {
+
+  await signOut(auth);
+
+  message("");
+
+};
+
+$("sendButton").onclick = async () => {
+
+  const user = auth.currentUser;
+
+  if (!user || user.uid !== ADMIN_UID) {
+
+    message("يجب تسجيل الدخول بحساب المدير.");
+
+    return;
+
+  }
+
+  $("sendButton").disabled = true;
+
+  message("جاري إرسال رسالة واتساب...");
+
+  try {
+
+    const token = await user.getIdToken();
+
+    const response = await fetch(ORDER_API, {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+
+      body: JSON.stringify({
+        action: "test"
+      })
+
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+
+      throw new Error(
+        result.result?.error?.message ||
+        result.error ||
+        "تعذر إرسال الرسالة"
+      );
+
+    }
+
+    const messageId =
+      result.result?.messages?.[0]?.id || "";
+
+    message(
+      "تم قبول الرسالة من WhatsApp API.\n" +
+      "تحقق من وصولها إلى هاتفك.\n" +
+      messageId,
+      true
+    );
+
+  } catch (error) {
+
+    message(
+      "فشل الإرسال:\n" + error.message
+    );
+
+  } finally {
+
+    $("sendButton").disabled = false;
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>
