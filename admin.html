@@ -8,266 +8,216 @@
 <title>MDALLAL SPORTS | لوحة التحكم</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;
+  background:#101010;
+  color:white;
+  font-family:Arial,Tahoma,sans-serif;
 }
-
-[hidden] {
-  display: none !important;
+header{
+  padding:22px;
+  text-align:center;
+  border-bottom:2px solid #C9A227;
 }
-
-body {
-  margin: 0;
-  background: #101010;
-  color: #fff;
-  font-family: Arial, Tahoma, sans-serif;
+header h1{
+  color:#F2D675;
+  font-size:24px;
 }
-
-header {
-  padding: 22px;
-  text-align: center;
-  border-bottom: 2px solid #C9A227;
+.logo{
+  width:220px;
+  max-width:90%;
 }
-
-header h1 {
-  color: #F2D675;
-  font-size: 24px;
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:16px;
 }
-
-.logo {
-  width: 220px;
-  max-width: 90%;
+.panel{
+  background:#202020;
+  border:1px solid #383838;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:20px;
 }
-
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 16px;
+input,textarea,select{
+  width:100%;
+  padding:14px;
+  margin:8px 0 15px;
+  background:#151515;
+  color:white;
+  border:1px solid #555;
+  border-radius:9px;
+  font-size:16px;
 }
-
-.panel {
-  background: #202020;
-  border: 1px solid #383838;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
+label{
+  font-size:14px;
+  color:#DDD;
 }
-
-input, textarea, select {
-  width: 100%;
-  padding: 14px;
-  margin: 8px 0 15px;
-  background: #151515;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 9px;
-  font-size: 16px;
+button{
+  border:0;
+  padding:13px 18px;
+  border-radius:9px;
+  background:#C9A227;
+  color:#101010;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+  margin:4px 0;
 }
-
-label {
-  font-size: 14px;
-  color: #DDD;
+button:disabled{
+  opacity:.5;
+  cursor:wait;
 }
-
-button {
-  border: 0;
-  padding: 13px 18px;
-  border-radius: 9px;
-  background: #C9A227;
-  color: #101010;
-  font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
-  margin: 4px 0;
+.full{width:100%}
+.secondary{
+  background:#383838;
+  color:white;
 }
-
-button:disabled {
-  opacity: .5;
-  cursor: wait;
+.danger{
+  background:#A52222;
+  color:white;
 }
-
-.full {
-  width: 100%;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:20px;
 }
-
-.secondary {
-  background: #383838;
-  color: white;
+.stat{
+  background:#202020;
+  border:1px solid #444;
+  border-radius:12px;
+  text-align:center;
+  padding:20px 8px;
 }
-
-.danger {
-  background: #A52222;
-  color: white;
+.stat strong{
+  display:block;
+  font-size:28px;
+  color:#F2D675;
+  margin-bottom:8px;
 }
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+.stat span{font-size:13px}
+.product{
+  padding:15px;
+  background:#202020;
+  border:1px solid #444;
+  border-radius:12px;
+  margin-bottom:12px;
 }
-
-.stat {
-  background: #202020;
-  border: 1px solid #444;
-  border-radius: 12px;
-  text-align: center;
-  padding: 20px 8px;
+.product img{
+  width:85px;
+  height:85px;
+  object-fit:contain;
+  background:white;
+  border-radius:8px;
 }
-
-.stat strong {
-  display: block;
-  font-size: 28px;
-  color: #F2D675;
-  margin-bottom: 8px;
+.product h3{margin:10px 0}
+.product p{
+  font-size:14px;
+  color:#CCC;
+  overflow-wrap:anywhere;
 }
-
-.stat span {
-  font-size: 13px;
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
-
-.product {
-  padding: 15px;
-  background: #202020;
-  border: 1px solid #444;
-  border-radius: 12px;
-  margin-bottom: 12px;
+.gold{color:#F2D675}
+.message{
+  padding:12px;
+  color:#F2D675;
+  line-height:1.7;
+  overflow-wrap:anywhere;
 }
-
-.product img {
-  width: 85px;
-  height: 85px;
-  object-fit: contain;
-  background: white;
-  border-radius: 8px;
+a{color:#F2D675}
+.check{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:15px 0;
+  line-height:1.6;
 }
-
-.product h3 {
-  margin: 10px 0;
+.check input{
+  width:21px;
+  height:21px;
+  margin:0;
+  flex-shrink:0;
+  accent-color:#C9A227;
 }
-
-.product p {
-  font-size: 14px;
-  color: #CCC;
+.settings-box{
+  background:#171717;
+  border:1px solid #555;
+  border-radius:12px;
+  padding:16px;
+  margin:20px 0;
 }
-
-.actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+.settings-box h3{
+  color:#F2D675;
+  margin:0 0 16px;
 }
-
-.gold {
-  color: #F2D675;
+.option-box{
+  background:#252525;
+  border:1px solid #444;
+  border-radius:10px;
+  padding:12px;
+  margin:10px 0;
 }
-
-.message {
-  padding: 12px;
-  color: #F2D675;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
+.option-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
-
-a {
-  color: #F2D675;
+.option-row input{
+  flex:1;
+  min-width:0;
+  margin:8px 0;
 }
-
-.check {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 12px 0;
+.option-row button{flex-shrink:0}
+.option-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:10px 0;
 }
-
-.check input {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  flex-shrink: 0;
-  accent-color: #C9A227;
+.option-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:#383838;
+  color:white;
+  padding:7px 12px;
+  border-radius:8px;
+  font-size:14px;
+  max-width:100%;
+  overflow-wrap:anywhere;
 }
-
-.variant-panel {
-  background: #171717;
-  border: 1px solid #555;
-  border-radius: 12px;
-  margin: 20px 0;
-  padding: 16px;
+.option-chip button{
+  background:#A52222;
+  color:white;
+  padding:3px 8px;
+  margin:0;
 }
-
-.variant-panel h3 {
-  margin: 0 0 15px;
-  color: #F2D675;
+.hint{
+  color:#AAA;
+  font-size:12px;
+  line-height:1.8;
 }
-
-.variant-box {
-  background: #252525;
-  border: 1px solid #444;
-  border-radius: 10px;
-  padding: 12px;
-  margin: 10px 0;
+.summary{
+  background:#292619;
+  color:#F2D675;
+  border:1px solid #695B2D;
+  padding:12px;
+  border-radius:9px;
+  line-height:1.9;
+  font-size:14px;
+  margin-top:12px;
 }
-
-.variant-input-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.variant-input-row input {
-  flex: 1;
-  min-width: 0;
-  margin: 8px 0;
-}
-
-.variant-input-row button {
-  flex-shrink: 0;
-}
-
-.option-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0;
-}
-
-.option-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #383838;
-  color: white;
-  padding: 7px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  overflow-wrap: anywhere;
-  max-width: 100%;
-}
-
-.option-chip button {
-  background: #A52222;
-  color: white;
-  padding: 3px 8px;
-  margin: 0;
-  border-radius: 5px;
-}
-
-.hint {
-  color: #AAA;
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-.variant-summary {
-  color: #F2D675;
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.section-divider {
-  border: 0;
-  border-top: 1px solid #444;
-  margin: 20px 0;
+hr{
+  border:0;
+  border-top:1px solid #444;
+  margin:20px 0;
 }
 </style>
 </head>
@@ -321,8 +271,7 @@ a {
 
   </form>
 
-  <p id="loginMessage"
-    class="message"></p>
+  <p id="loginMessage" class="message"></p>
 
 </section>
 
@@ -359,8 +308,7 @@ a {
 
   </div>
 
-  <button id="addProduct"
-    class="full">
+  <button id="addProduct" class="full">
     + إضافة منتج جديد
   </button>
 
@@ -368,13 +316,9 @@ a {
     class="message"
     aria-live="polite"></p>
 
-  <section id="editor"
-    class="panel"
-    hidden>
+  <section id="editor" class="panel" hidden>
 
-    <h2 id="editorTitle">
-      إضافة منتج
-    </h2>
+    <h2 id="editorTitle">إضافة منتج</h2>
 
     <form id="productForm">
 
@@ -389,20 +333,15 @@ a {
         required>
 
       <datalist id="categoryOptions">
-
         <option value="معدات بيسبول">
         <option value="معدات ملاكمة">
         <option value="معدات كرة قدم">
         <option value="ملابس رياضية">
         <option value="أدوات كمال أجسام">
-        <option value="إكسسوارات رياضية">
         <option value="أدوات سباحة">
         <option value="معدات لياقة بدنية">
-        <option value="مستلزمات تدريب">
         <option value="حقائب رياضية">
         <option value="أحذية رياضية">
-        <option value="أدوات رياضات متنوعة">
-
       </datalist>
 
       <label>وصف المنتج</label>
@@ -410,7 +349,49 @@ a {
       <textarea id="description"
         rows="4"></textarea>
 
-      <label>السعر</label>
+      <div class="settings-box">
+
+        <h3>📦 طريقة بيع المنتج</h3>
+
+        <label>وحدة البيع</label>
+
+        <select id="saleUnit">
+
+          <option value="piece">
+            البيع بالقطعة
+          </option>
+
+          <option value="dozen">
+            البيع بالدزينة
+          </option>
+
+        </select>
+
+        <div id="piecesBox" hidden>
+
+          <label>عدد القطع داخل الدزينة</label>
+
+          <input id="piecesPerUnit"
+            type="number"
+            min="1"
+            step="1"
+            value="12">
+
+          <p class="hint">
+            يمكنك تحديد 6 أو 12 أو أي عدد
+            حسب تعبئة المنتج.
+          </p>
+
+        </div>
+
+        <div class="summary"
+          id="saleSummary"></div>
+
+      </div>
+
+      <label id="priceLabel">
+        سعر القطعة
+      </label>
 
       <input id="price"
         type="number"
@@ -422,29 +403,19 @@ a {
 
       <select id="currency">
 
-        <option value="USD">
-          دولار USD
-        </option>
+        <option value="USD">دولار USD</option>
 
-        <option value="JOD">
-          دينار أردني JOD
-        </option>
+        <option value="JOD">دينار أردني JOD</option>
 
-        <option value="SYP">
-          ليرة سورية SYP
-        </option>
+        <option value="SYP">ليرة سورية SYP</option>
 
-        <option value="SAR">
-          ريال سعودي SAR
-        </option>
+        <option value="SAR">ريال سعودي SAR</option>
 
-        <option value="AED">
-          درهم إماراتي AED
-        </option>
+        <option value="AED">درهم إماراتي AED</option>
 
       </select>
 
-      <label>إجمالي الكمية المتوفرة</label>
+      <label>إجمالي المخزون بالقطع</label>
 
       <input id="stock"
         type="number"
@@ -452,39 +423,38 @@ a {
         step="1"
         required>
 
-      <div class="hint">
-        إجمالي المخزون لجميع ألوان وقياسات المنتج.
-      </div>
+      <p class="hint">
+        مثال: 10 دزينات، كل دزينة 12 قطعة،
+        يكون المخزون 120 قطعة.
+      </p>
 
-      <div class="variant-panel">
+      <div id="stockSummary"
+        class="summary"></div>
 
-        <h3>🎨 الألوان والقياسات</h3>
+      <div class="settings-box">
 
-        <p class="hint">
-          يمكنك تفعيل هذه الخيارات لأي منتج،
-          أو تركها مغلقة للمنتجات العادية.
-        </p>
+        <h3>🎨 إعدادات الألوان</h3>
 
         <label class="check">
 
           <input id="hasColors"
             type="checkbox">
 
-          تفعيل اختيار الألوان
+          السماح للزبون باختيار اللون
 
         </label>
 
         <div id="colorsBox"
-          class="variant-box"
+          class="option-box"
           hidden>
 
-          <label>إضافة لون جديد</label>
+          <label>الألوان المتاحة للاختيار</label>
 
-          <div class="variant-input-row">
+          <div class="option-row">
 
             <input id="colorInput"
               maxlength="500"
-              placeholder="مثال: أسود">
+              placeholder="أسود، أبيض، أحمر">
 
             <button id="addColor"
               type="button">
@@ -493,39 +463,72 @@ a {
 
           </div>
 
-          <p class="hint">
-            يمكنك إدخال عدة ألوان
-            مفصولة بفاصلة.
-          </p>
-
           <div id="colorsList"
-            class="option-list">
+            class="option-list"></div>
+
+        </div>
+
+        <div id="dozenColorSection" hidden>
+
+          <hr>
+
+          <label class="check">
+
+            <input id="showDozenColors"
+              type="checkbox">
+
+            توضيح الألوان الموجودة داخل الدزينة
+
+          </label>
+
+          <div id="dozenColorsBox"
+            class="option-box"
+            hidden>
+
+            <label>
+              محتويات الدزينة من الألوان
+            </label>
+
+            <textarea id="dozenColors"
+              rows="4"
+              maxlength="2000"
+              placeholder="4 أسود، 4 أبيض، 4 أزرق"></textarea>
+
+            <p class="hint">
+              يظهر هذا النص للزبون لتوضيح
+              الألوان الموجودة داخل الدزينة.
+            </p>
+
           </div>
 
         </div>
 
-        <hr class="section-divider">
+      </div>
+
+      <div class="settings-box">
+
+        <h3>📏 إعدادات المقاسات</h3>
 
         <label class="check">
 
           <input id="hasSizes"
             type="checkbox">
 
-          تفعيل اختيار القياسات
+          السماح للزبون باختيار المقاس
 
         </label>
 
         <div id="sizesBox"
-          class="variant-box"
+          class="option-box"
           hidden>
 
-          <label>إضافة قياس جديد</label>
+          <label>المقاسات المتاحة للاختيار</label>
 
-          <div class="variant-input-row">
+          <div class="option-row">
 
             <input id="sizeInput"
               maxlength="500"
-              placeholder="مثال: XL">
+              placeholder="S, M, L, XL, XXL">
 
             <button id="addSize"
               type="button">
@@ -534,25 +537,50 @@ a {
 
           </div>
 
-          <p class="hint">
-            يمكنك إدخال قياسات الملابس
-            أو الأحذية أو أي قياسات أخرى.
-          </p>
-
           <button id="standardSizes"
             type="button"
             class="secondary">
-            إضافة قياسات الملابس
+            إضافة مقاسات الملابس
           </button>
 
           <div id="sizesList"
-            class="option-list">
-          </div>
+            class="option-list"></div>
 
         </div>
 
-        <div id="variantSummary"
-          class="variant-summary">
+        <div id="dozenSizeSection" hidden>
+
+          <hr>
+
+          <label class="check">
+
+            <input id="showDozenSizes"
+              type="checkbox">
+
+            توضيح المقاسات الموجودة داخل الدزينة
+
+          </label>
+
+          <div id="dozenSizesBox"
+            class="option-box"
+            hidden>
+
+            <label>
+              محتويات الدزينة من المقاسات
+            </label>
+
+            <textarea id="dozenSizes"
+              rows="4"
+              maxlength="2000"
+              placeholder="3 M، 3 L، 3 XL، 3 XXL"></textarea>
+
+            <p class="hint">
+              يظهر هذا النص للزبون لتوضيح
+              المقاسات الموجودة داخل الدزينة.
+            </p>
+
+          </div>
+
         </div>
 
       </div>
@@ -576,22 +604,17 @@ a {
       <button id="saveButton"
         type="submit"
         class="full">
-
         حفظ المنتج
-
       </button>
 
       <button id="cancelEdit"
         type="button"
         class="secondary full">
-
         إلغاء
-
       </button>
 
       <p id="editorMessage"
-        class="message">
-      </p>
+        class="message"></p>
 
     </form>
 
@@ -635,34 +658,25 @@ const ADMIN_UID =
 const $ = id => document.getElementById(id);
 
 let products = [];
-
 let editingId = null;
-
 let unsubscribe = null;
-
 let selectedColors = [];
-
 let selectedSizes = [];
-
 let saving = false;
 
 const categoryNames = {
-
   baseball: "معدات بيسبول",
-
   boxing: "معدات ملاكمة",
-
   football: "معدات كرة قدم"
-
 };
 
-function isAdmin() {
+function isAdmin(){
 
   return auth.currentUser?.uid === ADMIN_UID;
 
 }
 
-function categoryName(value) {
+function categoryName(value){
 
   return window.getCategoryName
     ? window.getCategoryName(value)
@@ -670,23 +684,27 @@ function categoryName(value) {
 
 }
 
-function status(message) {
+function status(message){
 
   $("status").textContent = message;
 
 }
 
-function cleanOptions(values) {
+function editorMessage(message){
 
-  if (!Array.isArray(values)) return [];
+  $("editorMessage").textContent = message;
+
+}
+
+function cleanOptions(values){
+
+  if(!Array.isArray(values)) return [];
 
   return [...new Set(
 
     values
 
-      .filter(value =>
-        typeof value === "string"
-      )
+      .filter(value => typeof value === "string")
 
       .map(value => value.trim())
 
@@ -696,7 +714,42 @@ function cleanOptions(values) {
 
 }
 
-function makeButton(text, className, action) {
+function positiveInteger(value, fallback = 1){
+
+  const number = Number(value);
+
+  return Number.isSafeInteger(number) &&
+    number > 0
+
+      ? number
+
+      : fallback;
+
+}
+
+function getPiecesPerUnit(product){
+
+  return product.sale_unit === "dozen"
+
+    ? positiveInteger(product.pieces_per_unit,12)
+
+    : 1;
+
+}
+
+function getAvailableUnits(product){
+
+  return Math.floor(
+
+    Math.max(0,Number(product.stock)||0) /
+
+    getPiecesPerUnit(product)
+
+  );
+
+}
+
+function makeButton(text,className,action){
 
   const button = document.createElement("button");
 
@@ -712,60 +765,157 @@ function makeButton(text, className, action) {
 
 }
 
-function renderOptionList(type) {
+function renderSaleSettings(){
 
-  const isColor = type === "color";
+  const dozen = $("saleUnit").value === "dozen";
 
-  const values = isColor
+  $("piecesBox").hidden = !dozen;
+
+  $("piecesPerUnit").disabled = !dozen;
+
+  $("piecesPerUnit").required = dozen;
+
+  $("dozenColorSection").hidden = !dozen;
+
+  $("dozenSizeSection").hidden = !dozen;
+
+  $("priceLabel").textContent = dozen
+
+    ? "سعر الدزينة كاملة"
+
+    : "سعر القطعة";
+
+  $("dozenColorsBox").hidden =
+
+    !dozen || !$("showDozenColors").checked;
+
+  $("dozenSizesBox").hidden =
+
+    !dozen || !$("showDozenSizes").checked;
+
+  $("dozenColors").disabled =
+
+    $("dozenColorsBox").hidden;
+
+  $("dozenSizes").disabled =
+
+    $("dozenSizesBox").hidden;
+
+  const pieces = dozen
+
+    ? positiveInteger($("piecesPerUnit").value,0)
+
+    : 1;
+
+  const stock = Math.max(
+
+    0,
+
+    Math.floor(Number($("stock").value)||0)
+
+  );
+
+  $("saleSummary").textContent = dozen
+
+    ? "طريقة البيع: بالدزينة | عدد القطع: " + pieces
+
+    : "طريقة البيع: بالقطعة";
+
+  if(!pieces){
+
+    $("stockSummary").textContent =
+
+      "يرجى تحديد عدد صحيح للقطع داخل الدزينة.";
+
+    return;
+
+  }
+
+  if(dozen){
+
+    const available = Math.floor(stock/pieces);
+
+    const remainder = stock % pieces;
+
+    $("stockSummary").textContent =
+
+      "المخزون: " + stock +
+
+      " قطعة | المتاح للبيع: " +
+
+      available + " دزينة" +
+
+      (remainder
+
+        ? " | قطع متبقية: " + remainder
+
+        : "");
+
+  }else{
+
+    $("stockSummary").textContent =
+
+      "المتاح للبيع: " + stock + " قطعة";
+
+  }
+
+}
+
+function renderOptionList(type){
+
+  const color = type === "color";
+
+  const values = color
+
     ? selectedColors
+
     : selectedSizes;
 
-  const list = $(isColor
+  const list = $(color
+
     ? "colorsList"
+
     : "sizesList");
 
   list.replaceChildren();
 
-  values.forEach((value, index) => {
+  values.forEach((value,index)=>{
 
     const chip = document.createElement("span");
 
     chip.className = "option-chip";
 
-    const text = document.createElement("span");
+    const label = document.createElement("span");
 
-    text.textContent = value;
+    label.textContent = value;
 
-    const remove = document.createElement("button");
+    const remove = makeButton("×","",()=>{
 
-    remove.type = "button";
+      if(saving) return;
 
-    remove.textContent = "×";
+      if(color){
 
-    remove.setAttribute(
-      "aria-label",
-      "حذف " + value
-    );
+        selectedColors.splice(index,1);
 
-    remove.onclick = () => {
+      }else{
 
-      if (saving) return;
-
-      if (isColor) {
-
-        selectedColors.splice(index, 1);
-
-      } else {
-
-        selectedSizes.splice(index, 1);
+        selectedSizes.splice(index,1);
 
       }
 
       renderVariants();
 
-    };
+    });
 
-    chip.append(text, remove);
+    remove.setAttribute(
+
+      "aria-label",
+
+      "حذف " + value
+
+    );
+
+    chip.append(label,remove);
 
     list.appendChild(chip);
 
@@ -773,101 +923,83 @@ function renderOptionList(type) {
 
 }
 
-function renderVariants() {
+function renderVariants(){
 
   $("colorsBox").hidden =
+
     !$("hasColors").checked;
 
   $("sizesBox").hidden =
+
     !$("hasSizes").checked;
 
   renderOptionList("color");
 
   renderOptionList("size");
 
-  const colorCount = $("hasColors").checked
-    ? selectedColors.length
-    : 0;
-
-  const sizeCount = $("hasSizes").checked
-    ? selectedSizes.length
-    : 0;
-
-  if (!colorCount && !sizeCount) {
-
-    $("variantSummary").textContent =
-      "لا توجد خيارات مضافة حالياً.";
-
-    return;
-
-  }
-
-  const combinations =
-    ($("hasColors").checked ? colorCount : 1) *
-    ($("hasSizes").checked ? sizeCount : 1);
-
-  $("variantSummary").textContent =
-
-    "الألوان: " + colorCount +
-
-    " | القياسات: " + sizeCount +
-
-    " | الاختيارات الممكنة: " + combinations;
+  renderSaleSettings();
 
 }
 
-function addOptions(type) {
+function addOptions(type){
 
-  if (saving) return;
+  if(saving) return;
 
-  const isColor = type === "color";
+  const color = type === "color";
 
-  const input = $(isColor
+  const input = $(color
+
     ? "colorInput"
+
     : "sizeInput");
 
   const values = input.value
 
     .split(/[,،;؛\n]+/)
 
-    .map(value => value.trim())
+    .map(value=>value.trim())
 
     .filter(Boolean);
 
-  if (!values.length) return;
+  if(!values.length) return;
 
-  if (values.some(value => value.length > 60)) {
+  if(values.some(value=>value.length>60)){
 
-    $("editorMessage").textContent =
-      "اسم اللون أو القياس طويل جداً.";
+    editorMessage(
+
+      "اسم اللون أو المقاس طويل جداً."
+
+    );
 
     return;
 
   }
-
-  const oldValues = isColor
-    ? selectedColors
-    : selectedSizes;
 
   const merged = cleanOptions([
-    ...oldValues,
+
+    ...(color ? selectedColors : selectedSizes),
+
     ...values
+
   ]);
 
-  if (merged.length > 50) {
+  if(merged.length>50){
 
-    $("editorMessage").textContent =
-      "الحد الأقصى 50 خياراً لكل مجموعة.";
+    editorMessage(
+
+      "الحد الأقصى 50 خياراً لكل مجموعة."
+
+    );
 
     return;
 
   }
 
-  if (isColor) {
+  if(color){
 
     selectedColors = merged;
 
-  } else {
+  }else{
 
     selectedSizes = merged;
 
@@ -875,7 +1007,7 @@ function addOptions(type) {
 
   input.value = "";
 
-  $("editorMessage").textContent = "";
+  editorMessage("");
 
   renderVariants();
 
@@ -883,74 +1015,63 @@ function addOptions(type) {
 
 }
 
+$("saleUnit").onchange = renderSaleSettings;
+
+$("piecesPerUnit").oninput = renderSaleSettings;
+
+$("stock").oninput = renderSaleSettings;
+
 $("hasColors").onchange = renderVariants;
 
 $("hasSizes").onchange = renderVariants;
 
-$("addColor").onclick = () =>
-  addOptions("color");
+$("showDozenColors").onchange = renderSaleSettings;
 
-$("addSize").onclick = () =>
-  addOptions("size");
+$("showDozenSizes").onchange = renderSaleSettings;
 
-$("colorInput").addEventListener(
-  "keydown",
-  event => {
+$("addColor").onclick = ()=>addOptions("color");
 
-    if (event.key === "Enter") {
+$("addSize").onclick = ()=>addOptions("size");
 
-      event.preventDefault();
+$("colorInput").addEventListener("keydown",event=>{
 
-      addOptions("color");
+  if(event.key==="Enter"){
 
-    }
+    event.preventDefault();
+
+    addOptions("color");
 
   }
-);
 
-$("sizeInput").addEventListener(
-  "keydown",
-  event => {
+});
 
-    if (event.key === "Enter") {
+$("sizeInput").addEventListener("keydown",event=>{
 
-      event.preventDefault();
+  if(event.key==="Enter"){
 
-      addOptions("size");
+    event.preventDefault();
 
-    }
+    addOptions("size");
 
   }
-);
 
-$("standardSizes").onclick = () => {
+});
 
-  if (saving) return;
+$("standardSizes").onclick = ()=>{
+
+  if(saving) return;
 
   const merged = cleanOptions([
 
     ...selectedSizes,
 
-    "XS",
-
-    "S",
-
-    "M",
-
-    "L",
-
-    "XL",
-
-    "XXL",
-
-    "XXXL"
+    "XS","S","M","L","XL","XXL","XXXL"
 
   ]);
 
-  if (merged.length > 50) {
+  if(merged.length>50){
 
-    $("editorMessage").textContent =
-      "الحد الأقصى 50 قياساً.";
+    editorMessage("الحد الأقصى 50 مقاساً.");
 
     return;
 
@@ -962,48 +1083,47 @@ $("standardSizes").onclick = () => {
 
 };
 
-$("loginForm").addEventListener(
-  "submit",
-  async event => {
+$("loginForm").addEventListener("submit",async event=>{
 
-    event.preventDefault();
+  event.preventDefault();
 
-    $("loginButton").disabled = true;
+  $("loginButton").disabled = true;
+
+  $("loginMessage").textContent =
+
+    "جاري تسجيل الدخول...";
+
+  try{
+
+    await signInWithEmailAndPassword(
+
+      auth,
+
+      $("email").value.trim(),
+
+      $("password").value
+
+    );
+
+    $("password").value = "";
+
+  }catch(error){
 
     $("loginMessage").textContent =
-      "جاري تسجيل الدخول...";
 
-    try {
+      "تعذر تسجيل الدخول. تحقق من البيانات.";
 
-      await signInWithEmailAndPassword(
+  }finally{
 
-        auth,
-
-        $("email").value.trim(),
-
-        $("password").value
-
-      );
-
-      $("password").value = "";
-
-    } catch (error) {
-
-      $("loginMessage").textContent =
-        "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.";
-
-    } finally {
-
-      $("loginButton").disabled = false;
-
-    }
+    $("loginButton").disabled = false;
 
   }
-);
 
-onAuthStateChanged(auth, async user => {
+});
 
-  if (unsubscribe) {
+onAuthStateChanged(auth,async user=>{
+
+  if(unsubscribe){
 
     unsubscribe();
 
@@ -1011,13 +1131,14 @@ onAuthStateChanged(auth, async user => {
 
   }
 
-  if (user && user.uid !== ADMIN_UID) {
+  if(user && user.uid!==ADMIN_UID){
 
     $("loginPanel").hidden = false;
 
     $("dashboard").hidden = true;
 
     $("loginMessage").textContent =
+
       "هذا الحساب غير مصرح له بالإدارة.";
 
     await signOut(auth);
@@ -1030,7 +1151,7 @@ onAuthStateChanged(auth, async user => {
 
   $("dashboard").hidden = !user;
 
-  if (!user) {
+  if(!user){
 
     products = [];
 
@@ -1052,15 +1173,15 @@ onAuthStateChanged(auth, async user => {
 
   unsubscribe = onSnapshot(
 
-    collection(db, "products"),
+    collection(db,"products"),
 
-    snapshot => {
+    snapshot=>{
 
-      products = snapshot.docs.map(item => ({
+      products = snapshot.docs.map(item=>({
 
         ...item.data(),
 
-        id: item.id
+        id:item.id
 
       }));
 
@@ -1068,11 +1189,9 @@ onAuthStateChanged(auth, async user => {
 
     },
 
-    error => {
+    error=>{
 
-      status(
-        "تعذر تحميل المنتجات: " + error.code
-      );
+      status("تعذر تحميل المنتجات: "+error.code);
 
     }
 
@@ -1080,75 +1199,73 @@ onAuthStateChanged(auth, async user => {
 
 });
 
-$("logout").onclick = async () => {
+$("logout").onclick = async ()=>{
 
-  if (saving) return;
+  if(saving) return;
 
   await signOut(auth);
 
 };
 
-function renderProducts() {
+function renderProducts(){
 
   $("total").textContent = products.length;
 
-  $("visible").textContent =
+  $("visible").textContent = products.filter(
 
-    products.filter(
-      product => product.active === true
-    ).length;
+    product=>product.active===true
 
-  $("hiddenCount").textContent =
+  ).length;
 
-    products.filter(
-      product => product.active !== true
-    ).length;
+  $("hiddenCount").textContent = products.filter(
 
-  $("outOfStock").textContent =
+    product=>product.active!==true
 
-    products.filter(
-      product => !(Number(product.stock) > 0)
-    ).length;
+  ).length;
 
-  const search =
-    $("search").value.trim().toLowerCase();
+  $("outOfStock").textContent = products.filter(
 
-  const filtered = products.filter(product =>
+    product=>getAvailableUnits(product)<1
 
-    [
+  ).length;
 
-      product.name,
+  const search = $("search").value
 
-      categoryName(product.category),
+    .trim()
 
-      product.description,
+    .toLowerCase();
 
-      ...cleanOptions(product.colors),
+  const filtered = products.filter(product=>[
 
-      ...cleanOptions(product.sizes)
+    product.name,
 
-    ]
+    categoryName(product.category_id || product.category),
 
-      .join(" ")
+    product.description,
 
-      .toLowerCase()
+    ...cleanOptions(product.colors),
 
-      .includes(search)
+    ...cleanOptions(product.sizes),
 
-  );
+    product.dozen_colors,
+
+    product.dozen_sizes
+
+  ].join(" ").toLowerCase().includes(search));
 
   $("productList").replaceChildren();
 
-  if (!filtered.length) {
+  if(!filtered.length){
 
     $("productList").textContent =
+
       "لا توجد منتجات مطابقة.";
 
     return;
 
   }
 
-  filtered.forEach(product => {
+  filtered.forEach(product=>{
 
     const card = document.createElement("article");
 
@@ -1156,19 +1273,15 @@ function renderProducts() {
 
     const imageUrl =
 
-      product.image ||
+      product.image || product.image_url || "";
 
-      product.image_url ||
+    if(
 
-      "";
-
-    if (
-
-      typeof imageUrl === "string" &&
+      typeof imageUrl==="string" &&
 
       imageUrl.startsWith("https://")
 
-    ) {
+    ){
 
       const image = document.createElement("img");
 
@@ -1178,10 +1291,9 @@ function renderProducts() {
 
       image.loading = "lazy";
 
-      image.onerror = () =>
-        image.hidden = true;
+      image.onerror = ()=>image.hidden=true;
 
-      card.append(image);
+      card.appendChild(image);
 
     }
 
@@ -1189,89 +1301,139 @@ function renderProducts() {
 
     title.textContent = product.name || "";
 
+    card.appendChild(title);
+
+    const dozen = product.sale_unit==="dozen";
+
+    const unit = dozen ? "دزينة" : "قطعة";
+
     const price = document.createElement("strong");
 
     price.className = "gold";
 
     price.textContent =
 
-      (product.price ?? "") +
+      (product.price ?? "") + " " +
 
-      " " +
+      (product.currency || "USD") +
 
-      (product.currency || "USD");
+      " / " + unit;
 
-    const details = document.createElement("p");
+    card.appendChild(price);
 
-    details.textContent =
+    function addText(text){
 
-      categoryName(product.category) +
+      const p = document.createElement("p");
 
-      " | الكمية: " +
+      p.textContent = text;
 
-      (product.stock ?? 0);
-
-    card.append(title, price, details);
-
-    const colors =
-      cleanOptions(product.colors);
-
-    const sizes =
-      cleanOptions(product.sizes);
-
-    if (
-
-      product.has_colors !== false &&
-
-      colors.length > 0
-
-    ) {
-
-      const colorsText =
-        document.createElement("p");
-
-      colorsText.textContent =
-
-        "🎨 الألوان: " +
-
-        colors.join("، ");
-
-      card.appendChild(colorsText);
+      card.appendChild(p);
 
     }
 
-    if (
+    addText(
 
-      product.has_sizes !== false &&
+      "القسم: "+
 
-      sizes.length > 0
+      categoryName(product.category_id || product.category)
 
-    ) {
+    );
 
-      const sizesText =
-        document.createElement("p");
+    addText(
 
-      sizesText.textContent =
+      "طريقة البيع: "+unit
 
-        "📏 القياسات: " +
+    );
 
-        sizes.join("، ");
+    if(dozen){
 
-      card.appendChild(sizesText);
+      addText(
+
+        "عدد القطع داخل الدزينة: "+
+
+        getPiecesPerUnit(product)
+
+      );
 
     }
 
-    const visibility =
-      document.createElement("p");
+    addText(
 
-    visibility.textContent = product.active
+      "المخزون: "+
+
+      (product.stock ?? 0)+" قطعة"
+
+    );
+
+    addText(
+
+      "المتاح للبيع: "+
+
+      getAvailableUnits(product)+" "+unit
+
+    );
+
+    const colors = cleanOptions(product.colors);
+
+    const sizes = cleanOptions(product.sizes);
+
+    if(product.has_colors!==false && colors.length){
+
+      addText(
+
+        "🎨 الألوان المتاحة: "+
+
+        colors.join("، ")
+
+      );
+
+    }
+
+    if(dozen && product.show_dozen_colors){
+
+      addText(
+
+        "ألوان الدزينة: "+
+
+        (product.dozen_colors || "")
+
+      );
+
+    }
+
+    if(product.has_sizes!==false && sizes.length){
+
+      addText(
+
+        "📏 المقاسات المتاحة: "+
+
+        sizes.join("، ")
+
+      );
+
+    }
+
+    if(dozen && product.show_dozen_sizes){
+
+      addText(
+
+        "مقاسات الدزينة: "+
+
+        (product.dozen_sizes || "")
+
+      );
+
+    }
+
+    addText(product.active
 
       ? "🟢 معروض في المتجر"
 
-      : "⚪ مخفي من المتجر";
+      : "⚪ مخفي من المتجر"
 
-    const actions =
-      document.createElement("div");
+    );
+
+    const actions = document.createElement("div");
 
     actions.className = "actions";
 
@@ -1279,53 +1441,43 @@ function renderProducts() {
 
       makeButton(
 
-        "تعديل",
+        "تعديل","",
 
-        "",
-
-        () => openEditor(product)
+        ()=>openEditor(product)
 
       ),
 
       makeButton(
 
-        product.active ? "إخفاء" : "إظهار",
+        product.active?"إخفاء":"إظهار",
 
         "secondary",
 
-        () => toggleProduct(product)
+        ()=>toggleProduct(product)
 
       ),
 
       makeButton(
 
-        "حذف",
+        "حذف","danger",
 
-        "danger",
-
-        () => removeProduct(product)
+        ()=>removeProduct(product)
 
       )
 
     );
 
-    card.append(
+    card.appendChild(actions);
 
-      visibility,
-
-      actions
-
-    );
-
-    $("productList").append(card);
+    $("productList").appendChild(card);
 
   });
 
 }
 
-function openEditor(product = null) {
+function openEditor(product=null){
 
-  if (!isAdmin() || saving) return;
+  if(!isAdmin() || saving) return;
 
   editingId = product?.id || null;
 
@@ -1337,8 +1489,7 @@ function openEditor(product = null) {
 
     : "إضافة منتج جديد";
 
-  $("name").value =
-    product?.name || "";
+  $("name").value = product?.name || "";
 
   const categoryValue =
 
@@ -1356,16 +1507,17 @@ function openEditor(product = null) {
 
   const categoryField = $("category");
 
-  if (
+  if(
 
     categoryId &&
 
-    categoryField.tagName === "SELECT" &&
+    categoryField.tagName==="SELECT" &&
 
     !Array.from(categoryField.options)
-      .some(option => option.value === categoryId)
 
-  ) {
+      .some(option=>option.value===categoryId)
+
+  ){
 
     categoryField.add(
 
@@ -1384,15 +1536,31 @@ function openEditor(product = null) {
   categoryField.value = categoryId;
 
   $("description").value =
+
     product?.description || "";
 
+  $("saleUnit").value =
+
+    product?.sale_unit==="dozen"
+
+      ? "dozen"
+
+      : "piece";
+
+  $("piecesPerUnit").value =
+
+    positiveInteger(product?.pieces_per_unit,12);
+
   $("price").value =
+
     product?.price ?? "";
 
   $("currency").value =
+
     product?.currency || "USD";
 
   $("stock").value =
+
     product?.stock ?? 0;
 
   $("image").value =
@@ -1404,66 +1572,84 @@ function openEditor(product = null) {
     "";
 
   $("image").dispatchEvent(
-    new Event("input", { bubbles: true })
+
+    new Event("input",{bubbles:true})
+
   );
 
-  $("active").checked = product
+  $("active").checked =
 
-    ? product.active === true
-
-    : true;
+    product ? product.active===true : true;
 
   selectedColors =
+
     cleanOptions(product?.colors);
 
   selectedSizes =
+
     cleanOptions(product?.sizes);
 
   $("hasColors").checked =
 
-    product?.has_colors === true ||
+    product?.has_colors===true ||
 
     (
 
-      product?.has_colors !== false &&
+      product?.has_colors!==false &&
 
-      selectedColors.length > 0
+      selectedColors.length>0
 
     );
 
   $("hasSizes").checked =
 
-    product?.has_sizes === true ||
+    product?.has_sizes===true ||
 
     (
 
-      product?.has_sizes !== false &&
+      product?.has_sizes!==false &&
 
-      selectedSizes.length > 0
+      selectedSizes.length>0
 
     );
+
+  $("showDozenColors").checked =
+
+    product?.show_dozen_colors===true;
+
+  $("showDozenSizes").checked =
+
+    product?.show_dozen_sizes===true;
+
+  $("dozenColors").value =
+
+    product?.dozen_colors || "";
+
+  $("dozenSizes").value =
+
+    product?.dozen_sizes || "";
 
   $("colorInput").value = "";
 
   $("sizeInput").value = "";
 
-  renderVariants();
+  editorMessage("");
 
-  $("editorMessage").textContent = "";
+  renderVariants();
 
   $("editor").hidden = false;
 
   $("editor").scrollIntoView({
 
-    behavior: "smooth"
+    behavior:"smooth"
 
   });
 
 }
 
-function closeEditor() {
+function closeEditor(){
 
-  if (saving) return;
+  if(saving) return;
 
   $("editor").hidden = true;
 
@@ -1479,276 +1665,341 @@ function closeEditor() {
 
 }
 
-$("addProduct").onclick = () =>
-  openEditor();
+$("addProduct").onclick = ()=>openEditor();
 
-$("cancelEdit").onclick =
-  closeEditor;
+$("cancelEdit").onclick = closeEditor;
 
 $("search").addEventListener(
 
-  "input",
-
-  renderProducts
+  "input",renderProducts
 
 );
 
-$("productForm").addEventListener(
-  "submit",
-  async event => {
+$("productForm").addEventListener("submit",async event=>{
 
-    event.preventDefault();
+  event.preventDefault();
 
-    if (!isAdmin() || saving) return;
+  if(!isAdmin() || saving) return;
 
-    const image = $("image").value.trim();
+  const image = $("image").value.trim();
 
-    if (image) {
+  if(image){
 
-      try {
+    try{
 
-        if (new URL(image).protocol !== "https:") {
+      if(new URL(image).protocol!=="https:"){
 
-          throw new Error();
-
-        }
-
-      } catch {
-
-        $("editorMessage").textContent =
-          "يجب أن يكون رابط الصورة HTTPS.";
-
-        return;
+        throw new Error();
 
       }
 
-    }
+    }catch{
 
-    const hasColors =
-      $("hasColors").checked;
-
-    const hasSizes =
-      $("hasSizes").checked;
-
-    if (
-
-      hasColors &&
-
-      $("colorInput").value.trim()
-
-    ) {
-
-      $("editorMessage").textContent =
-        "اضغط إضافة لحفظ اللون الذي أدخلته أولاً.";
+      editorMessage("يجب أن يكون رابط الصورة HTTPS.");
 
       return;
-
-    }
-
-    if (
-
-      hasSizes &&
-
-      $("sizeInput").value.trim()
-
-    ) {
-
-      $("editorMessage").textContent =
-        "اضغط إضافة لحفظ القياس الذي أدخلته أولاً.";
-
-      return;
-
-    }
-
-    if (hasColors && !selectedColors.length) {
-
-      $("editorMessage").textContent =
-        "يرجى إضافة لون واحد على الأقل أو تعطيل الألوان.";
-
-      return;
-
-    }
-
-    if (hasSizes && !selectedSizes.length) {
-
-      $("editorMessage").textContent =
-        "يرجى إضافة قياس واحد على الأقل أو تعطيل القياسات.";
-
-      return;
-
-    }
-
-    const data = {
-
-      name:
-        $("name").value.trim(),
-
-      category:
-        $("category").value.trim(),
-
-      category_id:
-        $("category").value.trim(),
-
-      description:
-        $("description").value.trim(),
-
-      price:
-        Number($("price").value),
-
-      currency:
-        $("currency").value,
-
-      stock:
-        Number($("stock").value),
-
-      image: image,
-
-      image_url: image,
-
-      active:
-        $("active").checked,
-
-      has_colors: hasColors,
-
-      has_sizes: hasSizes,
-
-      colors:
-        hasColors ? [...selectedColors] : [],
-
-      sizes:
-        hasSizes ? [...selectedSizes] : [],
-
-      updated_at:
-        serverTimestamp()
-
-    };
-
-    if (
-
-      !data.name ||
-
-      !data.category ||
-
-      !$("price").value.trim() ||
-
-      !$("stock").value.trim() ||
-
-      !Number.isFinite(data.price) ||
-
-      data.price < 0 ||
-
-      !Number.isSafeInteger(data.stock) ||
-
-      data.stock < 0
-
-    ) {
-
-      $("editorMessage").textContent =
-        "تحقق من بيانات المنتج.";
-
-      return;
-
-    }
-
-    saving = true;
-
-    $("saveButton").disabled = true;
-
-    $("cancelEdit").disabled = true;
-
-    $("addProduct").disabled = true;
-
-    $("editorMessage").textContent =
-      "جاري الحفظ...";
-
-    const currentEditingId = editingId;
-
-    try {
-
-      if (currentEditingId) {
-
-        await updateDoc(
-
-          doc(
-
-            db,
-
-            "products",
-
-            currentEditingId
-
-          ),
-
-          data
-
-        );
-
-      } else {
-
-        await addDoc(
-
-          collection(db, "products"),
-
-          {
-
-            ...data,
-
-            created_at: serverTimestamp()
-
-          }
-
-        );
-
-      }
-
-      status("تم حفظ المنتج بنجاح.");
-
-      $("editor").hidden = true;
-
-      editingId = null;
-
-      selectedColors = [];
-
-      selectedSizes = [];
-
-    } catch (error) {
-
-      $("editorMessage").textContent =
-
-        "تعذر الحفظ: " +
-
-        (error.code || error.message);
-
-    } finally {
-
-      saving = false;
-
-      $("saveButton").disabled = false;
-
-      $("cancelEdit").disabled = false;
-
-      $("addProduct").disabled = false;
 
     }
 
   }
-);
 
-async function toggleProduct(product) {
+  const dozen = $("saleUnit").value==="dozen";
 
-  if (!isAdmin() || saving) return;
+  const piecesPerUnit = dozen
 
-  try {
+    ? Number($("piecesPerUnit").value)
+
+    : 1;
+
+  const hasColors = $("hasColors").checked;
+
+  const hasSizes = $("hasSizes").checked;
+
+  const showDozenColors =
+
+    dozen && $("showDozenColors").checked;
+
+  const showDozenSizes =
+
+    dozen && $("showDozenSizes").checked;
+
+  const dozenColors =
+
+    $("dozenColors").value.trim();
+
+  const dozenSizes =
+
+    $("dozenSizes").value.trim();
+
+  if(
+
+    !Number.isSafeInteger(piecesPerUnit) ||
+
+    piecesPerUnit<1
+
+  ){
+
+    editorMessage(
+
+      "أدخل عدداً صحيحاً للقطع داخل الدزينة."
+
+    );
+
+    return;
+
+  }
+
+  if(hasColors && $("colorInput").value.trim()){
+
+    editorMessage(
+
+      "اضغط إضافة لحفظ الألوان المدخلة أولاً."
+
+    );
+
+    return;
+
+  }
+
+  if(hasSizes && $("sizeInput").value.trim()){
+
+    editorMessage(
+
+      "اضغط إضافة لحفظ المقاسات المدخلة أولاً."
+
+    );
+
+    return;
+
+  }
+
+  if(hasColors && !selectedColors.length){
+
+    editorMessage(
+
+      "أضف لوناً واحداً على الأقل أو عطّل اختيار الألوان."
+
+    );
+
+    return;
+
+  }
+
+  if(hasSizes && !selectedSizes.length){
+
+    editorMessage(
+
+      "أضف مقاساً واحداً على الأقل أو عطّل اختيار المقاسات."
+
+    );
+
+    return;
+
+  }
+
+  if(showDozenColors && !dozenColors){
+
+    editorMessage(
+
+      "يرجى كتابة الألوان الموجودة داخل الدزينة."
+
+    );
+
+    return;
+
+  }
+
+  if(showDozenSizes && !dozenSizes){
+
+    editorMessage(
+
+      "يرجى كتابة المقاسات الموجودة داخل الدزينة."
+
+    );
+
+    return;
+
+  }
+
+  const data = {
+
+    name:$("name").value.trim(),
+
+    category:$("category").value.trim(),
+
+    category_id:$("category").value.trim(),
+
+    description:$("description").value.trim(),
+
+    price:Number($("price").value),
+
+    currency:$("currency").value,
+
+    stock:Number($("stock").value),
+
+    image:image,
+
+    image_url:image,
+
+    active:$("active").checked,
+
+    sale_unit:dozen ? "dozen" : "piece",
+
+    pieces_per_unit:piecesPerUnit,
+
+    has_colors:hasColors,
+
+    colors:hasColors
+
+      ? [...selectedColors]
+
+      : [],
+
+    has_sizes:hasSizes,
+
+    sizes:hasSizes
+
+      ? [...selectedSizes]
+
+      : [],
+
+    show_dozen_colors:showDozenColors,
+
+    dozen_colors:showDozenColors
+
+      ? dozenColors
+
+      : "",
+
+    show_dozen_sizes:showDozenSizes,
+
+    dozen_sizes:showDozenSizes
+
+      ? dozenSizes
+
+      : "",
+
+    updated_at:serverTimestamp()
+
+  };
+
+  if(
+
+    !data.name ||
+
+    !data.category ||
+
+    !$("price").value.trim() ||
+
+    !$("stock").value.trim() ||
+
+    !Number.isFinite(data.price) ||
+
+    data.price<0 ||
+
+    !Number.isSafeInteger(data.stock) ||
+
+    data.stock<0
+
+  ){
+
+    editorMessage("تحقق من بيانات المنتج.");
+
+    return;
+
+  }
+
+  saving = true;
+
+  $("saveButton").disabled = true;
+
+  $("cancelEdit").disabled = true;
+
+  $("addProduct").disabled = true;
+
+  editorMessage("جاري حفظ المنتج...");
+
+  const currentEditingId = editingId;
+
+  try{
+
+    if(currentEditingId){
+
+      await updateDoc(
+
+        doc(db,"products",currentEditingId),
+
+        data
+
+      );
+
+    }else{
+
+      await addDoc(
+
+        collection(db,"products"),
+
+        {
+
+          ...data,
+
+          created_at:serverTimestamp()
+
+        }
+
+      );
+
+    }
+
+    status("تم حفظ المنتج بنجاح.");
+
+    $("editor").hidden = true;
+
+    editingId = null;
+
+    selectedColors = [];
+
+    selectedSizes = [];
+
+  }catch(error){
+
+    editorMessage(
+
+      "تعذر الحفظ: "+
+
+      (error.code || error.message)
+
+    );
+
+  }finally{
+
+    saving = false;
+
+    $("saveButton").disabled = false;
+
+    $("cancelEdit").disabled = false;
+
+    $("addProduct").disabled = false;
+
+  }
+
+});
+
+async function toggleProduct(product){
+
+  if(!isAdmin() || saving) return;
+
+  try{
 
     await updateDoc(
 
-      doc(db, "products", product.id),
+      doc(db,"products",product.id),
 
       {
 
-        active: !product.active,
+        active:!product.active,
 
-        updated_at: serverTimestamp()
+        updated_at:serverTimestamp()
 
       }
 
@@ -1756,11 +2007,11 @@ async function toggleProduct(product) {
 
     status("تم تحديث حالة عرض المنتج.");
 
-  } catch (error) {
+  }catch(error){
 
     status(
 
-      "تعذر تحديث المنتج: " +
+      "تعذر تحديث المنتج: "+
 
       (error.code || error.message)
 
@@ -1770,33 +2021,25 @@ async function toggleProduct(product) {
 
 }
 
-async function removeProduct(product) {
+async function removeProduct(product){
 
-  if (!isAdmin() || saving) return;
+  if(!isAdmin() || saving) return;
 
-  if (!confirm(
+  if(!confirm(
 
-    "هل تريد حذف " +
+    "هل تريد حذف "+product.name+" نهائياً؟"
 
-    product.name +
+  )) return;
 
-    " نهائياً؟"
-
-  )) {
-
-    return;
-
-  }
-
-  try {
+  try{
 
     await deleteDoc(
 
-      doc(db, "products", product.id)
+      doc(db,"products",product.id)
 
     );
 
-    if (editingId === product.id) {
+    if(editingId===product.id){
 
       closeEditor();
 
@@ -1804,11 +2047,11 @@ async function removeProduct(product) {
 
     status("تم حذف المنتج بنجاح.");
 
-  } catch (error) {
+  }catch(error){
 
     status(
 
-      "تعذر حذف المنتج: " +
+      "تعذر حذف المنتج: "+
 
       (error.code || error.message)
 
@@ -1822,13 +2065,9 @@ renderVariants();
 
 </script>
 
-<script type="module"
-  src="./upload.js">
-</script>
+<script type="module" src="./upload.js"></script>
 
-<script type="module"
-  src="./categories.js?v=21">
-</script>
+<script type="module" src="./categories.js?v=21"></script>
 
 </body>
 </html>
