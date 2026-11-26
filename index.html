@@ -1510,6 +1510,14 @@ function renderCategories() {
 
   categoryList.replaceChildren();
 
+  if (!catalogReady) {
+    emptyMessage(
+      categoryList,
+      "جاري تحميل الأقسام..."
+    );
+    return;
+  }
+
   const children = categories.filter(
     c => c.parent_id === selectedCategory
   );
