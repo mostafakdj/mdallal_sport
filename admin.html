@@ -11,33 +11,40 @@
 * {
   box-sizing: border-box;
 }
+
 [hidden] {
   display: none !important;
 }
+
 body {
   margin: 0;
   background: #101010;
   color: #fff;
   font-family: Arial, Tahoma, sans-serif;
 }
+
 header {
   padding: 22px;
   text-align: center;
   border-bottom: 2px solid #C9A227;
 }
+
 header h1 {
   color: #F2D675;
   font-size: 24px;
 }
+
 .logo {
   width: 220px;
   max-width: 90%;
 }
+
 .container {
   max-width: 1000px;
   margin: auto;
   padding: 16px;
 }
+
 .panel {
   background: #202020;
   border: 1px solid #383838;
@@ -45,6 +52,7 @@ header h1 {
   border-radius: 15px;
   margin-bottom: 20px;
 }
+
 input, textarea, select {
   width: 100%;
   padding: 14px;
@@ -55,10 +63,12 @@ input, textarea, select {
   border-radius: 9px;
   font-size: 16px;
 }
+
 label {
   font-size: 14px;
   color: #DDD;
 }
+
 button {
   border: 0;
   padding: 13px 18px;
@@ -70,27 +80,33 @@ button {
   cursor: pointer;
   margin: 4px 0;
 }
+
 button:disabled {
   opacity: .5;
   cursor: wait;
 }
+
 .full {
   width: 100%;
 }
+
 .secondary {
   background: #383838;
   color: white;
 }
+
 .danger {
   background: #A52222;
   color: white;
 }
+
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   margin-bottom: 20px;
 }
+
 .stat {
   background: #202020;
   border: 1px solid #444;
@@ -98,15 +114,18 @@ button:disabled {
   text-align: center;
   padding: 20px 8px;
 }
+
 .stat strong {
   display: block;
   font-size: 28px;
   color: #F2D675;
   margin-bottom: 8px;
 }
+
 .stat span {
   font-size: 13px;
 }
+
 .product {
   padding: 15px;
   background: #202020;
@@ -114,6 +133,7 @@ button:disabled {
   border-radius: 12px;
   margin-bottom: 12px;
 }
+
 .product img {
   width: 85px;
   height: 85px;
@@ -121,40 +141,133 @@ button:disabled {
   background: white;
   border-radius: 8px;
 }
+
 .product h3 {
   margin: 10px 0;
 }
+
 .product p {
   font-size: 14px;
   color: #CCC;
 }
+
 .actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
+
 .gold {
   color: #F2D675;
 }
+
 .message {
   padding: 12px;
   color: #F2D675;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
+
 a {
   color: #F2D675;
 }
+
 .check {
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 12px 0;
 }
+
 .check input {
   width: 20px;
   height: 20px;
   margin: 0;
+  flex-shrink: 0;
+  accent-color: #C9A227;
+}
+
+.variant-panel {
+  background: #171717;
+  border: 1px solid #555;
+  border-radius: 12px;
+  margin: 20px 0;
+  padding: 16px;
+}
+
+.variant-panel h3 {
+  margin: 0 0 15px;
+  color: #F2D675;
+}
+
+.variant-box {
+  background: #252525;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 10px 0;
+}
+
+.variant-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.variant-input-row input {
+  flex: 1;
+  min-width: 0;
+  margin: 8px 0;
+}
+
+.variant-input-row button {
+  flex-shrink: 0;
+}
+
+.option-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.option-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #383838;
+  color: white;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
+.option-chip button {
+  background: #A52222;
+  color: white;
+  padding: 3px 8px;
+  margin: 0;
+  border-radius: 5px;
+}
+
+.hint {
+  color: #AAA;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.variant-summary {
+  color: #F2D675;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid #444;
+  margin: 20px 0;
 }
 </style>
 </head>
@@ -162,12 +275,20 @@ a {
 <body>
 
 <header>
-  <img src="./logo.png" class="logo"
+
+  <img src="./logo.png"
+    class="logo"
     alt="MDALLAL SPORTS"
     onerror="this.hidden=true">
+
   <h1>MDALLAL SPORTS</h1>
+
   <p>لوحة تحكم إدارة المستودع</p>
-  <a href="./index.html">العودة إلى المتجر</a>
+
+  <a href="./index.html">
+    العودة إلى المتجر
+  </a>
+
 </header>
 
 <main class="container">
@@ -179,26 +300,36 @@ a {
   <form id="loginForm">
 
     <label>البريد الإلكتروني</label>
-    <input id="email" type="email"
-      autocomplete="username" required>
+
+    <input id="email"
+      type="email"
+      autocomplete="username"
+      required>
 
     <label>كلمة المرور</label>
-    <input id="password" type="password"
-      autocomplete="current-password" required>
 
-    <button class="full" type="submit">
+    <input id="password"
+      type="password"
+      autocomplete="current-password"
+      required>
+
+    <button id="loginButton"
+      class="full"
+      type="submit">
       تسجيل الدخول
     </button>
 
   </form>
 
-  <p id="loginMessage" class="message"></p>
+  <p id="loginMessage"
+    class="message"></p>
 
 </section>
 
 <section id="dashboard" hidden>
 
-  <button id="logout" class="secondary full">
+  <button id="logout"
+    class="secondary full">
     تسجيل الخروج
   </button>
 
@@ -228,27 +359,37 @@ a {
 
   </div>
 
-  <button id="addProduct" class="full">
+  <button id="addProduct"
+    class="full">
     + إضافة منتج جديد
   </button>
 
-  <p id="status" class="message"
+  <p id="status"
+    class="message"
     aria-live="polite"></p>
 
-  <section id="editor" class="panel" hidden>
+  <section id="editor"
+    class="panel"
+    hidden>
 
-    <h2 id="editorTitle">إضافة منتج</h2>
+    <h2 id="editorTitle">
+      إضافة منتج
+    </h2>
 
     <form id="productForm">
 
       <label>اسم المنتج</label>
+
       <input id="name" required>
 
-      <label>التصنيف</label>
+      <label>القسم الرئيسي أو الفرعي</label>
+
       <input id="category"
-        list="categoryOptions" required>
+        list="categoryOptions"
+        required>
 
       <datalist id="categoryOptions">
+
         <option value="معدات بيسبول">
         <option value="معدات ملاكمة">
         <option value="معدات كرة قدم">
@@ -261,48 +402,196 @@ a {
         <option value="حقائب رياضية">
         <option value="أحذية رياضية">
         <option value="أدوات رياضات متنوعة">
+
       </datalist>
 
       <label>وصف المنتج</label>
-      <textarea id="description" rows="4"></textarea>
+
+      <textarea id="description"
+        rows="4"></textarea>
 
       <label>السعر</label>
-      <input id="price" type="number"
-        min="0" step="0.01" required>
+
+      <input id="price"
+        type="number"
+        min="0"
+        step="0.01"
+        required>
 
       <label>العملة</label>
+
       <select id="currency">
-        <option value="USD">دولار USD</option>
-        <option value="JOD">دينار أردني JOD</option>
-        <option value="SYP">ليرة سورية SYP</option>
-        <option value="SAR">ريال سعودي SAR</option>
-        <option value="AED">درهم إماراتي AED</option>
+
+        <option value="USD">
+          دولار USD
+        </option>
+
+        <option value="JOD">
+          دينار أردني JOD
+        </option>
+
+        <option value="SYP">
+          ليرة سورية SYP
+        </option>
+
+        <option value="SAR">
+          ريال سعودي SAR
+        </option>
+
+        <option value="AED">
+          درهم إماراتي AED
+        </option>
+
       </select>
 
-      <label>الكمية المتوفرة</label>
-      <input id="stock" type="number"
-        min="0" step="1" required>
+      <label>إجمالي الكمية المتوفرة</label>
+
+      <input id="stock"
+        type="number"
+        min="0"
+        step="1"
+        required>
+
+      <div class="hint">
+        إجمالي المخزون لجميع ألوان وقياسات المنتج.
+      </div>
+
+      <div class="variant-panel">
+
+        <h3>🎨 الألوان والقياسات</h3>
+
+        <p class="hint">
+          يمكنك تفعيل هذه الخيارات لأي منتج،
+          أو تركها مغلقة للمنتجات العادية.
+        </p>
+
+        <label class="check">
+
+          <input id="hasColors"
+            type="checkbox">
+
+          تفعيل اختيار الألوان
+
+        </label>
+
+        <div id="colorsBox"
+          class="variant-box"
+          hidden>
+
+          <label>إضافة لون جديد</label>
+
+          <div class="variant-input-row">
+
+            <input id="colorInput"
+              maxlength="500"
+              placeholder="مثال: أسود">
+
+            <button id="addColor"
+              type="button">
+              + إضافة
+            </button>
+
+          </div>
+
+          <p class="hint">
+            يمكنك إدخال عدة ألوان
+            مفصولة بفاصلة.
+          </p>
+
+          <div id="colorsList"
+            class="option-list">
+          </div>
+
+        </div>
+
+        <hr class="section-divider">
+
+        <label class="check">
+
+          <input id="hasSizes"
+            type="checkbox">
+
+          تفعيل اختيار القياسات
+
+        </label>
+
+        <div id="sizesBox"
+          class="variant-box"
+          hidden>
+
+          <label>إضافة قياس جديد</label>
+
+          <div class="variant-input-row">
+
+            <input id="sizeInput"
+              maxlength="500"
+              placeholder="مثال: XL">
+
+            <button id="addSize"
+              type="button">
+              + إضافة
+            </button>
+
+          </div>
+
+          <p class="hint">
+            يمكنك إدخال قياسات الملابس
+            أو الأحذية أو أي قياسات أخرى.
+          </p>
+
+          <button id="standardSizes"
+            type="button"
+            class="secondary">
+            إضافة قياسات الملابس
+          </button>
+
+          <div id="sizesList"
+            class="option-list">
+          </div>
+
+        </div>
+
+        <div id="variantSummary"
+          class="variant-summary">
+        </div>
+
+      </div>
 
       <label>رابط صورة المنتج</label>
-      <input id="image" type="url"
+
+      <input id="image"
+        type="url"
         placeholder="https://res.cloudinary.com/...">
 
       <label class="check">
-        <input id="active" type="checkbox" checked>
+
+        <input id="active"
+          type="checkbox"
+          checked>
+
         عرض المنتج في المتجر
+
       </label>
 
       <button id="saveButton"
-        type="submit" class="full">
+        type="submit"
+        class="full">
+
         حفظ المنتج
+
       </button>
 
-      <button id="cancelEdit" type="button"
+      <button id="cancelEdit"
+        type="button"
         class="secondary full">
+
         إلغاء
+
       </button>
 
-      <p id="editorMessage" class="message"></p>
+      <p id="editorMessage"
+        class="message">
+      </p>
 
     </form>
 
@@ -310,7 +599,8 @@ a {
 
   <h2>إدارة المنتجات</h2>
 
-  <input id="search" type="search"
+  <input id="search"
+    type="search"
     placeholder="ابحث عن منتج...">
 
   <div id="productList"></div>
@@ -339,97 +629,439 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-const ADMIN_UID = "vAwEHEC8iHNvHnLsDSWUORZM4kv2";
+const ADMIN_UID =
+  "vAwEHEC8iHNvHnLsDSWUORZM4kv2";
 
 const $ = id => document.getElementById(id);
 
 let products = [];
+
 let editingId = null;
+
 let unsubscribe = null;
 
+let selectedColors = [];
+
+let selectedSizes = [];
+
+let saving = false;
+
 const categoryNames = {
+
   baseball: "معدات بيسبول",
+
   boxing: "معدات ملاكمة",
+
   football: "معدات كرة قدم"
+
 };
 
 function isAdmin() {
+
   return auth.currentUser?.uid === ADMIN_UID;
+
 }
 
 function categoryName(value) {
+
   return window.getCategoryName
     ? window.getCategoryName(value)
     : categoryNames[value] || value || "";
+
 }
 
 function status(message) {
+
   $("status").textContent = message;
+
 }
 
-$("loginForm").addEventListener("submit", async e => {
+function cleanOptions(values) {
 
-  e.preventDefault();
+  if (!Array.isArray(values)) return [];
 
-  $("loginMessage").textContent = "جاري تسجيل الدخول...";
+  return [...new Set(
 
-  try {
+    values
 
-    await signInWithEmailAndPassword(
-      auth,
-      $("email").value.trim(),
-      $("password").value
+      .filter(value =>
+        typeof value === "string"
+      )
+
+      .map(value => value.trim())
+
+      .filter(Boolean)
+
+  )];
+
+}
+
+function makeButton(text, className, action) {
+
+  const button = document.createElement("button");
+
+  button.type = "button";
+
+  button.textContent = text;
+
+  button.className = className;
+
+  button.onclick = action;
+
+  return button;
+
+}
+
+function renderOptionList(type) {
+
+  const isColor = type === "color";
+
+  const values = isColor
+    ? selectedColors
+    : selectedSizes;
+
+  const list = $(isColor
+    ? "colorsList"
+    : "sizesList");
+
+  list.replaceChildren();
+
+  values.forEach((value, index) => {
+
+    const chip = document.createElement("span");
+
+    chip.className = "option-chip";
+
+    const text = document.createElement("span");
+
+    text.textContent = value;
+
+    const remove = document.createElement("button");
+
+    remove.type = "button";
+
+    remove.textContent = "×";
+
+    remove.setAttribute(
+      "aria-label",
+      "حذف " + value
     );
 
-    $("password").value = "";
+    remove.onclick = () => {
 
-  } catch (error) {
+      if (saving) return;
 
-    $("loginMessage").textContent =
-      "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.";
+      if (isColor) {
+
+        selectedColors.splice(index, 1);
+
+      } else {
+
+        selectedSizes.splice(index, 1);
+
+      }
+
+      renderVariants();
+
+    };
+
+    chip.append(text, remove);
+
+    list.appendChild(chip);
+
+  });
+
+}
+
+function renderVariants() {
+
+  $("colorsBox").hidden =
+    !$("hasColors").checked;
+
+  $("sizesBox").hidden =
+    !$("hasSizes").checked;
+
+  renderOptionList("color");
+
+  renderOptionList("size");
+
+  const colorCount = $("hasColors").checked
+    ? selectedColors.length
+    : 0;
+
+  const sizeCount = $("hasSizes").checked
+    ? selectedSizes.length
+    : 0;
+
+  if (!colorCount && !sizeCount) {
+
+    $("variantSummary").textContent =
+      "لا توجد خيارات مضافة حالياً.";
+
+    return;
 
   }
 
-});
+  const combinations =
+    ($("hasColors").checked ? colorCount : 1) *
+    ($("hasSizes").checked ? sizeCount : 1);
+
+  $("variantSummary").textContent =
+
+    "الألوان: " + colorCount +
+
+    " | القياسات: " + sizeCount +
+
+    " | الاختيارات الممكنة: " + combinations;
+
+}
+
+function addOptions(type) {
+
+  if (saving) return;
+
+  const isColor = type === "color";
+
+  const input = $(isColor
+    ? "colorInput"
+    : "sizeInput");
+
+  const values = input.value
+
+    .split(/[,،;؛\n]+/)
+
+    .map(value => value.trim())
+
+    .filter(Boolean);
+
+  if (!values.length) return;
+
+  if (values.some(value => value.length > 60)) {
+
+    $("editorMessage").textContent =
+      "اسم اللون أو القياس طويل جداً.";
+
+    return;
+
+  }
+
+  const oldValues = isColor
+    ? selectedColors
+    : selectedSizes;
+
+  const merged = cleanOptions([
+    ...oldValues,
+    ...values
+  ]);
+
+  if (merged.length > 50) {
+
+    $("editorMessage").textContent =
+      "الحد الأقصى 50 خياراً لكل مجموعة.";
+
+    return;
+
+  }
+
+  if (isColor) {
+
+    selectedColors = merged;
+
+  } else {
+
+    selectedSizes = merged;
+
+  }
+
+  input.value = "";
+
+  $("editorMessage").textContent = "";
+
+  renderVariants();
+
+  input.focus();
+
+}
+
+$("hasColors").onchange = renderVariants;
+
+$("hasSizes").onchange = renderVariants;
+
+$("addColor").onclick = () =>
+  addOptions("color");
+
+$("addSize").onclick = () =>
+  addOptions("size");
+
+$("colorInput").addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      addOptions("color");
+
+    }
+
+  }
+);
+
+$("sizeInput").addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      addOptions("size");
+
+    }
+
+  }
+);
+
+$("standardSizes").onclick = () => {
+
+  if (saving) return;
+
+  const merged = cleanOptions([
+
+    ...selectedSizes,
+
+    "XS",
+
+    "S",
+
+    "M",
+
+    "L",
+
+    "XL",
+
+    "XXL",
+
+    "XXXL"
+
+  ]);
+
+  if (merged.length > 50) {
+
+    $("editorMessage").textContent =
+      "الحد الأقصى 50 قياساً.";
+
+    return;
+
+  }
+
+  selectedSizes = merged;
+
+  renderVariants();
+
+};
+
+$("loginForm").addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+    $("loginButton").disabled = true;
+
+    $("loginMessage").textContent =
+      "جاري تسجيل الدخول...";
+
+    try {
+
+      await signInWithEmailAndPassword(
+
+        auth,
+
+        $("email").value.trim(),
+
+        $("password").value
+
+      );
+
+      $("password").value = "";
+
+    } catch (error) {
+
+      $("loginMessage").textContent =
+        "تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.";
+
+    } finally {
+
+      $("loginButton").disabled = false;
+
+    }
+
+  }
+);
 
 onAuthStateChanged(auth, async user => {
 
   if (unsubscribe) {
+
     unsubscribe();
+
     unsubscribe = null;
+
   }
 
   if (user && user.uid !== ADMIN_UID) {
+
+    $("loginPanel").hidden = false;
+
+    $("dashboard").hidden = true;
 
     $("loginMessage").textContent =
       "هذا الحساب غير مصرح له بالإدارة.";
 
     await signOut(auth);
+
     return;
 
   }
 
   $("loginPanel").hidden = Boolean(user);
+
   $("dashboard").hidden = !user;
 
   if (!user) {
+
     products = [];
+
     editingId = null;
+
+    selectedColors = [];
+
+    selectedSizes = [];
+
     $("editor").hidden = true;
+
     $("productList").replaceChildren();
+
     return;
+
   }
 
   $("loginMessage").textContent = "";
 
   unsubscribe = onSnapshot(
+
     collection(db, "products"),
 
     snapshot => {
 
       products = snapshot.docs.map(item => ({
+
         ...item.data(),
+
         id: item.id
+
       }));
 
       renderProducts();
@@ -437,114 +1069,252 @@ onAuthStateChanged(auth, async user => {
     },
 
     error => {
-      status("تعذر تحميل المنتجات: " + error.code);
+
+      status(
+        "تعذر تحميل المنتجات: " + error.code
+      );
+
     }
+
   );
 
 });
 
 $("logout").onclick = async () => {
+
+  if (saving) return;
+
   await signOut(auth);
+
 };
-
-function makeButton(text, className, action) {
-
-  const button = document.createElement("button");
-
-  button.textContent = text;
-  button.className = className;
-  button.onclick = action;
-
-  return button;
-
-}
 
 function renderProducts() {
 
   $("total").textContent = products.length;
 
   $("visible").textContent =
-    products.filter(p => p.active === true).length;
+
+    products.filter(
+      product => product.active === true
+    ).length;
 
   $("hiddenCount").textContent =
-    products.filter(p => p.active !== true).length;
+
+    products.filter(
+      product => product.active !== true
+    ).length;
 
   $("outOfStock").textContent =
-    products.filter(p => !(Number(p.stock) > 0)).length;
 
-  const search = $("search").value.trim().toLowerCase();
+    products.filter(
+      product => !(Number(product.stock) > 0)
+    ).length;
 
-  const filtered = products.filter(p =>
-    [p.name, categoryName(p.category), p.description]
-      .join(" ").toLowerCase().includes(search)
+  const search =
+    $("search").value.trim().toLowerCase();
+
+  const filtered = products.filter(product =>
+
+    [
+
+      product.name,
+
+      categoryName(product.category),
+
+      product.description,
+
+      ...cleanOptions(product.colors),
+
+      ...cleanOptions(product.sizes)
+
+    ]
+
+      .join(" ")
+
+      .toLowerCase()
+
+      .includes(search)
+
   );
 
   $("productList").replaceChildren();
 
   if (!filtered.length) {
-    $("productList").textContent = "لا توجد منتجات مطابقة.";
+
+    $("productList").textContent =
+      "لا توجد منتجات مطابقة.";
+
     return;
+
   }
 
-  filtered.forEach(p => {
+  filtered.forEach(product => {
 
     const card = document.createElement("article");
+
     card.className = "product";
 
-    const imageUrl = p.image || p.image_url || "";
+    const imageUrl =
 
-    if (imageUrl.startsWith("https://")) {
+      product.image ||
+
+      product.image_url ||
+
+      "";
+
+    if (
+
+      typeof imageUrl === "string" &&
+
+      imageUrl.startsWith("https://")
+
+    ) {
 
       const image = document.createElement("img");
+
       image.src = imageUrl;
-      image.alt = p.name || "";
+
+      image.alt = product.name || "";
+
       image.loading = "lazy";
-      image.onerror = () => image.hidden = true;
+
+      image.onerror = () =>
+        image.hidden = true;
+
       card.append(image);
 
     }
 
     const title = document.createElement("h3");
-    title.textContent = p.name;
+
+    title.textContent = product.name || "";
 
     const price = document.createElement("strong");
+
     price.className = "gold";
+
     price.textContent =
-      (p.price ?? "") + " " + (p.currency || "USD");
+
+      (product.price ?? "") +
+
+      " " +
+
+      (product.currency || "USD");
 
     const details = document.createElement("p");
-    details.textContent =
-      categoryName(p.category) +
-      " | الكمية: " + (p.stock ?? 0);
 
-    const visibility = document.createElement("p");
-    visibility.textContent = p.active
+    details.textContent =
+
+      categoryName(product.category) +
+
+      " | الكمية: " +
+
+      (product.stock ?? 0);
+
+    card.append(title, price, details);
+
+    const colors =
+      cleanOptions(product.colors);
+
+    const sizes =
+      cleanOptions(product.sizes);
+
+    if (
+
+      product.has_colors !== false &&
+
+      colors.length > 0
+
+    ) {
+
+      const colorsText =
+        document.createElement("p");
+
+      colorsText.textContent =
+
+        "🎨 الألوان: " +
+
+        colors.join("، ");
+
+      card.appendChild(colorsText);
+
+    }
+
+    if (
+
+      product.has_sizes !== false &&
+
+      sizes.length > 0
+
+    ) {
+
+      const sizesText =
+        document.createElement("p");
+
+      sizesText.textContent =
+
+        "📏 القياسات: " +
+
+        sizes.join("، ");
+
+      card.appendChild(sizesText);
+
+    }
+
+    const visibility =
+      document.createElement("p");
+
+    visibility.textContent = product.active
+
       ? "🟢 معروض في المتجر"
+
       : "⚪ مخفي من المتجر";
 
-    const actions = document.createElement("div");
+    const actions =
+      document.createElement("div");
+
     actions.className = "actions";
 
     actions.append(
 
-      makeButton("تعديل", "", () => openEditor(p)),
-
       makeButton(
-        p.active ? "إخفاء" : "إظهار",
-        "secondary",
-        () => toggleProduct(p)
+
+        "تعديل",
+
+        "",
+
+        () => openEditor(product)
+
       ),
 
       makeButton(
+
+        product.active ? "إخفاء" : "إظهار",
+
+        "secondary",
+
+        () => toggleProduct(product)
+
+      ),
+
+      makeButton(
+
         "حذف",
+
         "danger",
-        () => removeProduct(p)
+
+        () => removeProduct(product)
+
       )
 
     );
 
     card.append(
-      title, price, details, visibility, actions
+
+      visibility,
+
+      actions
+
     );
 
     $("productList").append(card);
@@ -555,143 +1325,446 @@ function renderProducts() {
 
 function openEditor(product = null) {
 
-  if (!isAdmin()) return;
+  if (!isAdmin() || saving) return;
 
   editingId = product?.id || null;
 
   $("productForm").reset();
 
   $("editorTitle").textContent = product
+
     ? "تعديل المنتج"
+
     : "إضافة منتج جديد";
 
-  $("name").value = product?.name || "";
-$("category").value = window.getCategoryId
-  ? window.getCategoryId(product?.category)
-  : categoryName(product?.category);
-  $("description").value = product?.description || "";
-  $("price").value = product?.price ?? "";
-  $("currency").value = product?.currency || "USD";
-  $("stock").value = product?.stock ?? 0;
-  $("image").value = product?.image || product?.image_url || "";
-  $("active").checked = product ? product.active === true : true;
+  $("name").value =
+    product?.name || "";
+
+  const categoryValue =
+
+    product?.category_id ||
+
+    product?.category ||
+
+    "";
+
+  const categoryId = window.getCategoryId
+
+    ? window.getCategoryId(categoryValue)
+
+    : categoryValue;
+
+  const categoryField = $("category");
+
+  if (
+
+    categoryId &&
+
+    categoryField.tagName === "SELECT" &&
+
+    !Array.from(categoryField.options)
+      .some(option => option.value === categoryId)
+
+  ) {
+
+    categoryField.add(
+
+      new Option(
+
+        categoryName(categoryValue),
+
+        categoryId
+
+      )
+
+    );
+
+  }
+
+  categoryField.value = categoryId;
+
+  $("description").value =
+    product?.description || "";
+
+  $("price").value =
+    product?.price ?? "";
+
+  $("currency").value =
+    product?.currency || "USD";
+
+  $("stock").value =
+    product?.stock ?? 0;
+
+  $("image").value =
+
+    product?.image ||
+
+    product?.image_url ||
+
+    "";
+
+  $("image").dispatchEvent(
+    new Event("input", { bubbles: true })
+  );
+
+  $("active").checked = product
+
+    ? product.active === true
+
+    : true;
+
+  selectedColors =
+    cleanOptions(product?.colors);
+
+  selectedSizes =
+    cleanOptions(product?.sizes);
+
+  $("hasColors").checked =
+
+    product?.has_colors === true ||
+
+    (
+
+      product?.has_colors !== false &&
+
+      selectedColors.length > 0
+
+    );
+
+  $("hasSizes").checked =
+
+    product?.has_sizes === true ||
+
+    (
+
+      product?.has_sizes !== false &&
+
+      selectedSizes.length > 0
+
+    );
+
+  $("colorInput").value = "";
+
+  $("sizeInput").value = "";
+
+  renderVariants();
 
   $("editorMessage").textContent = "";
+
   $("editor").hidden = false;
 
   $("editor").scrollIntoView({
+
     behavior: "smooth"
+
   });
 
 }
 
-$("addProduct").onclick = () => openEditor();
+function closeEditor() {
 
-$("cancelEdit").onclick = () => {
+  if (saving) return;
+
   $("editor").hidden = true;
+
   editingId = null;
-};
 
-$("search").addEventListener("input", renderProducts);
+  selectedColors = [];
 
-$("productForm").addEventListener("submit", async e => {
+  selectedSizes = [];
 
-  e.preventDefault();
+  $("productForm").reset();
 
-  if (!isAdmin()) return;
+  renderVariants();
 
-  const image = $("image").value.trim();
+}
 
-  if (image && !image.startsWith("https://")) {
-    $("editorMessage").textContent =
-      "يجب أن يبدأ رابط الصورة بـ HTTPS.";
-    return;
-  }
+$("addProduct").onclick = () =>
+  openEditor();
 
-  const data = {
+$("cancelEdit").onclick =
+  closeEditor;
 
-    name: $("name").value.trim(),
-    category: $("category").value.trim(),
-    description: $("description").value.trim(),
-    price: Number($("price").value),
-    currency: $("currency").value,
-    stock: Number($("stock").value),
-    image: image,
-    image_url: image,
-    active: $("active").checked,
-    updated_at: serverTimestamp()
+$("search").addEventListener(
 
-  };
+  "input",
 
-  if (!data.name || !data.category ||
-      !Number.isFinite(data.price) ||
-      data.price < 0 ||
-      !Number.isInteger(data.stock) ||
-      data.stock < 0) {
+  renderProducts
 
-    $("editorMessage").textContent =
-      "تحقق من بيانات المنتج.";
+);
 
-    return;
-  }
+$("productForm").addEventListener(
+  "submit",
+  async event => {
 
-  $("saveButton").disabled = true;
-  $("editorMessage").textContent = "جاري الحفظ...";
+    event.preventDefault();
 
-  try {
+    if (!isAdmin() || saving) return;
 
-    if (editingId) {
+    const image = $("image").value.trim();
 
-      await updateDoc(
-        doc(db, "products", editingId),
-        data
-      );
+    if (image) {
 
-    } else {
+      try {
 
-      await addDoc(collection(db, "products"), {
-        ...data,
-        created_at: serverTimestamp()
-      });
+        if (new URL(image).protocol !== "https:") {
+
+          throw new Error();
+
+        }
+
+      } catch {
+
+        $("editorMessage").textContent =
+          "يجب أن يكون رابط الصورة HTTPS.";
+
+        return;
+
+      }
 
     }
 
-    status("تم حفظ المنتج بنجاح.");
-    $("editor").hidden = true;
-    editingId = null;
+    const hasColors =
+      $("hasColors").checked;
 
-  } catch (error) {
+    const hasSizes =
+      $("hasSizes").checked;
+
+    if (
+
+      hasColors &&
+
+      $("colorInput").value.trim()
+
+    ) {
+
+      $("editorMessage").textContent =
+        "اضغط إضافة لحفظ اللون الذي أدخلته أولاً.";
+
+      return;
+
+    }
+
+    if (
+
+      hasSizes &&
+
+      $("sizeInput").value.trim()
+
+    ) {
+
+      $("editorMessage").textContent =
+        "اضغط إضافة لحفظ القياس الذي أدخلته أولاً.";
+
+      return;
+
+    }
+
+    if (hasColors && !selectedColors.length) {
+
+      $("editorMessage").textContent =
+        "يرجى إضافة لون واحد على الأقل أو تعطيل الألوان.";
+
+      return;
+
+    }
+
+    if (hasSizes && !selectedSizes.length) {
+
+      $("editorMessage").textContent =
+        "يرجى إضافة قياس واحد على الأقل أو تعطيل القياسات.";
+
+      return;
+
+    }
+
+    const data = {
+
+      name:
+        $("name").value.trim(),
+
+      category:
+        $("category").value.trim(),
+
+      category_id:
+        $("category").value.trim(),
+
+      description:
+        $("description").value.trim(),
+
+      price:
+        Number($("price").value),
+
+      currency:
+        $("currency").value,
+
+      stock:
+        Number($("stock").value),
+
+      image: image,
+
+      image_url: image,
+
+      active:
+        $("active").checked,
+
+      has_colors: hasColors,
+
+      has_sizes: hasSizes,
+
+      colors:
+        hasColors ? [...selectedColors] : [],
+
+      sizes:
+        hasSizes ? [...selectedSizes] : [],
+
+      updated_at:
+        serverTimestamp()
+
+    };
+
+    if (
+
+      !data.name ||
+
+      !data.category ||
+
+      !$("price").value.trim() ||
+
+      !$("stock").value.trim() ||
+
+      !Number.isFinite(data.price) ||
+
+      data.price < 0 ||
+
+      !Number.isSafeInteger(data.stock) ||
+
+      data.stock < 0
+
+    ) {
+
+      $("editorMessage").textContent =
+        "تحقق من بيانات المنتج.";
+
+      return;
+
+    }
+
+    saving = true;
+
+    $("saveButton").disabled = true;
+
+    $("cancelEdit").disabled = true;
+
+    $("addProduct").disabled = true;
 
     $("editorMessage").textContent =
-      "تعذر الحفظ: " + error.code;
+      "جاري الحفظ...";
 
-  } finally {
+    const currentEditingId = editingId;
 
-    $("saveButton").disabled = false;
+    try {
+
+      if (currentEditingId) {
+
+        await updateDoc(
+
+          doc(
+
+            db,
+
+            "products",
+
+            currentEditingId
+
+          ),
+
+          data
+
+        );
+
+      } else {
+
+        await addDoc(
+
+          collection(db, "products"),
+
+          {
+
+            ...data,
+
+            created_at: serverTimestamp()
+
+          }
+
+        );
+
+      }
+
+      status("تم حفظ المنتج بنجاح.");
+
+      $("editor").hidden = true;
+
+      editingId = null;
+
+      selectedColors = [];
+
+      selectedSizes = [];
+
+    } catch (error) {
+
+      $("editorMessage").textContent =
+
+        "تعذر الحفظ: " +
+
+        (error.code || error.message);
+
+    } finally {
+
+      saving = false;
+
+      $("saveButton").disabled = false;
+
+      $("cancelEdit").disabled = false;
+
+      $("addProduct").disabled = false;
+
+    }
 
   }
-
-});
+);
 
 async function toggleProduct(product) {
 
-  if (!isAdmin()) return;
+  if (!isAdmin() || saving) return;
 
   try {
 
     await updateDoc(
+
       doc(db, "products", product.id),
+
       {
+
         active: !product.active,
+
         updated_at: serverTimestamp()
+
       }
+
     );
 
     status("تم تحديث حالة عرض المنتج.");
 
   } catch (error) {
 
-    status("تعذر تحديث المنتج: " + error.code);
+    status(
+
+      "تعذر تحديث المنتج: " +
+
+      (error.code || error.message)
+
+    );
 
   }
 
@@ -699,39 +1772,63 @@ async function toggleProduct(product) {
 
 async function removeProduct(product) {
 
-  if (!isAdmin()) return;
+  if (!isAdmin() || saving) return;
 
-  if (!confirm("هل تريد حذف " + product.name + " نهائياً؟")) {
+  if (!confirm(
+
+    "هل تريد حذف " +
+
+    product.name +
+
+    " نهائياً؟"
+
+  )) {
+
     return;
+
   }
 
   try {
 
     await deleteDoc(
+
       doc(db, "products", product.id)
+
     );
 
     if (editingId === product.id) {
-      $("editor").hidden = true;
-      editingId = null;
+
+      closeEditor();
+
     }
 
     status("تم حذف المنتج بنجاح.");
 
   } catch (error) {
 
-    status("تعذر حذف المنتج: " + error.code);
+    status(
+
+      "تعذر حذف المنتج: " +
+
+      (error.code || error.message)
+
+    );
 
   }
 
 }
 
+renderVariants();
 
 </script>
 
-<script type="module" src="./upload.js"></script>
-<script type="module" src="./categories.js?v=21"></script>
+<script type="module"
+  src="./upload.js">
+</script>
+
+<script type="module"
+  src="./categories.js?v=21">
+</script>
 
 </body>
 </html>
-
