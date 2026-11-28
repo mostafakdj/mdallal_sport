@@ -1,148 +1,388 @@
-
-import {db,auth} from './firebase-config.js';
+import { db, auth } from "./firebase-config.js";
 
 import {
   onAuthStateChanged
-} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 import {
   collection,
   doc,
   onSnapshot,
-  runTransaction,
+  updateDoc,
   serverTimestamp
-} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-const ADMIN = 'vAwEHEC8iHNvHnLsDSWUORZM4kv2';
+const ADMIN_UID =
+  "vAwEHEC8iHNvHnLsDSWUORZM4kv2";
 
 const $ = id => document.getElementById(id);
 
-const panel = document.createElement('details');
+let products = [];
 
-panel.id = 'adminOffers';
+let unsubscribe = null;
 
-panel.className = 'panel';
+let saving = false;
+
+const style = document.createElement("style");
+
+style.textContent = `
+
+#adminOffers{
+  background:#081321;
+  border:1px solid #D7192D;
+  border-radius:12px;
+  overflow:hidden;
+  margin:18px 0;
+  color:white;
+}
+
+#adminOffers summary{
+  background:#D7192D;
+  color:white;
+  padding:17px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#adminOffers .offer-admin-content{
+  padding:16px;
+}
+
+#adminOffers label{
+  color:white;
+}
+
+#adminOffers input,
+#adminOffers select{
+  background:white;
+  color:#101010;
+  border:1px solid #DDD;
+}
+
+#adminOffers input[type="checkbox"]{
+  accent-color:#D7192D;
+}
+
+#offerPreview{
+  background:#101010;
+  border:2px solid #D7192D;
+  border-radius:10px;
+  color:#FF4055;
+  font-size:30px;
+  font-weight:900;
+  padding:20px;
+  text-align:center;
+  margin:12px 0;
+}
+
+#offerQuickButtons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:15px;
+}
+
+#offerQuickButtons button{
+  background:#D7192D;
+  color:white;
+  flex:1;
+  min-width:55px;
+}
+
+#offerSave{
+  background:#D7192D;
+  color:white;
+}
+
+#offerRemove{
+  background:#383838;
+  color:white;
+}
+
+#offerProductPreview{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#101010;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:15px;
+}
+
+#offerProductImage{
+  width:85px;
+  height:85px;
+  object-fit:contain;
+  background:white;
+  border-radius:8px;
+}
+
+#offerProductName{
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+
+#offerMessage{
+  color:white;
+  line-height:1.8;
+}
+
+#offerCount{
+  color:#DDD;
+  font-size:14px;
+}
+
+#offerActiveList{
+  margin-top:15px;
+}
+
+.offer-admin-row{
+  background:#101010;
+  border:1px solid #444;
+  border-radius:9px;
+  padding:12px;
+  margin-bottom:9px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.offer-admin-row strong{
+  color:#FF4055;
+}
+
+.offer-admin-row button{
+  background:#D7192D;
+  color:white;
+}
+
+`;
+
+document.head.appendChild(style);
+
+const panel = document.createElement("details");
+
+panel.id = "adminOffers";
 
 panel.hidden = true;
 
 panel.innerHTML = `
 
-<summary style="
-  cursor:pointer;
-  font-weight:bold;
-  font-size:19px;
-  color:#FFFFFF;
-  background:#D7192D;
-  padding:14px;
-  border-radius:8px;
-">
+<summary>
 
   🔥 إدارة الشروات والخصومات
 
 </summary>
 
-<div style="padding-top:15px">
+<div class="offer-admin-content">
 
   <label for="offerSearch">
-    ابحث عن المنتج
+
+    البحث عن المنتج
+
   </label>
 
   <input
-    id="offerSearch"
-    type="search"
-    placeholder="اسم المنتج أو القسم">
 
-  <label for="offerProduct">
-    اختر المنتج
+    id="offerSearch"
+
+    type="search"
+
+    placeholder="اسم المنتج أو القسم...">
+
+  <label for="offerCategory">
+
+    تصفية حسب القسم
+
   </label>
 
-  <select id="offerProduct"></select>
+  <select id="offerCategory">
+
+    <option value="">جميع الأقسام</option>
+
+  </select>
+
+  <label for="offerProduct">
+
+    اختيار المنتج
+
+  </label>
+
+  <select id="offerProduct">
+
+    <option value="">اختر المنتج</option>
+
+  </select>
 
   <div id="offerFields" hidden>
 
-    <p id="offerBase"></p>
+    <div id="offerProductPreview">
+
+      <img id="offerProductImage"
+        alt="صورة المنتج">
+
+      <div id="offerProductName"></div>
+
+    </div>
 
     <label class="check">
 
       <input
+
         id="offerActive"
+
         type="checkbox">
 
-      تفعيل الخصم
+      تفعيل عرض الخصم
 
     </label>
 
-    <label for="offerPrice">
-      السعر بعد الخصم (لكامل وحدة البيع)
+    <label for="offerPercent">
+
+      نسبة الخصم %
+
     </label>
 
     <input
-      id="offerPrice"
-      type="number"
-      min="0"
-      step="0.01">
 
-    <p id="offerPreview"
-      style="
-        background:#101010;
-        color:#FF5264;
-        font-size:20px;
-        font-weight:bold;
-        padding:15px;
-        border-radius:9px;
-        text-align:center;
-      ">
-    </p>
+      id="offerPercent"
+
+      type="number"
+
+      min="1"
+
+      max="100"
+
+      step="1"
+
+      placeholder="مثال: 50">
+
+    <div id="offerQuickButtons">
+
+      <button type="button" data-percent="10">
+        10%
+      </button>
+
+      <button type="button" data-percent="20">
+        20%
+      </button>
+
+      <button type="button" data-percent="30">
+        30%
+      </button>
+
+      <button type="button" data-percent="40">
+        40%
+      </button>
+
+      <button type="button" data-percent="50">
+        50%
+      </button>
+
+      <button type="button" data-percent="60">
+        60%
+      </button>
+
+      <button type="button" data-percent="70">
+        70%
+      </button>
+
+    </div>
+
+    <div id="offerPreview">
+
+      خصم 50%
+
+    </div>
 
     <label class="check">
 
       <input
-        id="offerFeatured"
-        type="checkbox">
 
-      إظهاره في الشريط المتحرك
+        id="offerFeatured"
+
+        type="checkbox"
+
+        checked>
+
+      إظهار المنتج في الشريط المتحرك
 
     </label>
 
     <label for="offerOrder">
-      ترتيب الظهور (الأقل أولاً)
+
+      ترتيب الظهور
+
     </label>
 
     <input
+
       id="offerOrder"
+
       type="number"
+
       min="0"
+
       step="1"
+
       value="0">
 
+    <p class="hint">
+
+      الرقم الأقل يظهر أولاً.
+
+    </p>
+
     <label for="offerEnd">
+
       موعد انتهاء العرض (اختياري)
+
     </label>
 
     <input
+
       id="offerEnd"
+
       type="datetime-local">
 
     <p class="hint">
-      يتم تحديد الموعد حسب توقيت جهازك.
-      اتركه فارغاً إذا أردت استمرار العرض
-      حتى إلغائه يدوياً.
+
+      اترك الموعد فارغاً ليبقى العرض فعالاً
+
+      حتى تقوم بإلغائه يدوياً.
+
+    </p>
+
+    <p class="hint">
+
+      نسبة الخصم للعرض فقط.
+
+      لن يتم تغيير سعر المنتج أو السلة.
+
     </p>
 
     <button
-      type="button"
+
       id="offerSave"
-      class="full"
-      style="background:#D7192D;color:white">
+
+      type="button"
+
+      class="full">
 
       حفظ العرض
 
     </button>
 
     <button
-      type="button"
+
       id="offerRemove"
-      class="secondary full">
+
+      type="button"
+
+      class="full">
 
       إلغاء الخصم
 
@@ -154,154 +394,265 @@ panel.innerHTML = `
 
   <p id="offerCount"></p>
 
+  <details>
+
+    <summary>
+
+      المنتجات المضافة إلى الخصومات
+
+    </summary>
+
+    <div id="offerActiveList"></div>
+
+  </details>
+
 </div>
 
 `;
 
-$('addProduct').before(panel);
+$("addProduct").before(panel);
 
-let items = [];
+function categoryName(product){
 
-let unsubscribe = null;
+  const value =
 
-let busy = false;
+    product.category_id ||
 
-function selected(){
+    product.category ||
 
-  return items.find(
-    p => p.id === $('offerProduct').value
+    "";
+
+  return window.getCategoryName
+
+    ? window.getCategoryName(value)
+
+    : value;
+
+}
+
+function selectedProduct(){
+
+  return products.find(product =>
+
+    product.id === $("offerProduct").value
+
   );
 
 }
 
-function message(t){
+function message(text){
 
-  $('offerMessage').textContent = t;
+  $("offerMessage").textContent = text;
 
 }
 
-function options(){
+function activeOffer(product){
 
-  const id = $('offerProduct').value;
+  const percent = Number(product.offer_percent);
 
-  const q = $('offerSearch').value
-    .trim()
-    .toLowerCase();
+  return product.offer_active === true &&
 
-  $('offerProduct').replaceChildren(
-    new Option('اختر منتجاً','')
-  );
+    Number.isInteger(percent) &&
 
-  const filtered = items.filter(p => [
+    percent >= 1 &&
 
-    p.name,
+    percent <= 100 &&
 
-    p.category,
+    (
 
-    window.getCategoryName?.(p.category_id)
+      !product.offer_end ||
 
-  ].join(' ').toLowerCase().includes(q));
-
-  for(const p of filtered){
-
-    $('offerProduct').add(
-
-      new Option(
-
-        `${p.name} — ${p.price ?? '؟'} `+
-
-        `${p.currency || 'USD'}`+
-
-        `${p.offer_active ? ' | عرض' : ''}`+
-
-        `${p.active !== true ? ' | مخفي' : ''}`,
-
-        p.id
-
-      )
+      Date.parse(product.offer_end) > Date.now()
 
     );
 
+}
+
+function renderCategories(){
+
+  const select = $("offerCategory");
+
+  const previous = select.value;
+
+  const categories = [...new Set(
+
+    products.map(categoryName).filter(Boolean)
+
+  )].sort((a,b) =>
+
+    a.localeCompare(b,"ar")
+
+  );
+
+  select.replaceChildren(
+
+    new Option("جميع الأقسام","")
+
+  );
+
+  categories.forEach(name => {
+
+    select.add(new Option(name,name));
+
+  });
+
+  if(categories.includes(previous)){
+
+    select.value = previous;
+
   }
-
-  if(
-    [...$('offerProduct').options]
-      .some(o => o.value === id)
-  ){
-
-    $('offerProduct').value = id;
-
-  }else{
-
-    load();
-
-  }
-
-  $('offerCount').textContent =
-
-    'العروض المفعلة: '+
-
-    items.filter(p =>
-
-      p.offer_active === true &&
-
-      (
-        !p.offer_end ||
-        Date.parse(p.offer_end) > Date.now()
-      )
-
-    ).length;
 
 }
 
-function localDate(s){
+function renderProducts(){
 
-  const d = new Date(s);
+  const select = $("offerProduct");
 
-  if(!Number.isFinite(d.getTime())) return '';
+  const previous = select.value;
+
+  const search = $("offerSearch")
+
+    .value.trim().toLowerCase();
+
+  const category = $("offerCategory").value;
+
+  const filtered = products.filter(product => {
+
+    const matchesCategory =
+
+      !category ||
+
+      categoryName(product) === category;
+
+    const matchesSearch = [
+
+      product.name,
+
+      product.description,
+
+      categoryName(product)
+
+    ].join(" ").toLowerCase().includes(search);
+
+    return matchesCategory && matchesSearch;
+
+  });
+
+  select.replaceChildren(
+
+    new Option("اختر المنتج","")
+
+  );
+
+  filtered.forEach(product => {
+
+    let title = product.name || "منتج";
+
+    if(activeOffer(product)){
+
+      title += " — خصم " +
+
+        product.offer_percent + "%";
+
+    }
+
+    if(product.active !== true){
+
+      title += " — مخفي";
+
+    }
+
+    select.add(new Option(title,product.id));
+
+  });
+
+  if(filtered.some(product => product.id === previous)){
+
+    select.value = previous;
+
+  }else{
+
+    loadProduct();
+
+  }
+
+}
+
+function localDate(value){
+
+  if(!value) return "";
+
+  const date = new Date(value);
+
+  if(!Number.isFinite(date.getTime())) return "";
 
   return new Date(
 
-    d.getTime() -
-    d.getTimezoneOffset()*60000
+    date.getTime() -
+
+    date.getTimezoneOffset()*60000
 
   ).toISOString().slice(0,16);
 
 }
 
-function load(){
+function loadProduct(){
 
-  const p = selected();
+  const product = selectedProduct();
 
-  $('offerFields').hidden = !p;
+  $("offerFields").hidden = !product;
 
-  if(!p) return;
+  if(!product) return;
 
-  $('offerBase').textContent =
+  $("offerProductName").textContent =
 
-    `السعر الأصلي: ${p.price ?? 'غير محدد'} `+
+    product.name || "";
 
-    `${p.currency || 'USD'} / `+
+  const image = $("offerProductImage");
 
-    `${p.sale_unit === 'dozen' ? 'دزينة' : 'قطعة'}`;
+  const url = product.image || product.image_url || "";
 
-  $('offerActive').checked =
-    p.offer_active === true;
+  if(
 
-  $('offerPrice').value =
-    p.offer_price ?? '';
+    typeof url === "string" &&
 
-  $('offerFeatured').checked =
-    p.offer_featured !== false;
+    url.startsWith("https://")
 
-  $('offerOrder').value =
-    p.offer_order ?? 0;
+  ){
 
-  $('offerEnd').value =
+    image.src = url;
 
-    p.offer_end
-      ? localDate(p.offer_end)
-      : '';
+    image.hidden = false;
+
+    image.onerror = () => image.hidden = true;
+
+  }else{
+
+    image.hidden = true;
+
+    image.removeAttribute("src");
+
+  }
+
+  $("offerActive").checked =
+
+    product.offer_active === true;
+
+  $("offerPercent").value =
+
+    product.offer_percent ?? "";
+
+  $("offerFeatured").checked =
+
+    product.offer_featured !== false;
+
+  $("offerOrder").value =
+
+    product.offer_order ?? 0;
+
+  $("offerEnd").value =
+
+    localDate(product.offer_end);
 
   preview();
 
@@ -309,168 +660,258 @@ function load(){
 
 function preview(){
 
-  const p = selected();
+  const percent = Number($("offerPercent").value);
 
-  const v = Number($('offerPrice').value);
+  $("offerPreview").textContent =
 
-  const b = Number(p?.price);
+    Number.isInteger(percent) &&
 
-  $('offerPreview').textContent =
+    percent >= 1 &&
 
-    $('offerPrice').value !== '' &&
-    b > v &&
-    v >= 0
+    percent <= 100
 
-      ? 'نسبة الخصم: '+
+      ? "خصم " + percent + "%"
 
-        Math.max(
-          1,
-          Math.floor((b-v)/b*100)
-        )+'%'
-
-      : 'أدخل سعراً أقل من السعر الأصلي';
+      : "حدد نسبة الخصم";
 
 }
 
-$('offerSearch').oninput = options;
+$("offerQuickButtons").addEventListener(
 
-$('offerProduct').onchange = load;
+  "click",event => {
 
-$('offerPrice').oninput = preview;
+    const button = event.target.closest(
 
-async function save(remove=false){
+      "button[data-percent]"
 
-  const p = selected();
-
-  if(
-    !p ||
-    busy ||
-    auth.currentUser?.uid !== ADMIN
-  ) return;
-
-  const active =
-    !remove && $('offerActive').checked;
-
-  const value =
-    Number($('offerPrice').value);
-
-  const order =
-    Number($('offerOrder').value);
-
-  const featured =
-    $('offerFeatured').checked;
-
-  const end =
-
-    $('offerEnd').value
-
-      ? new Date($('offerEnd').value)
-
-      : null;
-
-  if(
-
-    active &&
-
-    (
-
-      $('offerPrice').value === '' ||
-
-      !Number.isFinite(value) ||
-
-      value < 0 ||
-
-      !Number.isSafeInteger(order) ||
-
-      order < 0 ||
-
-      (
-
-        end &&
-
-        (
-
-          !Number.isFinite(end.getTime()) ||
-
-          end.getTime() <= Date.now()
-
-        )
-
-      )
-
-    )
-
-  ){
-
-    message(
-      'تحقق من السعر والترتيب وموعد الانتهاء.'
     );
+
+    if(!button || saving) return;
+
+    $("offerPercent").value =
+
+      button.dataset.percent;
+
+    $("offerActive").checked = true;
+
+    preview();
+
+  }
+
+);
+
+$("offerPercent").oninput = preview;
+
+$("offerSearch").oninput = renderProducts;
+
+$("offerCategory").onchange = renderProducts;
+
+$("offerProduct").onchange = () => {
+
+  message("");
+
+  loadProduct();
+
+};
+
+function renderActiveList(){
+
+  const list = $("offerActiveList");
+
+  list.replaceChildren();
+
+  const active = products.filter(activeOffer);
+
+  $("offerCount").textContent =
+
+    "عدد العروض المفعلة: " + active.length;
+
+  if(!active.length){
+
+    list.textContent = "لا توجد عروض مفعلة.";
 
     return;
 
   }
 
-  busy = true;
+  active.forEach(product => {
 
-  $('offerSave').disabled = true;
+    const row = document.createElement("div");
 
-  $('offerRemove').disabled = true;
+    row.className = "offer-admin-row";
 
-  $('offerProduct').disabled = true;
+    const info = document.createElement("div");
 
-  $('offerSearch').disabled = true;
+    const name = document.createElement("div");
 
-  message('جاري حفظ العرض...');
+    name.textContent = product.name || "";
+
+    const percent = document.createElement("strong");
+
+    percent.textContent =
+
+      "خصم " + product.offer_percent + "%";
+
+    info.append(name,percent);
+
+    const edit = document.createElement("button");
+
+    edit.type = "button";
+
+    edit.textContent = "تعديل";
+
+    edit.onclick = () => {
+
+      if(saving) return;
+
+      $("offerSearch").value = "";
+
+      $("offerCategory").value = "";
+
+      renderProducts();
+
+      $("offerProduct").value = product.id;
+
+      loadProduct();
+
+      $("offerFields").scrollIntoView({
+
+        behavior:"smooth"
+
+      });
+
+    };
+
+    row.append(info,edit);
+
+    list.appendChild(row);
+
+  });
+
+}
+
+async function saveOffer(remove = false){
+
+  const product = selectedProduct();
+
+  if(
+
+    !product ||
+
+    saving ||
+
+    auth.currentUser?.uid !== ADMIN_UID
+
+  ) return;
+
+  const active =
+
+    !remove && $("offerActive").checked;
+
+  const percent =
+
+    Number($("offerPercent").value);
+
+  const order =
+
+    Number($("offerOrder").value);
+
+  const featured =
+
+    $("offerFeatured").checked;
+
+  const end = $("offerEnd").value
+
+    ? new Date($("offerEnd").value)
+
+    : null;
+
+  if(active){
+
+    if(
+
+      !Number.isInteger(percent) ||
+
+      percent < 1 ||
+
+      percent > 100
+
+    ){
+
+      message(
+
+        "أدخل نسبة خصم صحيحة من 1 إلى 100."
+
+      );
+
+      return;
+
+    }
+
+    if(
+
+      !Number.isSafeInteger(order) ||
+
+      order < 0
+
+    ){
+
+      message("أدخل ترتيب ظهور صحيحاً.");
+
+      return;
+
+    }
+
+    if(end && (
+
+      !Number.isFinite(end.getTime()) ||
+
+      end.getTime() <= Date.now()
+
+    )){
+
+      message("حدد موعد انتهاء في المستقبل.");
+
+      return;
+
+    }
+
+  }
+
+  saving = true;
+
+  $("offerSave").disabled = true;
+
+  $("offerRemove").disabled = true;
+
+  $("offerProduct").disabled = true;
+
+  $("offerSearch").disabled = true;
+
+  $("offerCategory").disabled = true;
+
+  message("جاري حفظ العرض...");
 
   try{
 
-    await runTransaction(db,async tx => {
+    await updateDoc(
 
-      const ref = doc(db,'products',p.id);
+      doc(db,"products",product.id),
 
-      const snap = await tx.get(ref);
-
-      if(!snap.exists()){
-
-        throw Error('المنتج غير موجود');
-
-      }
-
-      const latest = snap.data();
-
-      if(
-
-        active &&
-
-        (
-
-          latest.price == null ||
-
-          !Number.isFinite(Number(latest.price)) ||
-
-          value >= Number(latest.price)
-
-        )
-
-      ){
-
-        throw Error(
-          'سعر العرض يجب أن يكون أقل من السعر الأصلي الحالي'
-        );
-
-      }
-
-      tx.update(ref,{
+      {
 
         offer_active:active,
 
-        offer_price:
-          active ? value : null,
+        offer_percent:
+
+          active ? percent : null,
 
         offer_featured:
+
           active && featured,
 
         offer_order:
+
           active ? order : 0,
 
         offer_end:
@@ -481,102 +922,158 @@ async function save(remove=false){
 
             : null,
 
-        offer_updated_at:
-          serverTimestamp()
+        offer_price:null,
 
-      });
+        offer_updated_at:serverTimestamp()
 
-    });
-
-    message(
-
-      active
-
-        ? '✓ تم حفظ العرض بنجاح'
-
-        : '✓ تم إلغاء الخصم'
+      }
 
     );
 
-    if(!active){
+    if(active){
 
-      $('offerActive').checked = false;
+      message(
 
-      $('offerPrice').value = '';
+        "✓ تم حفظ خصم " + percent +
 
-      $('offerEnd').value = '';
+        "% بنجاح دون تغيير السعر."
+
+      );
+
+    }else{
+
+      $("offerActive").checked = false;
+
+      $("offerPercent").value = "";
+
+      $("offerEnd").value = "";
 
       preview();
 
+      message("✓ تم إلغاء الخصم بنجاح.");
+
     }
 
-  }catch(e){
+  }catch(error){
 
-    message('تعذر الحفظ: '+e.message);
+    console.error(error);
+
+    message(
+
+      "تعذر حفظ العرض: " +
+
+      (error.code || error.message)
+
+    );
 
   }finally{
 
-    busy = false;
+    saving = false;
 
-    $('offerSave').disabled = false;
+    $("offerSave").disabled = false;
 
-    $('offerRemove').disabled = false;
+    $("offerRemove").disabled = false;
 
-    $('offerProduct').disabled = false;
+    $("offerProduct").disabled = false;
 
-    $('offerSearch').disabled = false;
+    $("offerSearch").disabled = false;
+
+    $("offerCategory").disabled = false;
 
   }
 
 }
 
-$('offerSave').onclick = () => save();
+$("offerSave").onclick = () => saveOffer();
 
-$('offerRemove').onclick = () => save(true);
+$("offerRemove").onclick = () => {
+
+  if(confirm("هل تريد إلغاء خصم هذا المنتج؟")){
+
+    saveOffer(true);
+
+  }
+
+};
 
 onAuthStateChanged(auth,user => {
 
-  unsubscribe?.();
+  if(unsubscribe){
 
-  unsubscribe = null;
+    unsubscribe();
 
-  panel.hidden = user?.uid !== ADMIN;
+    unsubscribe = null;
 
-  items = [];
+  }
 
-  $('offerProduct').replaceChildren();
+  panel.hidden = user?.uid !== ADMIN_UID;
 
-  $('offerFields').hidden = true;
+  products = [];
+
+  panel.open = false;
+
+  $("offerFields").hidden = true;
+
+  $("offerSearch").value = "";
+
+  $("offerProduct").replaceChildren();
+
+  $("offerActiveList").replaceChildren();
+
+  message("");
 
   if(panel.hidden) return;
 
   unsubscribe = onSnapshot(
 
-    collection(db,'products'),
+    collection(db,"products"),
 
-    snap => {
+    snapshot => {
 
-      items = snap.docs.map(d => ({
+      products = snapshot.docs.map(item => ({
 
-        ...d.data(),
+        ...item.data(),
 
-        id:d.id
+        id:item.id
 
       })).sort((a,b) =>
 
-        String(a.name)
-          .localeCompare(String(b.name),'ar')
+        String(a.name || "").localeCompare(
+
+          String(b.name || ""),"ar"
+
+        )
 
       );
 
-      options();
+      renderCategories();
+
+      renderProducts();
+
+      renderActiveList();
 
     },
 
-    e => message(
-      'تعذر تحميل المنتجات: '+e.code
-    )
+    error => {
+
+      message(
+
+        "تعذر تحميل المنتجات: " + error.code
+
+      );
+
+    }
 
   );
 
 });
+
+setInterval(() => {
+
+  if(!panel.hidden){
+
+    renderActiveList();
+
+  }
+
+},30000);
