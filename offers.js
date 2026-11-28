@@ -1,791 +1,1100 @@
-
-import {db} from './firebase-config.js';
+import { db } from "./firebase-config.js";
 
 import {
   collection,
   query,
   where,
   onSnapshot
-} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
-
-const KEY = '__mdallal_offers__';
-const NAME = 'الشروات والخصومات';
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const $ = id => document.getElementById(id);
 
-let deals = new Map();
-let opened = null;
+const OFFER_KEY = "__offers__";
+const OFFER_NAME = "الشروات والخصومات";
 
-const css = document.createElement('style');
+let offers = new Map();
+let catalogProducts = [];
+let showingOffers = false;
+let currentDetailId = "";
+let pauseUntil = 0;
 
-css.textContent = `
-#offersStrip{
+const style = document.createElement("style");
+
+style.textContent = `
+
+#mdOffersStrip[hidden],
+#mdOffersPage[hidden]{
+  display:none!important;
+}
+
+#mdOffersStrip{
   background:#D7192D;
-  padding:12px 9px;
-  margin:0 auto 18px;
   color:white;
-  max-width:1100px;
-  border-radius:0 0 12px 12px;
+  padding:14px 10px;
+  margin-bottom:15px;
+  direction:rtl;
 }
 
-.offers-head{
+.md-offers-header{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:8px;
-  margin-bottom:10px;
+  margin-bottom:14px;
 }
 
-.offers-head h2{
-  font-size:19px;
+.md-offers-header h2{
   margin:0;
+  font-size:19px;
+  font-weight:900;
+  color:white;
 }
 
-.offers-head button,
-.offer-open{
+.md-offers-header button{
   background:#101010;
   color:white;
   border:0;
+  padding:10px 14px;
   border-radius:8px;
-  padding:9px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.offers-track{
+#mdOffersTrack{
   display:flex;
-  gap:9px;
+  gap:10px;
   overflow-x:auto;
   scroll-snap-type:x mandatory;
-  scrollbar-width:thin;
+  scrollbar-width:none;
   direction:rtl;
 }
 
-.offer-tile{
-  flex:0 0 clamp(135px,40vw,210px);
+#mdOffersTrack::-webkit-scrollbar{
+  display:none;
+}
+
+.md-offer-card{
+  position:relative;
   background:#101010;
   color:white;
-  border-radius:10px;
+  border-radius:12px;
   overflow:hidden;
+  flex:0 0 clamp(145px,42vw,220px);
   scroll-snap-align:start;
   cursor:pointer;
-  position:relative;
+  min-width:0;
 }
 
-.offer-photo{
+.md-offer-image{
+  position:relative;
   background:white;
   aspect-ratio:1;
-  display:grid;
-  place-items:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
-.offer-photo img{
+.md-offer-image img{
   width:100%;
   height:100%;
   object-fit:contain;
 }
 
-.offer-percent{
+.md-offer-percent{
   position:absolute;
-  top:6px;
-  right:6px;
+  top:7px;
+  right:7px;
   background:#D7192D;
   color:white;
-  padding:6px;
-  border-radius:6px;
-  font-weight:bold;
+  font-size:18px;
+  font-weight:900;
+  padding:7px 10px;
+  border-radius:7px;
   z-index:2;
+  pointer-events:none;
 }
 
-.offer-tile-info{
-  padding:10px;
+.md-offer-info{
+  padding:12px;
 }
 
-.offer-tile-info h3{
-  font-size:14px;
-  margin:0 0 8px;
+.md-offer-info h3{
+  color:white;
+  font-size:15px;
+  margin:0 0 10px;
+  line-height:1.6;
   overflow-wrap:anywhere;
 }
 
-.offer-old{
-  color:#AAA;
-  font-size:12px;
-  text-decoration:line-through;
-}
-
-.offer-new{
-  color:#FF5264;
-  font-weight:900;
-  font-size:18px;
-}
-
-.offer-open{
+.md-offer-button{
   background:#D7192D;
+  color:white;
   width:100%;
-  margin-top:8px;
+  border:0;
+  padding:11px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-.category.offer-category .category-picture{
+#mdOffersCategory{
   background:#101010;
+  border:2px solid #D7192D;
+  border-radius:12px;
+  overflow:hidden;
+  padding:0;
+  cursor:pointer;
+  color:white;
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+}
+
+.md-category-icon{
+  flex:1;
+  min-height:110px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   color:#FF4055;
-  font-size:64px;
+  font-size:65px;
   font-weight:900;
 }
 
-.category.offer-category .category-footer{
+.md-category-title{
   background:#D7192D;
+  color:white;
+  width:100%;
+  padding:13px 5px;
+  font-size:15px;
+  font-weight:bold;
+  text-align:center;
 }
 
-.product.offer-product{
+#mdOffersPage{
+  direction:rtl;
+  padding:12px 0;
+}
+
+.md-offers-page-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.md-offers-page-header h2{
+  font-size:20px;
+  margin:0;
+}
+
+.md-offers-page-header button{
   background:#101010;
   color:white;
-  border-color:#101010;
+  padding:10px 15px;
+  border:0;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+#mdOffersGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+#mdOffersSearch{
+  width:100%;
+  padding:13px;
+  margin-bottom:15px;
+  border:1px solid #CCC;
+  border-radius:9px;
+  font-size:16px;
+  background:white;
+  color:#101010;
+}
+
+.product.md-has-offer{
   position:relative;
 }
 
-.offer-product .product-image{
-  background:white;
-}
-
-.offer-product .product-category,
-.offer-product .product-description{
-  color:#CCC;
-}
-
-.offer-product .price{
-  color:#FF5264;
-}
-
-.offer-product .add-cart{
+#mdDetailOffer{
+  display:inline-block;
   background:#D7192D;
+  color:white;
+  padding:10px 16px;
+  border-radius:8px;
+  font-size:19px;
+  font-weight:900;
+  margin:10px 0;
 }
 
-.offer-price-note{
-  display:block;
-  font-size:12px;
-  color:#888;
-  text-decoration:line-through;
+@media(min-width:750px){
+
+  #mdOffersGrid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+
 }
 
-.offer-cart-price{
-  color:#D7192D;
-  font-size:13px;
-  margin-top:8px;
-}
 `;
 
-document.head.append(css);
+document.head.appendChild(style);
 
-const strip = document.createElement('section');
+const strip = document.createElement("section");
 
-strip.id = 'offersStrip';
+strip.id = "mdOffersStrip";
 strip.hidden = true;
 
 strip.innerHTML = `
-<div class="offers-head">
+
+<div class="md-offers-header">
+
   <h2>🔥 الشروات والخصومات</h2>
-  <button type="button">عرض الكل ‹</button>
+
+  <button id="mdOffersAll" type="button">
+    عرض الكل ‹
+  </button>
+
 </div>
 
-<div class="offers-track"
-  aria-label="العروض المتحركة">
-</div>
+<div id="mdOffersTrack"></div>
+
 `;
 
-$('sectionBanner').before(strip);
+const header = $("home");
 
-const track = strip.querySelector('.offers-track');
+if(header){
 
-function offer(p){
+  header.after(strip);
 
-  const d = deals.get(String(p.id));
+}else{
 
-  if(!d || !p.available) return null;
+  $("sectionBanner")?.before(strip);
 
-  const base = Number(p.price);
-  const value = Number(d.offer_price);
+}
+
+const offersPage = document.createElement("section");
+
+offersPage.id = "mdOffersPage";
+offersPage.hidden = true;
+
+offersPage.innerHTML = `
+
+<div class="md-offers-page-header">
+
+  <h2>🔥 الشروات والخصومات</h2>
+
+  <button id="mdOffersBack" type="button">
+    العودة
+  </button>
+
+</div>
+
+<input
+  id="mdOffersSearch"
+  type="search"
+  placeholder="ابحث في الشروات والخصومات...">
+
+<p id="mdOffersCount"></p>
+
+<div id="mdOffersGrid"></div>
+
+`;
+
+$("catalog")?.before(offersPage);
+
+function getOffer(id){
+
+  const data = offers.get(String(id));
+
+  if(!data) return null;
+
+  if(data.offer_active !== true) return null;
+
+  const percent = Number(data.offer_percent);
 
   if(
-    p.price == null ||
-    d.offer_price == null ||
-    !Number.isFinite(base) ||
-    !Number.isFinite(value) ||
-    value < 0 ||
-    value >= base ||
-    d.offer_active !== true
-  ) return null;
+    !Number.isInteger(percent) ||
+    percent < 1 ||
+    percent > 100
+  ){
 
-  if(
-    d.offer_end &&
-    (
-      !Number.isFinite(Date.parse(d.offer_end)) ||
-      Date.parse(d.offer_end) <= Date.now()
-    )
-  ) return null;
+    return null;
+
+  }
+
+  if(data.offer_end){
+
+    const end = Date.parse(data.offer_end);
+
+    if(!Number.isFinite(end) || end <= Date.now()){
+
+      return null;
+
+    }
+
+  }
 
   return {
-    base,
-    value,
-    percent:Math.max(
-      1,
-      Math.floor((base-value)/base*100)
-    ),
-    featured:d.offer_featured !== false,
-    order:Number(d.offer_order) || 0
+
+    percent,
+
+    featured:data.offer_featured !== false,
+
+    order:Number(data.offer_order) || 0
+
   };
 
 }
 
-function money(n,p){
+function getOfferProducts(){
 
-  return `${n} ${p.currency || 'USD'}`;
+  return catalogProducts.filter(product => {
 
-}
+    const deal = getOffer(product.id);
 
-function text(tag,cls,value){
+    if(!deal) return false;
 
-  const el = document.createElement(tag);
+    const current =
+      window.getStoreProduct?.(product.id);
 
-  el.className = cls;
-  el.textContent = value;
+    return current && current.available === true;
 
-  return el;
+  }).sort((a,b) => {
 
-}
+    return getOffer(a.id).order -
+      getOffer(b.id).order;
 
-function list(){
-
-  return products
-    .filter(p => offer(p))
-    .sort((a,b) => offer(a).order-offer(b).order);
-
-}
-
-function enter(){
-
-  navigate('home');
-
-  selectCategory(KEY);
-
-  $('catalog').scrollIntoView({
-    behavior:'smooth'
   });
 
 }
 
-strip.querySelector('button').onclick = enter;
+function makeBadge(percent){
 
-const originalCategories = renderCategories;
-const originalProducts = renderProducts;
-const originalMake = makeProduct;
-const originalCart = renderCart;
-const originalNavigate = navigate;
+  const badge = document.createElement("span");
 
-function openTile(id){
+  badge.className = "md-offer-percent";
 
-  const card = [...$('products')
-    .querySelectorAll('.product')]
-    .find(c => c.dataset.productId === id);
+  badge.textContent = "خصم " + percent + "%";
 
-  if(card){
-
-    card.click();
-    return;
-
-  }
-
-  enter();
-
-  const target = [...$('products')
-    .querySelectorAll('.product')]
-    .find(c => c.dataset.productId === id);
-
-  target?.click();
+  return badge;
 
 }
 
-function renderStrip(){
+function openProduct(id){
 
-  const items = list()
-    .filter(p => offer(p).featured);
+  currentDetailId = String(id);
 
-  strip.hidden =
-    currentPage !== 'home' ||
-    selectedCategory !== 'الكل' ||
-    !!searchInput.value.trim() ||
-    !items.length;
+  const product =
+    window.getStoreProduct?.(id);
 
-  const signature = JSON.stringify(
-    items.map(p => [
-      p.id,
-      p.name,
-      p.image_url,
-      p.currency,
-      offer(p)
-    ])
-  );
+  if(!product) return;
 
-  if(signature === strip.dataset.signature) return;
-
-  strip.dataset.signature = signature;
-
-  track.replaceChildren();
-
-  for(const p of items){
-
-    const d = offer(p);
-
-    const tile = document.createElement('article');
-
-    tile.className = 'offer-tile';
-
-    const photo = document.createElement('div');
-
-    photo.className = 'offer-photo';
-
-    const url = safeImage(p.image_url);
-
-    if(url){
-
-      const img = document.createElement('img');
-
-      img.src = url;
-      img.alt = p.name;
-      img.loading = 'lazy';
-
-      photo.append(img);
-
-    }else{
-
-      photo.textContent = '📦';
-
-    }
-
-    const info = document.createElement('div');
-
-    info.className = 'offer-tile-info';
-
-    const btn = text(
-      'button',
-      'offer-open',
-      'تفاصيل العرض'
-    );
-
-    btn.type = 'button';
-
-    info.append(
-
-      text('h3','',p.name),
-
-      text(
-        'div',
-        'offer-old',
-        money(d.base,p)
-      ),
-
-      text(
-        'div',
-        'offer-new',
-        money(d.value,p)+' / '+getUnitLabel(p)
-      ),
-
-      btn
-
-    );
-
-    tile.append(
-
-      photo,
-
-      text(
-        'span',
-        'offer-percent',
-        '−'+d.percent+'%'
-      ),
-
-      info
-
-    );
-
-    tile.onclick = () => openTile(p.id);
-
-    track.append(tile);
-
-  }
-
-}
-
-renderCategories = function(){
-
-  originalCategories();
-
-  if(!catalogReady) return;
-
-  if(selectedCategory === KEY){
-
-    categoryList.replaceChildren();
-
-    $('backFilter').hidden = false;
-
-    return;
-
-  }
-
-  if(
-    !['الكل','وصل حديثاً'].includes(selectedCategory)
-  ) return;
-
-  const b = document.createElement('button');
-
-  b.type = 'button';
-
-  b.className = 'category offer-category';
-
-  const pic = text(
-    'div',
-    'category-picture',
-    '%'
-  );
-
-  const foot = text(
-    'div',
-    'category-footer',
-    NAME
-  );
-
-  foot.style.justifyContent = 'center';
-
-  b.append(pic,foot);
-
-  b.onclick = enter;
-
-  categoryList.prepend(b);
-
-};
-
-makeProduct = function(p){
-
-  const card = originalMake(p);
-
-  const d = offer(p);
-
-  if(d){
-
-    card.classList.add('offer-product');
-
-    const price = card.querySelector('.price');
-
-    if(price){
-
-      price.textContent = money(d.value,p);
-
-      price.before(
-        text(
-          'span',
-          'offer-price-note',
-          money(d.base,p)
-        )
-      );
-
-    }
-
-    card.append(
-      text(
-        'span',
-        'offer-percent',
-        '−'+d.percent+'%'
-      )
-    );
-
-  }
-
-  return card;
-
-};
-
-renderProducts = function(){
-
-  if(selectedCategory !== KEY){
-
-    originalProducts();
-
-  }else{
-
-    const items = list().filter(p =>
-      [p.name,p.category,p.description]
-        .join(' ')
-        .toLowerCase()
-        .includes(
-          searchInput.value.trim().toLowerCase()
-        )
-    );
-
-    $('productTitle').textContent = NAME;
-
-    $('productsCount').textContent =
-      items.length+' منتج';
-
-    productsContainer.replaceChildren();
-
-    if(!items.length){
-
-      const message = document.createElement('p');
-
-      message.textContent =
-        'لا توجد خصومات متاحة حالياً';
-
-      productsContainer.append(message);
-
-    }else{
-
-      items.forEach(p =>
-        productsContainer.append(makeProduct(p))
-      );
-
-    }
-
-  }
-
-  renderStrip();
-
-};
-
-renderCart = function(){
-
-  originalCart();
-
-  const container = $('cartItems');
+  const container = $("products");
 
   if(!container) return;
 
-  const rows = container.querySelectorAll('.cart-row');
+  const existing = Array.from(
+    container.querySelectorAll(".product")
+  ).find(card =>
 
-  Object.values(cart).forEach((item,i) => {
+    String(card.dataset.productId) === String(id)
 
-    const p = window.getStoreProduct(
-      item.productId || item.id
-    );
-
-    const d = p && offer(p);
-
-    if(d && rows[i]){
-
-      rows[i]
-        .querySelector('.cart-details')
-        ?.append(
-          text(
-            'div',
-            'offer-cart-price',
-            'سعر العرض الحالي: '+
-            money(d.value,p)+
-            ' / '+getUnitLabel(p)+
-            ' | الإجمالي: '+
-            money(
-              Math.round(
-                d.value*item.quantity*100
-              )/100,
-              p
-            )
-          )
-        );
-
-    }
-
-  });
-
-};
-
-window.navigate = navigate = function(page){
-
-  originalNavigate(page);
-
-  renderStrip();
-
-};
-
-const oldSet = window.setCatalogData;
-
-window.setCatalogData = function(data){
-
-  const was = selectedCategory === KEY;
-
-  oldSet(data);
-
-  if(was){
-
-    selectedCategory = KEY;
-
-    renderCategories();
-
-    renderProducts();
-
-  }
-
-  renderStrip();
-
-};
-
-document.addEventListener('click',e => {
-
-  const card = e.target.closest?.(
-    '.product[data-product-id]'
   );
 
-  if(
-    card &&
-    !document.querySelector(
-      '.product-modal:not([hidden])'
-    )
-  ){
+  if(existing){
 
-    opened = card.dataset.productId;
+    existing.click();
+
+    return;
 
   }
 
-},true);
+  const temporary = document.createElement("article");
 
-document.addEventListener('keydown',e => {
+  temporary.className = "product";
 
-  if(e.key === 'Enter' || e.key === ' '){
+  temporary.dataset.productId = String(id);
 
-    const card = e.target.closest?.(
-      '.product[data-product-id]'
-    );
+  temporary.hidden = true;
 
-    if(card){
+  const price = document.createElement("span");
 
-      opened = card.dataset.productId;
+  price.className = "price";
 
-    }
+  price.textContent = product.price == null
 
-  }
+    ? "السعر عند الاستفسار"
 
-},true);
+    : product.price + " " +
+      (product.currency || "USD");
 
-function detail(){
+  temporary.appendChild(price);
 
-  const modal = document.querySelector('.product-modal');
+  container.appendChild(temporary);
 
-  if(!modal || modal.hidden || !opened) return;
+  temporary.click();
 
-  const p = window.getStoreProduct(opened);
-
-  if(!p) return;
-
-  const d = offer(p);
-
-  const el = $('detailPrice');
-
-  if(!el || p.price == null) return;
-
-  const value =
-    money(d ? d.value : p.price,p)+
-    ' / '+getUnitLabel(p);
-
-  if(el.textContent !== value){
-
-    el.textContent = value;
-
-  }
-
-  el.style.color = d ? '#D7192D' : '';
-
-  let note = $('offerDetailOld');
-
-  if(d){
-
-    if(!note){
-
-      note = text('div','offer-price-note','');
-
-      note.id = 'offerDetailOld';
-
-      el.before(note);
-
-    }
-
-    note.textContent =
-      money(d.base,p)+
-      ' — خصم '+d.percent+'%';
-
-  }else{
-
-    note?.remove();
-
-  }
+  temporary.remove();
 
 }
 
-let detailObserver;
+function makeOfferCard(product){
 
-function bindDetail(){
+  const deal = getOffer(product.id);
 
-  const modal = document.querySelector('.product-modal');
+  const card = document.createElement("article");
 
-  if(!modal || detailObserver) return;
+  card.className = "md-offer-card";
 
-  detailObserver = new MutationObserver(() => {
+  const imageBox = document.createElement("div");
 
-    if(modal.hidden){
+  imageBox.className = "md-offer-image";
 
-      $('offerDetailOld')?.remove();
+  const url = product.image_url || product.image || "";
 
-    }else{
+  if(
+    typeof url === "string" &&
+    url.startsWith("https://")
+  ){
 
-      detail();
+    const image = document.createElement("img");
+
+    image.src = url;
+
+    image.alt = product.name || "";
+
+    image.loading = "lazy";
+
+    image.onerror = () => {
+
+      image.remove();
+
+      imageBox.append("📦");
+
+    };
+
+    imageBox.appendChild(image);
+
+  }else{
+
+    imageBox.textContent = "📦";
+
+  }
+
+  imageBox.appendChild(makeBadge(deal.percent));
+
+  const info = document.createElement("div");
+
+  info.className = "md-offer-info";
+
+  const name = document.createElement("h3");
+
+  name.textContent = product.name || "";
+
+  const button = document.createElement("button");
+
+  button.type = "button";
+
+  button.className = "md-offer-button";
+
+  button.textContent = "عرض المنتج";
+
+  info.append(name,button);
+
+  card.append(imageBox,info);
+
+  card.onclick = () => openProduct(product.id);
+
+  return card;
+
+}
+
+let stripSignature = "";
+
+function renderStrip(){
+
+  const track = $("mdOffersTrack");
+
+  const items = getOfferProducts().filter(product =>
+
+    getOffer(product.id).featured
+
+  );
+
+  const home = $("homePage");
+
+  const homeVisible = home &&
+
+    !home.hidden &&
+
+    getComputedStyle(home).display !== "none";
+
+  const isMain = typeof selectedCategory === "undefined"
+
+    || selectedCategory === "الكل";
+
+  strip.hidden =
+
+    !homeVisible ||
+
+    !isMain ||
+
+    showingOffers ||
+
+    !items.length ||
+
+    Boolean($("search")?.value.trim());
+
+  const signature = JSON.stringify(
+
+    items.map(product => [
+
+      product.id,
+
+      product.name,
+
+      product.image_url,
+
+      getOffer(product.id)
+
+    ])
+
+  );
+
+  if(signature === stripSignature) return;
+
+  stripSignature = signature;
+
+  track.replaceChildren();
+
+  items.forEach(product => {
+
+    track.appendChild(makeOfferCard(product));
+
+  });
+
+}
+
+function addCategory(){
+
+  const list = $("categoryList");
+
+  if(!list) return;
+
+  if(
+    typeof catalogReady !== "undefined" &&
+    !catalogReady
+  ) return;
+
+  const isMain =
+
+    typeof selectedCategory === "undefined" ||
+
+    selectedCategory === "الكل";
+
+  const existing = $("mdOffersCategory");
+
+  if(!isMain || showingOffers){
+
+    existing?.remove();
+
+    return;
+
+  }
+
+  if(existing) return;
+
+  const button = document.createElement("button");
+
+  button.id = "mdOffersCategory";
+
+  button.type = "button";
+
+  button.className = "category";
+
+  button.innerHTML = `
+
+    <div class="md-category-icon">%</div>
+
+    <div class="md-category-title">
+      الشروات والخصومات
+    </div>
+
+  `;
+
+  button.onclick = showOffers;
+
+  list.prepend(button);
+
+}
+
+function renderOffersPage(){
+
+  if(!showingOffers) return;
+
+  const grid = $("mdOffersGrid");
+
+  const search = $("mdOffersSearch")
+    .value.trim().toLowerCase();
+
+  const items = getOfferProducts().filter(product =>
+
+    [
+
+      product.name,
+
+      product.category,
+
+      product.description
+
+    ].join(" ").toLowerCase().includes(search)
+
+  );
+
+  $("mdOffersCount").textContent =
+
+    items.length + " منتج";
+
+  grid.replaceChildren();
+
+  if(!items.length){
+
+    const p = document.createElement("p");
+
+    p.textContent = "لا توجد عروض متاحة حالياً.";
+
+    grid.appendChild(p);
+
+    return;
+
+  }
+
+  items.forEach(product => {
+
+    grid.appendChild(makeOfferCard(product));
+
+  });
+
+}
+
+const savedVisibility = new Map();
+
+function showOffers(){
+
+  if(showingOffers) return;
+
+  showingOffers = true;
+
+  savedVisibility.clear();
+
+  [
+
+    "categories",
+
+    "catalog",
+
+    "sectionBanner",
+
+    "search",
+
+    "allFilter",
+
+    "newFilter",
+
+    "backFilter"
+
+  ].forEach(id => {
+
+    const element = $(id);
+
+    if(element){
+
+      savedVisibility.set(element,element.hidden);
+
+      element.hidden = true;
 
     }
 
   });
 
-  detailObserver.observe(modal,{
-    attributes:true,
-    attributeFilter:['hidden']
+  strip.hidden = true;
+
+  offersPage.hidden = false;
+
+  $("mdOffersSearch").value = "";
+
+  renderOffersPage();
+
+  offersPage.scrollIntoView({
+
+    behavior:"smooth",
+
+    block:"start"
+
   });
+
+}
+
+function closeOffers(){
+
+  if(!showingOffers) return;
+
+  showingOffers = false;
+
+  offersPage.hidden = true;
+
+  savedVisibility.forEach((hidden,element) => {
+
+    element.hidden = hidden;
+
+  });
+
+  savedVisibility.clear();
+
+  addCategory();
+
+  renderStrip();
+
+}
+
+$("mdOffersAll").onclick = showOffers;
+
+$("mdOffersBack").onclick = closeOffers;
+
+$("mdOffersSearch").oninput = renderOffersPage;
+
+function decorateProducts(){
+
+  document.querySelectorAll(
+
+    ".product[data-product-id]"
+
+  ).forEach(card => {
+
+    const deal = getOffer(card.dataset.productId);
+
+    const product = window.getStoreProduct?.(
+
+      card.dataset.productId
+
+    );
+
+    const badge = card.querySelector(
+
+      ".md-offer-percent"
+
+    );
+
+    if(!deal || !product?.available){
+
+      badge?.remove();
+
+      card.classList.remove("md-has-offer");
+
+      return;
+
+    }
+
+    card.classList.add("md-has-offer");
+
+    const value = "خصم " + deal.percent + "%";
+
+    if(badge){
+
+      if(badge.textContent !== value){
+
+        badge.textContent = value;
+
+      }
+
+    }else{
+
+      card.appendChild(makeBadge(deal.percent));
+
+    }
+
+  });
+
+}
+
+function renderDetailOffer(){
+
+  const modal = document.querySelector(
+
+    ".product-modal"
+
+  );
+
+  const old = $("mdDetailOffer");
+
+  if(!modal || modal.hidden){
+
+    old?.remove();
+
+    return;
+
+  }
+
+  const deal = getOffer(currentDetailId);
+
+  const product = window.getStoreProduct?.(
+
+    currentDetailId
+
+  );
+
+  if(!deal || !product?.available){
+
+    old?.remove();
+
+    return;
+
+  }
+
+  const value = "خصم " + deal.percent + "%";
+
+  if(old){
+
+    if(old.textContent !== value){
+
+      old.textContent = value;
+
+    }
+
+    return;
+
+  }
+
+  const badge = document.createElement("div");
+
+  badge.id = "mdDetailOffer";
+
+  badge.textContent = value;
+
+  $("detailName")?.after(badge);
+
+}
+
+document.addEventListener("click",event => {
+
+  const card = event.target.closest?.(
+
+    ".product[data-product-id]"
+
+  );
+
+  if(card){
+
+    currentDetailId = card.dataset.productId;
+
+  }
+
+},true);
+
+document.addEventListener("keydown",event => {
+
+  if(event.key !== "Enter" && event.key !== " ") return;
+
+  const card = event.target.closest?.(
+
+    ".product[data-product-id]"
+
+  );
+
+  if(card){
+
+    currentDetailId = card.dataset.productId;
+
+  }
+
+},true);
+
+const originalCatalog = window.setCatalogData;
+
+if(typeof originalCatalog === "function"){
+
+  window.setCatalogData = function(data){
+
+    originalCatalog(data);
+
+    catalogProducts = Array.isArray(data.products)
+
+      ? data.products
+
+      : [];
+
+    refresh();
+
+  };
+
+}
+
+if(typeof products !== "undefined"){
+
+  catalogProducts = products.slice();
+
+}
+
+if(typeof navigate === "function"){
+
+  const originalNavigate = navigate;
+
+  navigate = function(...args){
+
+    closeOffers();
+
+    const result = originalNavigate.apply(this,args);
+
+    refresh();
+
+    return result;
+
+  };
+
+  window.navigate = navigate;
 
 }
 
 function refresh(){
 
-  renderCategories();
+  addCategory();
 
-  renderProducts();
+  renderStrip();
 
-  renderFavorites();
+  decorateProducts();
 
-  renderCart();
+  renderOffersPage();
 
-  bindDetail();
-
-  detail();
+  renderDetailOffer();
 
 }
+
+let scheduled = false;
+
+function scheduleRefresh(){
+
+  if(scheduled) return;
+
+  scheduled = true;
+
+  requestAnimationFrame(() => {
+
+    scheduled = false;
+
+    addCategory();
+
+    renderStrip();
+
+    decorateProducts();
+
+    renderDetailOffer();
+
+  });
+
+}
+
+const observer = new MutationObserver(
+
+  scheduleRefresh
+
+);
+
+[
+
+  $("categoryList"),
+
+  $("products"),
+
+  $("favoritesProducts"),
+
+  $("favoritesList")
+
+].filter(Boolean).forEach(element => {
+
+  observer.observe(element,{
+
+    childList:true,
+
+    subtree:true
+
+  });
+
+});
+
+if($("homePage")){
+
+  observer.observe($("homePage"),{
+
+    attributes:true,
+
+    attributeFilter:["hidden","style","class"]
+
+  });
+
+}
+
+const modal = document.querySelector(
+
+  ".product-modal"
+
+);
+
+if(modal){
+
+  observer.observe(modal,{
+
+    attributes:true,
+
+    attributeFilter:["hidden"]
+
+  });
+
+}
+
+$("search")?.addEventListener(
+
+  "input",scheduleRefresh
+
+);
 
 onSnapshot(
 
   query(
-    collection(db,'products'),
-    where('active','==',true)
+
+    collection(db,"products"),
+
+    where("active","==",true)
+
   ),
 
-  snap => {
+  snapshot => {
 
-    deals = new Map(
-      snap.docs.map(doc => [
-        doc.id,
-        doc.data()
+    offers = new Map(
+
+      snapshot.docs.map(item => [
+
+        item.id,
+
+        item.data()
+
       ])
+
     );
 
     refresh();
 
   },
 
-  err => {
+  error => {
 
-    console.error('Offers:',err);
+    console.error("Offers error:",error);
 
-    deals.clear();
+    offers.clear();
 
     refresh();
 
@@ -793,80 +1102,98 @@ onSnapshot(
 
 );
 
-let pauseUntil = 0;
+const track = $("mdOffersTrack");
 
-for(const event of [
-  'pointerdown',
-  'touchstart',
-  'wheel',
-  'focusin'
-]){
+[
 
-  track.addEventListener(
-    event,
-    () => pauseUntil = Date.now()+8000,
-    {passive:true}
-  );
+  "pointerdown",
 
-}
+  "touchstart",
+
+  "wheel",
+
+  "focusin"
+
+].forEach(event => {
+
+  track.addEventListener(event,() => {
+
+    pauseUntil = Date.now() + 8000;
+
+  },{passive:true});
+
+});
 
 setInterval(() => {
 
   if(
+
     strip.hidden ||
-    Date.now() < pauseUntil ||
+
     document.hidden ||
-    matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches
+
+    Date.now() < pauseUntil ||
+
+    matchMedia("(prefers-reduced-motion: reduce)").matches
+
   ) return;
 
   const first = track.firstElementChild;
 
-  if(
-    !first ||
-    track.scrollWidth <= track.clientWidth
-  ) return;
+  if(!first) return;
 
-  const max =
-    track.scrollWidth-track.clientWidth;
+  const maximum = track.scrollWidth - track.clientWidth;
 
-  if(Math.abs(track.scrollLeft) >= max-4){
+  if(maximum <= 0) return;
+
+  if(Math.abs(track.scrollLeft) >= maximum - 5){
 
     track.scrollTo({
+
       left:0,
-      behavior:'smooth'
+
+      behavior:"smooth"
+
     });
 
   }else{
 
     track.scrollBy({
-      left:-(first.offsetWidth+9),
-      behavior:'smooth'
+
+      left:-(first.offsetWidth + 10),
+
+      behavior:"smooth"
+
     });
 
   }
 
 },3000);
 
-let last = '';
+let lastOffers = "";
 
 setInterval(() => {
 
-  const next = JSON.stringify(
-    list().map(p => [p.id,offer(p)])
+  const signature = JSON.stringify(
+
+    getOfferProducts().map(product => [
+
+      product.id,
+
+      getOffer(product.id)
+
+    ])
+
   );
 
-  if(next !== last){
+  if(signature !== lastOffers){
 
-    last = next;
+    lastOffers = signature;
 
     refresh();
 
   }
 
-  bindDetail();
-
-},1000);
+},2000);
 
 refresh();
